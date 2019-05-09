@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>VSCode Java手动导入jar和源码包 | 青空之蓝</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="shortcut icon" type="image/ico" href="/image/favicon.png">
+
+
+
+
+
+
+<!-- Android Chrome Color -->
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="
+之前有一篇文章讲述了如何配置VSCode的Java调试环境，博主我从配置成功使用到现在一直只使用了JDK自带的包，直到昨天由于有一个项目需要进行邮件发送，需要引入Mail包，网上的教程大多是在JDK中引...">
+
+<!-- Keywords -->
+<meta name="keywords" content=", Java, VSCode, 开发环境">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+    <!-- prism.css -->
+    
+    <!-- prism.line_number -->
+    
+        
+            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
+        
+    
+    <!-- prism.theme -->
+    
+        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
+    
+
+
+
+
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="青空之蓝">
+<meta name="msapplication-starturl" content="https://hexo.ixk.me">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="青空之蓝">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="VSCode Java手动导入jar和源码包 | 青空之蓝">
+<meta property="og:site_name" content="青空之蓝">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://hexo.ixk.me/vscode-java-manually-imports-jar-and-source-package.html">
+<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+
+<meta property="og:description" content="
+之前有一篇文章讲述了如何配置VSCode的Java调试环境，博主我从配置成功使用到现在一直只使用了JDK自带的包，直到昨天由于有一个项目需要进行邮件发送，需要引入Mail包，网上的教程大多是在JDK中引...">
+
+<meta name="twitter:card" content="summary">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2018-12-30T08:45:59.000Z">
+    <meta property="article:modified_time" content="2018-12-30T08:45:59.000Z">
+    <meta property="article:author" content="Otstar Lin">
+    <meta property="og:article:tag" content=", Java, VSCode, 开发环境"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/vscode-java-manually-imports-jar-and-source-package.html">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/vscode-java-manually-imports-jar-and-source-package.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/vscode-java-manually-imports-jar-and-source-package.html"
+    },
+    "headline": "VSCode Java手动导入jar和源码包 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2018-12-30T08:45:59.000Z",
+    "dateModified": "2019-05-09T13:16:42.705Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", Java, VSCode, 开发环境",
+    "description": "
+之前有一篇文章讲述了如何配置VSCode的Java调试环境，博主我从配置成功使用到现在一直只使用了JDK自带的包，直到昨天由于有一个项目需要进行邮件发送，需要引入Mail包，网上的教程大多是在JDK中引..."
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=VSCode Java手动导入jar和源码包" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=VSCode Java手动导入jar和源码包&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=VSCode Java手动导入jar和源码包" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACOElEQVR42u3b0U7DQAwF0fz/T5dXVGLfcVNEiScvlSBNThHOem33ePyD4xApUqTID0AezfHjTc15389//ln1u3RfkXuRp/+0JxeenN/B8HVErkZWgXB28+oGZ5AKle4rUmSHfMdDmzzURYp8BVkFQXde+mAiRU4SjPQwJgkI+aCXsiCRt0OSDdZvvL5ttyjyVshYNGouWj2Mq0DpkuVLVTWRt0ImRLpJ91BPgRgLZCJXI7vkoCpCkaCiBYPTP4zI9chXCvgVvguiFGgiRZKLTIpXJDgub8RE3hZJgiUVp7obkyQ5Bo7IVchu4e8SX/JwnyTJo42YyNsjU1G+S1q7BJcGUJlYi1yJHBWQACgVtlLBQaTIVKBKDU06sNQNipSLg8iVyLRJShu16SDdqMkqciUyJQ5dcYkO1aXEBA8ei1yDJI3zNISUNmOkKBtXHJErkaRY3104NVZpIULkXiQusg+aTpPkGGdBItcgJ8NJqUjfFVfpYoGno0XeFkk3+ZPCFRmCQhs7kWuR08ZRatynjRttCIjciUwDRLjgCQZNLndpRa5CkleyoaKLBFoURK5GpjelZGBSLCBBKlJkajilYtTkWrhpL3Ilkg6HpCSBFu3Jz0TuRh7NkTb16csWqVGfHu4i9yK7gEkFz+lQSRpmFily8sWJaaKbAjMOzosUGZqY02CiDf5yURApEiBTYSoluyTARIokQyKkCU+T5tQ8FSlysvAT6LQBigePRa5AfvIhUqRIkX94fAFV/LaVc+sh9AAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">VSCode Java手动导入jar和源码包</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2018-12-30</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=VSCode Java手动导入jar和源码包&url=https://hexo.ixk.me/vscode-java-manually-imports-jar-and-source-package.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=VSCode Java手动导入jar和源码包&url=https://hexo.ixk.me/vscode-java-manually-imports-jar-and-source-package.html&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/vscode-java-manually-imports-jar-and-source-package.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/vscode-java-manually-imports-jar-and-source-package.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/vscode-java-manually-imports-jar-and-source-package.html&title=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/vscode-java-manually-imports-jar-and-source-package.html" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/vscode-java-manually-imports-jar-and-source-package.html&text=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACOElEQVR42u3b0U7DQAwF0fz/T5dXVGLfcVNEiScvlSBNThHOem33ePyD4xApUqTID0AezfHjTc15389//ln1u3RfkXuRp/+0JxeenN/B8HVErkZWgXB28+oGZ5AKle4rUmSHfMdDmzzURYp8BVkFQXde+mAiRU4SjPQwJgkI+aCXsiCRt0OSDdZvvL5ttyjyVshYNGouWj2Mq0DpkuVLVTWRt0ImRLpJ91BPgRgLZCJXI7vkoCpCkaCiBYPTP4zI9chXCvgVvguiFGgiRZKLTIpXJDgub8RE3hZJgiUVp7obkyQ5Bo7IVchu4e8SX/JwnyTJo42YyNsjU1G+S1q7BJcGUJlYi1yJHBWQACgVtlLBQaTIVKBKDU06sNQNipSLg8iVyLRJShu16SDdqMkqciUyJQ5dcYkO1aXEBA8ei1yDJI3zNISUNmOkKBtXHJErkaRY3104NVZpIULkXiQusg+aTpPkGGdBItcgJ8NJqUjfFVfpYoGno0XeFkk3+ZPCFRmCQhs7kWuR08ZRatynjRttCIjciUwDRLjgCQZNLndpRa5CkleyoaKLBFoURK5GpjelZGBSLCBBKlJkajilYtTkWrhpL3Ilkg6HpCSBFu3Jz0TuRh7NkTb16csWqVGfHu4i9yK7gEkFz+lQSRpmFily8sWJaaKbAjMOzosUGZqY02CiDf5yURApEiBTYSoluyTARIokQyKkCU+T5tQ8FSlysvAT6LQBigePRa5AfvIhUqRIkX94fAFV/LaVc+sh9AAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#探索"><span class="post-toc-number">1.</span> <span class="post-toc-text">探索</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#实现"><span class="post-toc-number">2.</span> <span class="post-toc-text">实现</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#结语"><span class="post-toc-number">3.</span> <span class="post-toc-text">结语</span></a></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <blockquote>
+<p>之前有一篇文章讲述了如何配置VSCode的Java调试环境，博主我从配置成功使用到现在一直只使用了JDK自带的包，直到昨天由于有一个项目需要进行邮件发送，需要引入Mail包，网上的教程大多是在JDK中引入jar包，但是这时VSCode会报一大堆莫名奇妙的错误，然而实际运行JVM却没有报错，直到今天学习JDBC时Eclipse导入jar包时才发现可以在每个Java项目中独立导入jar包，然而VSCode又该如何导入jar包？</p>
+</blockquote>
+<h1 id="探索"><a href="#探索" class="headerlink" title="探索"></a>探索</h1><p>在之前的教程中我的方案时利用一个插件来创建Java项目，而创建的Java项目就是Eclipse项目（VSCode支持Eclipse项目），创建项目后我们看到在项目文件夹中有两个子文件夹，一个用来存源码，一个用来存class文件，另外还有两个文件一个是<code>.classpath</code>文件，一个是<code>.project</code>文件，通过从Eclipse导出添加过jar和源码的项目可以发现，在<code>.classpath</code>的文件中多了一行配置</p>
+<pre class="line-numbers highlight language-xhtml"><code class="language-xhtml"><?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+    <attributes>
+      <attribute name="module" value="true">
+    </attribute></attributes>
+  </classpathentry>
+  <classpathentry kind="src" path="src">
+  <classpathentry kind="output" path="bin">
+  <!--多出的一行-->
+  <classpathentry kind="lib" path="lib/mysql-connector-java-8.0.13.jar" sourcepath="lib/sources/mysql-connector-java-8.0.13.zip">
+</classpathentry></classpathentry></classpathentry></classpath>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>从中可以看到，在VSCode中引入jar包只需将jar的路径填入到path中，源码路径填入到sourcepath中即可</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>第一步：在项目文件夹中添加一个lib目录，一般引入的jar包都存储在lib目录，方便后续操作 第二步：将要引入的jar包复制到lib目录下 第三步：修改<code>.classpath</code>文件，增加一行classpathentry，并填入正确的路径，可以填相对路径，也可以填绝对路径</p>
+<pre class="line-numbers highlight language-xhtml"><code class="language-xhtml"><classpathentry kind="lib" path="lib/mysql-connector-java-8.0.13.jar" sourcepath="lib/sources/mysql-connector-java-8.0.13.zip">
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></classpathentry></code></pre>
+<p>若不导入源码只需将sourcepath属性删除即可 若要导入源码请继续往下 第四步：在lib目录中新建一个sources文件夹，然后将该jar包的源码复制到该文件夹即可 第五步：在该jar包的classpathentry标签中增加sourcepath属性，并填入正确的路径 第六步：Ctrl+S保存，然后回到java文件，此时一堆莫名奇妙的报错应该都已经消失了，若还存在，请重新启动VSCode或者重置VSCode中的Java环境</p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>这时有些人可能会吐槽这么麻烦为什么不换其他的IDE，因为已经掉入了VSCode的坑里爬不出来了，各种神奇的插件，非常快的启动速度，以及多种编程语言快速切换，博主我有多个工作区，比如C和Java的，切换时只需关闭目前的工作区然后切换另一个工作区，VSCode就会将该语言的编译环境自动加载，同时VSCode的代码补全也是极为方便的，基本只需要打两个字母然后按下Tab键，VSCode就能完成正确的补全，这时就要吐槽一下Eclipse反人类的补全快捷键，大多编辑器和IDE的补全快捷键都是Tab键，然而Eclipse却是不同寻常的Enter键，用起来实在难受，然而学校机房就是使用Eclipse（捂脸</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2019-05-09");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2018-12-30T08:45:59.000Z" itemprop="datePublished">2018-12-30</time>
+
+    , 最后修改于&nbsp;<time datetime="2019-05-09T13:16:42.705Z" itemprop="dateModified">2019-05-09</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+
+<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href="/tags/Java/">#&nbsp;Java</a>
+
+<a class="post-tags-list-item" href="/tags/VSCode/">#&nbsp;VSCode</a>
+
+<a class="post-tags-list-item" href="/tags/开发环境/">#&nbsp;开发环境</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/windows-ip-changes-to-automatically-send-mail.html">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Windows IP变化自动发送邮件</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/definition-and-use-of-the-c-struct.html">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">C 结构体的定义和使用</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+            
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2017;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+    <!-- Busuanzi -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>

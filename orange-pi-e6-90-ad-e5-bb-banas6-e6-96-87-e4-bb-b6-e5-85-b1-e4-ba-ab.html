@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>Orange Pi搭建NAS(6)-文件共享 | 青空之蓝</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="shortcut icon" type="image/ico" href="/image/favicon.png">
+
+
+
+
+
+
+<!-- Android Chrome Color -->
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="为了方便访问树莓派的存储设备，有必要为其添加文件共享，下面为给出三种文件访问方法：samba，ftp。我不太推荐samba虽然它在电脑上不需要客户端但对于小白来说配置samba就是个噩梦，下文我也会给出samba的安装方法。">
+
+<!-- Keywords -->
+<meta name="keywords" content=", Orange Pi">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+    <!-- prism.css -->
+    
+    <!-- prism.line_number -->
+    
+        
+            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
+        
+    
+    <!-- prism.theme -->
+    
+        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
+    
+
+
+
+
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="青空之蓝">
+<meta name="msapplication-starturl" content="https://hexo.ixk.me">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="青空之蓝">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="Orange Pi搭建NAS(6)-文件共享 | 青空之蓝">
+<meta property="og:site_name" content="青空之蓝">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas6-e6-96-87-e4-bb-b6-e5-85-b1-e4-ba-ab.html">
+<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+
+<meta property="og:description" content="为了方便访问树莓派的存储设备，有必要为其添加文件共享，下面为给出三种文件访问方法：samba，ftp。我不太推荐samba虽然它在电脑上不需要客户端但对于小白来说配置samba就是个噩梦，下文我也会给出samba的安装方法。">
+
+<meta name="twitter:card" content="summary">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2017-07-17T04:23:41.000Z">
+    <meta property="article:modified_time" content="2017-07-17T04:23:41.000Z">
+    <meta property="article:author" content="Otstar Lin">
+    <meta property="og:article:tag" content=", Orange Pi"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas6-e6-96-87-e4-bb-b6-e5-85-b1-e4-ba-ab.html">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas6-e6-96-87-e4-bb-b6-e5-85-b1-e4-ba-ab.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas6-e6-96-87-e4-bb-b6-e5-85-b1-e4-ba-ab.html"
+    },
+    "headline": "Orange Pi搭建NAS(6)-文件共享 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2017-07-17T04:23:41.000Z",
+    "dateModified": "2019-05-09T13:16:42.701Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", Orange Pi",
+    "description": "为了方便访问树莓派的存储设备，有必要为其添加文件共享，下面为给出三种文件访问方法：samba，ftp。我不太推荐samba虽然它在电脑上不需要客户端但对于小白来说配置samba就是个噩梦，下文我也会给出samba的安装方法。"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=Orange Pi搭建NAS(6)-文件共享" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=Orange Pi搭建NAS(6)-文件共享&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=Orange Pi搭建NAS(6)-文件共享" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAAAAAAYplnuAAACq0lEQVR42u3b227bMBBFUf//TyevgUGes4cmAhjafmnhqNJSgSnn1tfPF35eokWLFv1A9Ct8/l7z99rV71fXvt9/CVlct3WIFg3R7Wbv36/A73B6391zVj7RoifohNkFXXrA6mfpZcnzRIu+iU4HAQ3ok8NItOjb6B2oPXgHTgeSaNE30Q1FgnGSAK0SsWtZnujHo1NB+Z+/XqvGRT8aXZt+mxukhCgFGikmPu6ain40epq8t2BJL9waQLsiWLToCXr3oFaMkkQ/BeOk4BAteopOgbB6QDpIWlCSQdH2gBItGqLJYUJ+RhOvydBJtOhTNBlS7g6S6eCefB+bNaJFD9DpkEnfnxS4JAhFiz5Bp4SdNAtboJKDB72waNEAfSuQ2pA0Fb5t+CRa9ATdAqs1YWgjMiVXeIlAtGiATol9e/DkpWlDaLT0LVp0GOh/chiQg4c002twihYN0aRxQotZsgRLllZQESBa9AZNFq/bYLMVBuQ5ySRa9AR90oBpiwBpSYWCcREgWvSmqT5tqNNmZWt04kUu0aJhIJKAmy60pkAjf0606FM0PSBoENKFQlJciBb9CbottLbDpxUAZOhUh6iiRR+g6VCTDOjpUgoeMIkWfYg+TXzoMkArquugSLRoOEekyynpWtqoiYkR2awRLRqgJ4VBa+hMi960ECBa9Ama3CAVpm0ohGGiRV9Ak8YjGX6SpiVt9KAtBNGiwZIKCaZp4jNZRIyLMqJFAzQNpjZMag+eHFZbi2jRAH3aHG8LrWSAOkm2RIueoGmyg4buZdGQvMgoYRItuhQBtID95D/htH8Eti8hWvQldGqwtGZMa9KMBkuiRV9C0ySJFA/tL2JUjYsWfSFhakOjk8SKBLNo0RN0Slwmg3xaqE5fRLToCfqbPqJFixb9IPQvAvzYRgvlYaAAAAAASUVORK5CYII=" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">Orange Pi搭建NAS(6)-文件共享</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2017-07-17</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=Orange Pi搭建NAS(6)-文件共享&url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas6-e6-96-87-e4-bb-b6-e5-85-b1-e4-ba-ab.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=Orange Pi搭建NAS(6)-文件共享&url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas6-e6-96-87-e4-bb-b6-e5-85-b1-e4-ba-ab.html&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas6-e6-96-87-e4-bb-b6-e5-85-b1-e4-ba-ab.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas6-e6-96-87-e4-bb-b6-e5-85-b1-e4-ba-ab.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas6-e6-96-87-e4-bb-b6-e5-85-b1-e4-ba-ab.html&title=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas6-e6-96-87-e4-bb-b6-e5-85-b1-e4-ba-ab.html" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas6-e6-96-87-e4-bb-b6-e5-85-b1-e4-ba-ab.html&text=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAAAAAAYplnuAAACq0lEQVR42u3b227bMBBFUf//TyevgUGes4cmAhjafmnhqNJSgSnn1tfPF35eokWLFv1A9Ct8/l7z99rV71fXvt9/CVlct3WIFg3R7Wbv36/A73B6391zVj7RoifohNkFXXrA6mfpZcnzRIu+iU4HAQ3ok8NItOjb6B2oPXgHTgeSaNE30Q1FgnGSAK0SsWtZnujHo1NB+Z+/XqvGRT8aXZt+mxukhCgFGikmPu6ain40epq8t2BJL9waQLsiWLToCXr3oFaMkkQ/BeOk4BAteopOgbB6QDpIWlCSQdH2gBItGqLJYUJ+RhOvydBJtOhTNBlS7g6S6eCefB+bNaJFD9DpkEnfnxS4JAhFiz5Bp4SdNAtboJKDB72waNEAfSuQ2pA0Fb5t+CRa9ATdAqs1YWgjMiVXeIlAtGiATol9e/DkpWlDaLT0LVp0GOh/chiQg4c002twihYN0aRxQotZsgRLllZQESBa9AZNFq/bYLMVBuQ5ySRa9AR90oBpiwBpSYWCcREgWvSmqT5tqNNmZWt04kUu0aJhIJKAmy60pkAjf0606FM0PSBoENKFQlJciBb9CbottLbDpxUAZOhUh6iiRR+g6VCTDOjpUgoeMIkWfYg+TXzoMkArquugSLRoOEekyynpWtqoiYkR2awRLRqgJ4VBa+hMi960ECBa9Ama3CAVpm0ohGGiRV9Ak8YjGX6SpiVt9KAtBNGiwZIKCaZp4jNZRIyLMqJFAzQNpjZMag+eHFZbi2jRAH3aHG8LrWSAOkm2RIueoGmyg4buZdGQvMgoYRItuhQBtID95D/htH8Eti8hWvQldGqwtGZMa9KMBkuiRV9C0ySJFA/tL2JUjYsWfSFhakOjk8SKBLNo0RN0Slwmg3xaqE5fRLToCfqbPqJFixb9IPQvAvzYRgvlYaAAAAAASUVORK5CYII=" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#FTP"><span class="post-toc-number">1.</span> <span class="post-toc-text">FTP</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Samba"><span class="post-toc-number">2.</span> <span class="post-toc-text">Samba</span></a></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <p>为了方便访问树莓派的存储设备，有必要为其添加文件共享，下面为给出三种文件访问方法：samba，ftp。我不太推荐samba虽然它在电脑上不需要客户端但对于小白来说配置samba就是个噩梦，下文我也会给出samba的安装方法。</p>
+<h2 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h2><p>安装vsftp，开源的轻量级的常用ftp服务器</p>
+<p>sudo apt-get install vsftpd</p>
+<p>先备份，然后编辑配置文件</p>
+<p>sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.orig<br>sudo nano /etc/vsftpd.conf</p>
+<p>vsftp的配置文件，它允许你设置所有类型的限制和策略，目前没有深入研究，修改如下</p>
+<p># 不允许匿名访问<br>anonymous_enable=NO<br># 设定可以进行写操作<br>write_enable=YES<br># 设定本地用户可以访问<br>local_enable=YES</p>
+<p>为了root账户也能访问FTP需要修改/etc/ftpusers</p>
+<p>sudo nano /etc/ftpusers</p>
+<p>把root那行注释掉</p>
+<p>……</p>
+<p>#root</p>
+<p>……</p>
+<p>重启vsftpd</p>
+<p>sudo service vsftpd restart</p>
+<p>通过ftp连接树莓派系统，以用户名登录，密码是用户的密码。ftp的根目录是/home/用户名，即用户的HOME目录，可上传或下载文件了。</p>
+<h2 id="Samba"><a href="#Samba" class="headerlink" title="Samba"></a>Samba</h2><p>安装samba所需软件</p>
+<p>sudo apt-get install samba samba-common-bin</p>
+<p>先备份，然后编辑/etc/samba/smb.conf文件</p>
+<p>sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak</p>
+<p>sudo nano /etc/samba/smb.conf</p>
+<p>创建shares文件夹</p>
+<p>mkdir /home/用户名/nas-data/DLNA/shares</p>
+<p>需要修改添加的内容如下，</p>
+<p>[global]<br>security = user<br>encrypt passwords = true<br>guest account = nobody<br>map to guest = bad user</p>
+<p>#======================= Share Definitions =======================</p>
+<p>[share]<br>comment = Guest access shares<br>path = /home/用户名/nas-data/shares<br>browseable = yes<br>writable = yes</p>
+<p>#read only = yes<br>guest ok = yes<br>public = yes</p>
+<p>[NAS-Data]<br>comment = Nas data folder<br>path = /home/用户名/nas-data/<br>browseable = yes<br>writable = yes<br>valid users = root 你的用户名</p>
+<p>share共享目录访问不需要密码，而NAS-Data访问需要验证，用户为root和你的用户名。 最后重启samba服务。然后同一局域网的其他设备就可以访问RPi的共享目录</p>
+<p>sudo service samba restart</p>
+<p>Android可以使用ES File Explorer，IOS可以使用FileExplorer, FileBrowser, Documents和Remote File Free，或其他支持访问共享的文件管理器。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2019-05-09");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2017-07-17T04:23:41.000Z" itemprop="datePublished">2017-07-17</time>
+
+    , 最后修改于&nbsp;<time datetime="2019-05-09T13:16:42.701Z" itemprop="dateModified">2019-05-09</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+
+<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href="/tags/Orange-Pi/">#&nbsp;Orange Pi</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/orange-pi-e6-90-ad-e5-bb-banas7-aria2-e8-bf-9c-e7-a8-8b-e4-b8-8b-e8-bd-bd.html">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Orange Pi搭建NAS(7)-Aria2远程下载</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/orange-pi-e6-90-ad-e5-bb-banas5-upnpdlna-e5-a4-9a-e5-aa-92-e4-bd-93.html">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Orange Pi搭建NAS(5)-UPNP/DLNA多媒体</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+            
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2017;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+    <!-- Busuanzi -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>

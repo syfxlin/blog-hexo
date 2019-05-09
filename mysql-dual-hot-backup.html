@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>Mysql双机热备实战 | 青空之蓝</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="shortcut icon" type="image/ico" href="/image/favicon.png">
+
+
+
+
+
+
+<!-- Android Chrome Color -->
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="
+由于跟 Tao.cat 的博主合租一台VPS，但由于Vultr还有余额并且以后会...">
+
+<!-- Keywords -->
+<meta name="keywords" content=", Develop, Mysql, Web">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+    <!-- prism.css -->
+    
+    <!-- prism.line_number -->
+    
+        
+            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
+        
+    
+    <!-- prism.theme -->
+    
+        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
+    
+
+
+
+
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="青空之蓝">
+<meta name="msapplication-starturl" content="https://hexo.ixk.me">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="青空之蓝">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="Mysql双机热备实战 | 青空之蓝">
+<meta property="og:site_name" content="青空之蓝">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://hexo.ixk.me/mysql-dual-hot-backup.html">
+<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+
+<meta property="og:description" content="
+由于跟 Tao.cat 的博主合租一台VPS，但由于Vultr还有余额并且以后会...">
+
+<meta name="twitter:card" content="summary">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2018-07-11T16:07:24.000Z">
+    <meta property="article:modified_time" content="2018-07-11T16:07:24.000Z">
+    <meta property="article:author" content="Otstar Lin">
+    <meta property="og:article:tag" content=", Develop, Mysql, Web"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/mysql-dual-hot-backup.html">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/mysql-dual-hot-backup.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/mysql-dual-hot-backup.html"
+    },
+    "headline": "Mysql双机热备实战 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2018-07-11T16:07:24.000Z",
+    "dateModified": "2019-05-09T13:16:42.701Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", Develop, Mysql, Web",
+    "description": "
+由于跟 Tao.cat 的博主合租一台VPS，但由于Vultr还有余额并且以后会..."
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=Mysql双机热备实战" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=Mysql双机热备实战&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=Mysql双机热备实战" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB3klEQVR42u3b247DIAyE4bz/S29vqy2eGfcggfPnpmpz4IvEAjbe62/D4wIFChSoBeoSx8tNi3PP31fnOu2AmoNadrri4VUDFfz/p2wH1CiUeljVmavfKqxqB9T9UKpxNZAmLwnqvqjVPdU11QAM6j6o6oHqfPISP1klgNoepRb03/z8WjQDamuUTTqYIEHd87OsC6itUaojugbVwJh0dFCzUWmiyy3k0iC2lTQDdRzKXeySZyow6AQboGagVOJeDZDdJGwyiIKahUoSZCrpnwYbcoMJ1AhUsqhzE3WaKHP3g5qBSgJQm0B941w0IYM6GuUWdm6gTCZplxwBNQOlErAqSZ9M1u6ZreQ+qGNQKsnhNhkVKkl+gJqJSgsC3R9F8kK204Mag0oGuDRZ7+6Nk/ugjkV1EvnJdW6TXBY9gxqB+qSIywYCV1Y8D2omyj2wW6iTJt3iVQKo41DJgq0bTChgXBEL6miUK0B2G0LJ5F0FqKDmoJJCQdWJHT6Z3EHNQkWFxtdn/yz2dlUQqGNR6SIv3djunAc1F9UZFNOiwTThAep+qO7CLXmZVuAAaiRKbTCqTcckeAU1E+UChjKADDeDksJEUHNQnU2eTjGXSuQvv4MagdrpAAUKFKin4wFP4zGAtu9OagAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">Mysql双机热备实战</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2018-07-12</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=Mysql双机热备实战&url=https://hexo.ixk.me/mysql-dual-hot-backup.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=Mysql双机热备实战&url=https://hexo.ixk.me/mysql-dual-hot-backup.html&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/mysql-dual-hot-backup.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/mysql-dual-hot-backup.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/mysql-dual-hot-backup.html&title=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/mysql-dual-hot-backup.html" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/mysql-dual-hot-backup.html&text=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB3klEQVR42u3b247DIAyE4bz/S29vqy2eGfcggfPnpmpz4IvEAjbe62/D4wIFChSoBeoSx8tNi3PP31fnOu2AmoNadrri4VUDFfz/p2wH1CiUeljVmavfKqxqB9T9UKpxNZAmLwnqvqjVPdU11QAM6j6o6oHqfPISP1klgNoepRb03/z8WjQDamuUTTqYIEHd87OsC6itUaojugbVwJh0dFCzUWmiyy3k0iC2lTQDdRzKXeySZyow6AQboGagVOJeDZDdJGwyiIKahUoSZCrpnwYbcoMJ1AhUsqhzE3WaKHP3g5qBSgJQm0B941w0IYM6GuUWdm6gTCZplxwBNQOlErAqSZ9M1u6ZreQ+qGNQKsnhNhkVKkl+gJqJSgsC3R9F8kK204Mag0oGuDRZ7+6Nk/ugjkV1EvnJdW6TXBY9gxqB+qSIywYCV1Y8D2omyj2wW6iTJt3iVQKo41DJgq0bTChgXBEL6miUK0B2G0LJ5F0FqKDmoJJCQdWJHT6Z3EHNQkWFxtdn/yz2dlUQqGNR6SIv3djunAc1F9UZFNOiwTThAep+qO7CLXmZVuAAaiRKbTCqTcckeAU1E+UChjKADDeDksJEUHNQnU2eTjGXSuQvv4MagdrpAAUKFKin4wFP4zGAtu9OagAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#准备工作"><span class="post-toc-number">1.</span> <span class="post-toc-text">准备工作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#主服务器A配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">主服务器Ａ配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第一步：停止所有业务，避免有新的数据库写入"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">第一步：停止所有业务，避免有新的数据库写入</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第二步：导出数据库"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">第二步：导出数据库</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第三步：修改主服务器-A-的-mysql-配置文件"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">第三步：修改主服务器 A 的 mysql 配置文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第四步：在主服务器-A-连上-mysql"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">第四步：在主服务器 A 连上 mysql</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第五步：在主服务器-A-上创建用于备份的用户"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">第五步：在主服务器 A 上创建用于备份的用户</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第六步：取得主服务器-A-的-mysql-目前的状态"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">第六步：取得主服务器 A 的 mysql 目前的状态</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#从服务器B配置"><span class="post-toc-number">3.</span> <span class="post-toc-text">从服务器B配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第三步：连接上从服务器B的mysql命令行模式"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">第三步：连接上从服务器B的mysql命令行模式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第四步：给从服务器B设置主服务器的相关信息"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">第四步：给从服务器B设置主服务器的相关信息</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第五步：启动-slave"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">第五步：启动 slave</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第六步：查看从服务器是否正常运行"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">第六步：查看从服务器是否正常运行</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第七步：测试是否同步"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">第七步：测试是否同步</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#第八步：双机互相同步"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">第八步：双机互相同步</span></a></li></ol></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <blockquote>
+<p>由于跟 <a href="https://tao.cat" target="_blank" rel="noopener">Tao.cat</a> 的博主合租一台VPS，但由于Vultr还有余额并且以后会将博客迁出合租的服务器到时候迁移又很麻烦，所以便利用分区解析将国内的流量引到合租服务器，国外流量引到Vultr的服务器，但同步又是个大问题，冷备份会丢数据，所以经过一番思考决定采用热备份的方式同步数据。</p>
+</blockquote>
+<p>[alert-success]由于缓存插件带来了一些大坑，技术欠佳，暂时无法填上，所以博客放弃双机集群[/alert-success]</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>两台服务器，建议异地</li>
+<li>尽量使用 相同版本 的Mysql</li>
+<li>确保两台服务器能互相交流</li>
+<li>确保Mysql端口（3306）是通的</li>
+<li>尽量先在测试服务器配置成功后再进行业务服务器配置</li>
+</ul>
+<hr>
+<h2 id="主服务器A配置"><a href="#主服务器A配置" class="headerlink" title="主服务器Ａ配置"></a>主服务器Ａ配置</h2><h3 id="第一步：停止所有业务，避免有新的数据库写入"><a href="#第一步：停止所有业务，避免有新的数据库写入" class="headerlink" title="第一步：停止所有业务，避免有新的数据库写入"></a>第一步：停止所有业务，避免有新的数据库写入</h3><p>强烈建议停用所有业务　因为后面有一步会涉及到动态数据，我第一次配置就是因为数据变化导致启用失败。 停用方案比如 WHMCS 和 WordPress 的维护模式</p>
+<h3 id="第二步：导出数据库"><a href="#第二步：导出数据库" class="headerlink" title="第二步：导出数据库"></a>第二步：导出数据库</h3><p>命令行或者phpmysql都可以</p>
+<p>mysqldump -u 用户  -p 密码   数据库  &gt; backup.sql</p>
+<p>以下是一个事例（假设用户是 root ，密码是 1234 ，需要备份的数据库是 wordpress ）</p>
+<p>mysqldump -uroot-p1234 wordpress &gt; backup.sql</p>
+<h3 id="第三步：修改主服务器-A-的-mysql-配置文件"><a href="#第三步：修改主服务器-A-的-mysql-配置文件" class="headerlink" title="第三步：修改主服务器 A 的 mysql 配置文件"></a>第三步：修改主服务器 A 的 mysql 配置文件</h3><p>一般情况，配置 mysql 的位置文件在 /etc/my.cnf 在 [mysqld] 标签下增加以下内容</p>
+<p>#一般配置文件已经有了，开启日志<br>log-bin = mysql-bin</p>
+<p>#一般配置文件自带了<br>binlog_format = mixed</p>
+<p>#随便写但 主从的数字不可相同<br>server-id = 1</p>
+<p>#备份的数据库名称<br>binlog-do-db = wordpress</p>
+<p>#集群的服务器数量，看你一共想要多少台热备份<br>auto-increment-increment = 2</p>
+<p>#auto_increment_offset＝1设置步长,这里设置为1,这样Master的auto_increment字段产生的数值是:1, 3, 5, 7, …等奇数ID，不高于上面这个参数<br>auto-increment-offset = 1</p>
+<p>设置完后请重启 mysql 服务，以便设置生效</p>
+<p>service mysql restart</p>
+<h3 id="第四步：在主服务器-A-连上-mysql"><a href="#第四步：在主服务器-A-连上-mysql" class="headerlink" title="第四步：在主服务器 A 连上 mysql"></a>第四步：在主服务器 A 连上 mysql</h3><p>mysql -u 用户 -p 密码</p>
+<p>mysql 的连接命令为 mysql -uroot -p1234 (这里假设用户是root,密码是1234)需要注意的是,u和用户,p和密码之间没有空格。<img src="https://static.yecdn.com/syfxlin/blog-img/my-sql-login1.png" alt></p>
+<h3 id="第五步：在主服务器-A-上创建用于备份的用户"><a href="#第五步：在主服务器-A-上创建用于备份的用户" class="headerlink" title="第五步：在主服务器 A 上创建用于备份的用户"></a>第五步：在主服务器 A 上创建用于备份的用户</h3><p>该命令需要在上步连接 mysql 后，运行于 mysql 的命令行模式</p>
+<p>grant replication slave on <em>.</em> to ‘用户名‘@’从服务器B的IP’ identified by ‘用户密码’;</p>
+<p>需要在把上面命令的用户名，密码和从服务器的IP换成你自己的。下面是一个例子：</p>
+<p>grant replication slave on <em>.</em> to ‘slave1‘@’192.168.1.1’ identified by ‘1234’;</p>
+<p>该命令的意思就是：创建一个用于备份的用户，用户名是slave1，密码是1234，这个用户只允许从192.168.1.1这个IP的机子上登陆<img src="https://static.yecdn.com/syfxlin/blog-img/create-my-sql-user1.png" alt></p>
+<h3 id="第六步：取得主服务器-A-的-mysql-目前的状态"><a href="#第六步：取得主服务器-A-的-mysql-目前的状态" class="headerlink" title="第六步：取得主服务器 A 的 mysql 目前的状态"></a>第六步：取得主服务器 A 的 mysql 目前的状态</h3><p>show master status\G</p>
+<p>目的是使同步初始化，该从那行开始执行同步 <img src="https://static.yecdn.com/syfxlin/blog-img/mysql-status.png" alt> <strong>请记下这个 File 和 Position 的内容！</strong></p>
+<h2 id="从服务器B配置"><a href="#从服务器B配置" class="headerlink" title="从服务器B配置"></a>从服务器B配置</h2><p>一般情况，配置 mysql 的位置文件在 /etc/my.cnf 在 [mysqld] 标签下增加以下内容</p>
+<p>#一般默认都有了，开启 log<br>log-bin = mysql-bin</p>
+<p>#一般默认都有了<br>binlog_format = mixed</p>
+<p>#随便写但 主从的数字不可相同<br>server-id = 2</p>
+<p>#进行镜像处理的数据库<br>replicate-do-db = wordpress</p>
+<p>#这行照抄<br>relay_log = mysqld-relay-bin</p>
+<p>#用从属服务器上的日志功能<br>log-slave-updates = ON</p>
+<h3 id="第三步：连接上从服务器B的mysql命令行模式"><a href="#第三步：连接上从服务器B的mysql命令行模式" class="headerlink" title="第三步：连接上从服务器B的mysql命令行模式"></a>第三步：连接上从服务器B的mysql命令行模式</h3><p>mysql -u 用户  -p 密码 </p>
+<h3 id="第四步：给从服务器B设置主服务器的相关信息"><a href="#第四步：给从服务器B设置主服务器的相关信息" class="headerlink" title="第四步：给从服务器B设置主服务器的相关信息"></a>第四步：给从服务器B设置主服务器的相关信息</h3><p>在命令行模式下运行下列命令：</p>
+<p>CHANGE MASTER TO MASTER_HOST = ‘主服务器A的IP’, MASTER_USER = ‘备份的用户名’, MASTER_PASSWORD = ‘备份用户的密码’, MASTER_LOG_FILE=’填入上面获取File的内容’,MASTER_LOG_POS=同样填入Position内容;</p>
+<p>下面是一个例子：</p>
+<p>CHANGE MASTER TO MASTER_HOST = ‘192.168.1.1’, MASTER_USER = ‘slave1’, MASTER_PASSWORD = ‘1234’, MASTER_LOG_FILE=’mysql-bin.000005’,MASTER_LOG_POS=327;</p>
+<h3 id="第五步：启动-slave"><a href="#第五步：启动-slave" class="headerlink" title="第五步：启动 slave"></a>第五步：启动 slave</h3><p>在mysql的命令行模式下输入：</p>
+<p>start slave;</p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/mysql-slave-start.png" alt></p>
+<h3 id="第六步：查看从服务器是否正常运行"><a href="#第六步：查看从服务器是否正常运行" class="headerlink" title="第六步：查看从服务器是否正常运行"></a>第六步：查看从服务器是否正常运行</h3><p>在 mysql 的命令行模式下，运行以下命令：</p>
+<p>show slave status\G</p>
+<p>请务必确保 Slave_IO_Running 和 Slave_SQL_Running 的值都是 yes ，就表示成功了，如果任何一个是 NO 那就说明没有成功。博主由于没有将WordPress进入维护模式，所以File和Position数值变化导致启动失败。<img src="https://static.yecdn.com/syfxlin/blog-img/mysql-slave-ststus.png" alt></p>
+<h3 id="第七步：测试是否同步"><a href="#第七步：测试是否同步" class="headerlink" title="第七步：测试是否同步"></a>第七步：测试是否同步</h3><p>这步很简单，进入A服务器的phpmyadmin随便改一下数值然后进B服务器查看，若数值变为你更改的数值，即确保A和B处于备份状态。</p>
+<h3 id="第八步：双机互相同步"><a href="#第八步：双机互相同步" class="headerlink" title="第八步：双机互相同步"></a>第八步：双机互相同步</h3><p>就是将A服务器看作从服务器，B服务器看作是主服务器配置一遍就行。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2019-05-09");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2018-07-11T16:07:24.000Z" itemprop="datePublished">2018-07-12</time>
+
+    , 最后修改于&nbsp;<time datetime="2019-05-09T13:16:42.701Z" itemprop="dateModified">2019-05-09</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+
+<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href="/tags/Develop/">#&nbsp;Develop</a>
+
+<a class="post-tags-list-item" href="/tags/Mysql/">#&nbsp;Mysql</a>
+
+<a class="post-tags-list-item" href="/tags/Web/">#&nbsp;Web</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/intel-optane-experience.html">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Intel Optane 傲腾内存体验</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/wordpress-enabled-service-worker.html">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">为WordPress启用Service Worker</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+            
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2017;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+    <!-- Busuanzi -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>

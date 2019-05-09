@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>为apt方式安装的nginx重新编译增加WebDAV | 青空之蓝</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="shortcut icon" type="image/ico" href="/image/favicon.png">
+
+
+
+
+
+
+<!-- Android Chrome Color -->
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="
+由于机房装了还原卡，重启就会恢复磁盘，作为VSCode的重度使用者实在受不了Eclipse这个编辑器，并且大部分时间也并非在编写Java，所以博主搭建了code-server作为Cloud IDE，把开...">
+
+<!-- Keywords -->
+<meta name="keywords" content=", apt, nginx, WebDAV, 编译">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+    <!-- prism.css -->
+    
+    <!-- prism.line_number -->
+    
+        
+            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
+        
+    
+    <!-- prism.theme -->
+    
+        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
+    
+
+
+
+
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="青空之蓝">
+<meta name="msapplication-starturl" content="https://hexo.ixk.me">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="青空之蓝">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="为apt方式安装的nginx重新编译增加WebDAV | 青空之蓝">
+<meta property="og:site_name" content="青空之蓝">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://hexo.ixk.me/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html">
+<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+
+<meta property="og:description" content="
+由于机房装了还原卡，重启就会恢复磁盘，作为VSCode的重度使用者实在受不了Eclipse这个编辑器，并且大部分时间也并非在编写Java，所以博主搭建了code-server作为Cloud IDE，把开...">
+
+<meta name="twitter:card" content="summary">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2019-05-05T17:34:15.000Z">
+    <meta property="article:modified_time" content="2019-05-05T17:34:15.000Z">
+    <meta property="article:author" content="Otstar Lin">
+    <meta property="og:article:tag" content=", apt, nginx, WebDAV, 编译"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html"
+    },
+    "headline": "为apt方式安装的nginx重新编译增加WebDAV | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2019-05-05T17:34:15.000Z",
+    "dateModified": "2019-05-09T13:16:42.705Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", apt, nginx, WebDAV, 编译",
+    "description": "
+由于机房装了还原卡，重启就会恢复磁盘，作为VSCode的重度使用者实在受不了Eclipse这个编辑器，并且大部分时间也并非在编写Java，所以博主搭建了code-server作为Cloud IDE，把开..."
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=为apt方式安装的nginx重新编译增加WebDAV" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=为apt方式安装的nginx重新编译增加WebDAV&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=为apt方式安装的nginx重新编译增加WebDAV" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACNklEQVR42u3c207DMBBF0fz/T8NrQPacPaaIktl5qSi0XpFqd27i+vgH1yVSpEiRb4C8iuvLC27P3R+/P39/3er51Wt364qci1x+aAvk6ufVTRNsta7I2cjVJqjeeLdI2ih0XZEiK2SFqP6G3KRIkafI3QK7zVId9iJFEiT94O+C1mpjLYOHV0ZBIh+HrBKi33x8WbYo8lHIWDRqFg+qZKsKlH9UVRP5KGT1QaYFg11BoHNTy/VEjkR2kyUSbJwUGJY3InI0MiVK1RunQ7vaXOXvRY5GksZQhU9JWLVOTMREjkKSw5UECSRYJg0EkSJTcbRzoKdErNOwEjkXSTZKt+hPE684aCJyJJIU6tOhT5I1cjMiRXabkgRaNavSmrFgJXI0kgzW0S8A0mRdriVyJBINbMCNk4aZqs2EEjGRY5AxIQqFK4pIRdU4KCJyBLLTCK2C2d1ipFGFAgyRY5C0sUkTMBIs0wESkXORVXOeHMppA6SGFS5YiRyF7CZh7aEP+GUhUmSngU6LT1WCRQacRIqkRXt6OKciwVGXVuQoZDeB6m4UMlTSOsxFjkCSgREaSNDmUiqWiRSZhj0InBa3yMCTyJnIdMWB9WpIkwS2VYNU5Ehk+iDT5hMJiDuPImcjuxDSCE0BM0oERY5GkuHik6H3C1yoASpS5MX+qUYXQBquIkWSjXPaMNod/qmZIFJktwhAN1AVXMemv8ixyM5hTYZH0iG9awTEwWORI5DvfIkUKVLkH16fHI62lcpz3DEAAAAASUVORK5CYII=" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">为apt方式安装的nginx重新编译增加WebDAV</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2019-05-06</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=为apt方式安装的nginx重新编译增加WebDAV&url=https://hexo.ixk.me/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=为apt方式安装的nginx重新编译增加WebDAV&url=https://hexo.ixk.me/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html&title=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html&text=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACNklEQVR42u3c207DMBBF0fz/T8NrQPacPaaIktl5qSi0XpFqd27i+vgH1yVSpEiRb4C8iuvLC27P3R+/P39/3er51Wt364qci1x+aAvk6ufVTRNsta7I2cjVJqjeeLdI2ih0XZEiK2SFqP6G3KRIkafI3QK7zVId9iJFEiT94O+C1mpjLYOHV0ZBIh+HrBKi33x8WbYo8lHIWDRqFg+qZKsKlH9UVRP5KGT1QaYFg11BoHNTy/VEjkR2kyUSbJwUGJY3InI0MiVK1RunQ7vaXOXvRY5GksZQhU9JWLVOTMREjkKSw5UECSRYJg0EkSJTcbRzoKdErNOwEjkXSTZKt+hPE684aCJyJJIU6tOhT5I1cjMiRXabkgRaNavSmrFgJXI0kgzW0S8A0mRdriVyJBINbMCNk4aZqs2EEjGRY5AxIQqFK4pIRdU4KCJyBLLTCK2C2d1ipFGFAgyRY5C0sUkTMBIs0wESkXORVXOeHMppA6SGFS5YiRyF7CZh7aEP+GUhUmSngU6LT1WCRQacRIqkRXt6OKciwVGXVuQoZDeB6m4UMlTSOsxFjkCSgREaSNDmUiqWiRSZhj0InBa3yMCTyJnIdMWB9WpIkwS2VYNU5Ehk+iDT5hMJiDuPImcjuxDSCE0BM0oERY5GkuHik6H3C1yoASpS5MX+qUYXQBquIkWSjXPaMNod/qmZIFJktwhAN1AVXMemv8ixyM5hTYZH0iG9awTEwWORI5DvfIkUKVLkH16fHI62lcpz3DEAAAAASUVORK5CYII=" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、查看Nginx版本并下载对应源码包"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、查看Nginx版本并下载对应源码包</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、下载nginx-dav-ext-module"><span class="post-toc-number">2.</span> <span class="post-toc-text">二、下载nginx-dav-ext-module</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#三、配置configure"><span class="post-toc-number">3.</span> <span class="post-toc-text">三、配置configure</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#以下是部分常见的报错和依赖的安装方法"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">以下是部分常见的报错和依赖的安装方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#四、编译Nginx"><span class="post-toc-number">4.</span> <span class="post-toc-text">四、编译Nginx</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#五、配置WebDAV"><span class="post-toc-number">5.</span> <span class="post-toc-text">五、配置WebDAV</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#结语"><span class="post-toc-number">6.</span> <span class="post-toc-text">结语</span></a></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <blockquote>
+<p>由于机房装了还原卡，重启就会恢复磁盘，作为VSCode的重度使用者实在受不了Eclipse这个编辑器，并且大部分时间也并非在编写Java，所以博主搭建了code-server作为Cloud IDE，把开发环境放到了服务器上，但是当回到了宿舍使用自己的笔电的时候Cloud IDE就派不上太大的用场(Node除外，Node这东西实在太吃性能了)，于是同步就成了大问题，这时有人会说用Git，可惜Git并不具备实时性，在需要将服务部署在服务器上运行的时候操作就相对繁琐，所以就想到了挂载云端的文件到本地，然后SSH连接上服务器。</p>
+<p>--- 假装有分割线 —</p>
+<p>之所以选择webDAV是因为它基于HTTP，传输性能优于SFTP和FTP， 同时能够利用 HTTP 的各种扩展，比如 HTTPS，HTTP 2.0等等。</p>
+</blockquote>
+<p>选择Nginx作为webDAV的服务程序是因为其轻量化，同时也可以为PHP等服务。</p>
+<p>apt安装的Nginx自带了一个<code>http_dav_module</code>，但是为了让 nginx 能够支持 WebDAV 规范中的<code>PROPFIND</code>和<code>OPTIONS</code>，还需要安装模块 <code>[nginx-dav-ext-module](https://github.com/arut/nginx-dav-ext-module)</code> 。</p>
+<h3 id="一、查看Nginx版本并下载对应源码包"><a href="#一、查看Nginx版本并下载对应源码包" class="headerlink" title="一、查看Nginx版本并下载对应源码包"></a>一、查看Nginx版本并下载对应源码包</h3><pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># nginx -V</span>
+nginx version: nginx/1.14.0
+built by gcc 7.3.0 <span class="token punctuation">(</span>Ubuntu 7.3.0-27ubuntu1~18.04<span class="token punctuation">)</span> 
+built with OpenSSL 1.1.1b  26 Feb 2019
+TLS SNI support enabled
+configure arguments: --with-cc-opt<span class="token operator">=</span><span class="token string">'-g -O2 -fdebug-prefix-map=/build/nginx-FIJPpj/nginx-1.14.0=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -Wdate-time -D_FORTIFY_SOURCE=2'</span> --with-ld-opt<span class="token operator">=</span><span class="token string">'-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -fPIC'</span> --prefix<span class="token operator">=</span>/usr/share/nginx --conf-path<span class="token operator">=</span>/etc/nginx/nginx.conf --http-log-path<span class="token operator">=</span>/var/log/nginx/access.log --error-log-path<span class="token operator">=</span>/var/log/nginx/error.log --lock-path<span class="token operator">=</span>/var/lock/nginx.lock --pid-path<span class="token operator">=</span>/run/nginx.pid --modules-path<span class="token operator">=</span>/usr/lib/nginx/modules --http-client-body-temp-path<span class="token operator">=</span>/var/lib/nginx/body --http-fastcgi-temp-path<span class="token operator">=</span>/var/lib/nginx/fastcgi --http-proxy-temp-path<span class="token operator">=</span>/var/lib/nginx/proxy --http-scgi-temp-path<span class="token operator">=</span>/var/lib/nginx/scgi --http-uwsgi-temp-path<span class="token operator">=</span>/var/lib/nginx/uwsgi --with-debug --with-pcre-jit --with-http_ssl_module --with-http_stub_status_module --with-http_realip_module --with-http_auth_request_module --with-http_v2_module --with-http_dav_module --with-http_slice_module --with-threads --with-http_addition_module --with-http_geoip_module<span class="token operator">=</span>dynamic --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module<span class="token operator">=</span>dynamic --with-http_sub_module --with-http_xslt_module<span class="token operator">=</span>dynamic --with-stream<span class="token operator">=</span>dynamic --with-stream_ssl_module --with-mail<span class="token operator">=</span>dynamic --with-mail_ssl_module
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其中<code>nginx version</code>就是Nginx版本，前往<a href="http://nginx.org/download/" target="_blank" rel="noopener">http://nginx.org/download/</a>下载对应的版本，并解压</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># wget http://nginx.org/download/nginx-1.4.0.tar.gz</span>
+<span class="token comment" spellcheck="true"># tar xzf nginx-1.4.0.tar.gz</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="二、下载nginx-dav-ext-module"><a href="#二、下载nginx-dav-ext-module" class="headerlink" title="二、下载nginx-dav-ext-module"></a>二、下载nginx-dav-ext-module</h3><p>进入nginx-x.x.x文件夹</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># git clone https://github.com/arut/nginx-dav-ext-module.git</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="三、配置configure"><a href="#三、配置configure" class="headerlink" title="三、配置configure"></a>三、配置<strong>configure</strong></h3><p>首先复制上方<code>nginx -V</code>命令得到的<code>configure arguments</code>，进入nginx-x.x.x文件夹，加入<code>--add-module=./nginx-dav-ext-module</code>参数</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># ./configure --with-cc-opt='-g -O2 -fdebug-prefix-map=/build/nginx-FIJPpj/nginx-1.14.0=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -Wdate-time -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -fPIC' --prefix=/usr/share/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/run/nginx.pid --modules-path=/usr/lib/nginx/modules --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-debug --with-pcre-jit --with-http_ssl_module --with-http_stub_status_module --with-http_realip_module --with-http_auth_request_module --with-http_v2_module --with-http_dav_module --with-http_slice_module --with-threads --with-http_addition_module --with-http_geoip_module=dynamic --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_sub_module --with-http_xslt_module=dynamic --with-stream=dynamic --with-stream_ssl_module --with-mail=dynamic --with-mail_ssl_module --add-module=./nginx-dav-ext-module</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>运行后可能会有出现报错，一般是都是依赖不存在导致的，利用apt安装对应的依赖，后重新运行一遍<code>configure</code>即可，<strong>注意：</strong>依赖是一个个报错的，请确认没有报错的情况下进行下一步。</p>
+<h4 id="以下是部分常见的报错和依赖的安装方法"><a href="#以下是部分常见的报错和依赖的安装方法" class="headerlink" title="以下是部分常见的报错和依赖的安装方法"></a>以下是部分常见的报错和依赖的安装方法</h4><p>1. rewrite需要pcre支持<br>./configure: error: the HTTP rewrite module requires the PCRE library</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># apt-get install libpcre3 libpcre3-dev</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>2. http cache需要openssl<br>./configure: error: the HTTP cache module requires md5 functions from OpenSSL library</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># apt-get install libssl-dev openssl</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>3. 安装libxslt<br>./configure: error: the HTTP XSLT module requires the libxml2/libxslt libraries</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#  apt-get install libxslt-dev</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>4. 缺少GD library<br>./configure: error: the HTTP image filter module requires the GD library</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># apt-get install libgd2-xpm libgd2-xpm-dev</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>5. 安装GeoIP library<br>./configure: error: the GeoIP module requires the GeoIP library</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"> <span class="token comment" spellcheck="true"># apt-get install libgeoip-dev</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="四、编译Nginx"><a href="#四、编译Nginx" class="headerlink" title="四、编译Nginx"></a>四、编译Nginx</h3><p>首先安装编译工具</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># apt install make gcc g++</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>开始编译，<strong>注意：</strong>执行<code>make</code>即可，不需要再执行<code>make install</code></p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># make</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>编译完后新的nginx二进制运行文件就出现再objs文件夹下，接下来只需要复制到<code>/usr/sbin</code>即可</p>
+<p>先备份下</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># cp /usr/sbin/nginx /usr/sbin/nginx.bak</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>然后复制新的nginx到/usr/sbin，并重启nginx</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># cp objs/nginx /usr/sbin/nginx</span>
+<span class="token comment" spellcheck="true"># nginx -s reload</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="五、配置WebDAV"><a href="#五、配置WebDAV" class="headerlink" title="五、配置WebDAV"></a>五、配置WebDAV</h3><p>进入<code>/etc/nginx/sites-enabled</code>文件夹，新建一个<code>conf</code>文件，并使用以下配置文件</p>
+<pre class="line-numbers highlight language-nginx"><code class="language-nginx"><span class="token keyword">server</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true"># 监听的端口</span>
+    <span class="token keyword">listen</span> <span class="token number">8090</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true"># 连接的地址</span>
+    <span class="token keyword">server_name</span> <span class="token number">119.3</span><span class="token punctuation">.</span><span class="token number">59.114</span><span class="token punctuation">;</span>
+    <span class="token keyword">charset</span> utf<span class="token number">-8</span><span class="token punctuation">,</span>gbk<span class="token punctuation">;</span>
+    <span class="token keyword">location</span> <span class="token operator">/</span> <span class="token punctuation">{</span>
+        <span class="token keyword">set</span> <span class="token variable">$dest</span> <span class="token variable">$http_destination</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">-</span>d <span class="token variable">$request_filename</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">rewrite</span> <span class="token operator">^</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token operator">*</span><span class="token punctuation">[</span><span class="token operator">^</span><span class="token operator">/</span><span class="token punctuation">]</span><span class="token punctuation">)</span>$ $<span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">;</span>
+            <span class="token keyword">set</span> <span class="token variable">$dest</span> <span class="token variable">$dest</span><span class="token operator">/</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$request_method</span> <span class="token operator">~</span> <span class="token punctuation">(</span>MOVE<span class="token operator">|</span>COPY<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            more_set_input_headers <span class="token string">'Destination: $dest'</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$request_method</span> <span class="token operator">~</span> MKCOL<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">rewrite</span> <span class="token operator">^</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token operator">*</span><span class="token punctuation">[</span><span class="token operator">^</span><span class="token operator">/</span><span class="token punctuation">]</span><span class="token punctuation">)</span>$ $<span class="token number">1</span><span class="token operator">/</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true"># 要进行WebDAV共享的文件夹</span>
+        <span class="token keyword">root</span> <span class="token operator">/</span>home<span class="token operator">/</span>coder<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true"># alias /data/dav;</span>
+        <span class="token keyword">autoindex</span> on<span class="token punctuation">;</span>
+        <span class="token keyword">dav_methods</span> PUT DELETE MKCOL COPY MOVE<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true"># 需要 nginx-dav-ext-module 才有下面的选项</span>
+        dav_ext_methods PROPFIND OPTIONS<span class="token punctuation">;</span>
+        <span class="token keyword">create_full_put_path</span> on<span class="token punctuation">;</span>
+        <span class="token keyword">dav_access</span> <span class="token keyword">user</span><span class="token punctuation">:</span>rw group<span class="token punctuation">:</span>rw all<span class="token punctuation">:</span>rw<span class="token punctuation">;</span>
+        <span class="token keyword">auth_basic</span> <span class="token string">"Authorized Users Only"</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true"># 更改为你的htpasswd文件</span>
+        <span class="token keyword">auth_basic_user_file</span> <span class="token operator">/</span>etc<span class="token operator">/</span>nginx<span class="token operator">/</span>syfxlin_htpasswd<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>接着重启nginx即可</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此WebDAV就配置完成了，当时配置的时候就遇到了一大堆没有安装的依赖，依赖一个个跳出来，差点把我心态搞炸，好在最后还是编译成功了，上面的配置还有些问题，暂时还不支持移动和新建文件夹的操作，博主正在研究修复，请耐心等待(￣▽￣)”。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2019-05-09");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-05-05T17:34:15.000Z" itemprop="datePublished">2019-05-06</time>
+
+    , 最后修改于&nbsp;<time datetime="2019-05-09T13:16:42.705Z" itemprop="dateModified">2019-05-09</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+
+<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href="/tags/apt/">#&nbsp;apt</a>
+
+<a class="post-tags-list-item" href="/tags/nginx/">#&nbsp;nginx</a>
+
+<a class="post-tags-list-item" href="/tags/WebDAV/">#&nbsp;WebDAV</a>
+
+<a class="post-tags-list-item" href="/tags/编译/">#&nbsp;编译</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/java-graph-implementation.html">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Java图实现</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+            
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2017;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+    <!-- Busuanzi -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>

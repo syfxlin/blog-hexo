@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>Orange Pi搭建NAS(2)-硬件选择与组装 | 青空之蓝</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="shortcut icon" type="image/ico" href="/image/favicon.png">
+
+
+
+
+
+
+<!-- Android Chrome Color -->
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="所需硬件下面列出所需硬件，注意有的是可选
+
+Orange Pi...">
+
+<!-- Keywords -->
+<meta name="keywords" content=", Orange Pi">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+    <!-- prism.css -->
+    
+    <!-- prism.line_number -->
+    
+        
+            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
+        
+    
+    <!-- prism.theme -->
+    
+        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
+    
+
+
+
+
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="青空之蓝">
+<meta name="msapplication-starturl" content="https://hexo.ixk.me">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="青空之蓝">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="Orange Pi搭建NAS(2)-硬件选择与组装 | 青空之蓝">
+<meta property="og:site_name" content="青空之蓝">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas2-e7-a1-ac-e4-bb-b6-e9-80-89-e6-8b-a9-e4-b8-8e-e7-bb-84-e8-a3-85.html">
+<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+
+<meta property="og:description" content="所需硬件下面列出所需硬件，注意有的是可选
+
+Orange Pi...">
+
+<meta name="twitter:card" content="summary">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2017-07-11T15:09:01.000Z">
+    <meta property="article:modified_time" content="2017-07-11T15:09:01.000Z">
+    <meta property="article:author" content="Otstar Lin">
+    <meta property="og:article:tag" content=", Orange Pi"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas2-e7-a1-ac-e4-bb-b6-e9-80-89-e6-8b-a9-e4-b8-8e-e7-bb-84-e8-a3-85.html">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas2-e7-a1-ac-e4-bb-b6-e9-80-89-e6-8b-a9-e4-b8-8e-e7-bb-84-e8-a3-85.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas2-e7-a1-ac-e4-bb-b6-e9-80-89-e6-8b-a9-e4-b8-8e-e7-bb-84-e8-a3-85.html"
+    },
+    "headline": "Orange Pi搭建NAS(2)-硬件选择与组装 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2017-07-11T15:09:01.000Z",
+    "dateModified": "2019-05-09T13:16:42.701Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", Orange Pi",
+    "description": "所需硬件下面列出所需硬件，注意有的是可选
+
+Orange Pi..."
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=Orange Pi搭建NAS(2)-硬件选择与组装" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=Orange Pi搭建NAS(2)-硬件选择与组装&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=Orange Pi搭建NAS(2)-硬件选择与组装" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAADECAAAAADlzdG3AAADJ0lEQVR42u3aQXLbQAxEUd3/0sk6Con+TRKSk/rcOI4kc56qhsAAeP36D66XCBEiRIhYR7yG6+g97//3xx99e/2vmw73eP8cWpcIEUuIw00zLHC6ydF7JiB5z+kXJULEIuJ9IeQnuenRQhvE2bpEiPgmIt1kClLpPelBIELET0SMAeckUUwLTUmmCBHfRkyHkwlFXieglIDeymJFiCgR04b85s/Hqh0iRBSIWLQNwWxKEkkAnILZY1VxESLK/kQq9p4d8ttCcFNkQMVnESIWEc0iGzQ5WKXGTdVkESHiQURzuCHBiTZQSLJ3+DkRIpYQpMnYBjiSQJLGyvhwECFiEdHcPA2WTJs3BVXysBAhYhORmiZp89MEMiWSbUNShIhNxDQ4Mg2TnP0+LZAUBvDBSoSIBQRZGBkgmQ5FqeD8aBYrQsRNRFPIbTfxtDmbQh1KAEWIWEDQBI4OydOiGgmghw8aESKWELQ5mJopqRlDMbSwIELEBoIuimxUmtxNhYJURBAh4hOIO0Ml9PNt8EMHKhEiFhBkc6ZCWtu0bIbCquFeESIeQJBB97aJnooKTbHsUjNehIgFRGp+pIY7LcaR4ZjTtYkQsYBok7k0nHJ1KDF9PiaAIkQ8hKBBbBrmagF0MCveX4SIBUQb1Egy2AwxToXnOMwlQsQCYhrqTcOEFNQMqKRkcXw6iRDxAII23KdFkCIDHVAhTRgRIjYRbbBpAhxdLAmw44CKCBEPImjSlg7zzd8jgRR9ESJELCBog4M2JUkhgRScp3+LEPEpRNssITeaimPptTTgIkLENoIWlc8OPLQ50jTpR6QIEQsI2kRMhWGCpsU1MuglQsQm4krTvH0ApISQFqZFiNhGtIeYq4MtbdGAJKYiRGwg0kUPQFcai6RINm54ESIWEO3gIT3gtEhawEOFAhEibiJSIEs3awdQrjRsRIj4NCJtLFoUJgU02vRPRQQRIr6FmAYdSXOlKb5NhycRIn4a4soQ1/SgIIljVTwTIeJBRApm6YB/lvClQRdSJDg9jIkQsYS400gnAyfkCyHJ4+VqhwgRBeJfvkSIECFCxNr1G1q4373OH+P9AAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">Orange Pi搭建NAS(2)-硬件选择与组装</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2017-07-11</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=Orange Pi搭建NAS(2)-硬件选择与组装&url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas2-e7-a1-ac-e4-bb-b6-e9-80-89-e6-8b-a9-e4-b8-8e-e7-bb-84-e8-a3-85.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=Orange Pi搭建NAS(2)-硬件选择与组装&url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas2-e7-a1-ac-e4-bb-b6-e9-80-89-e6-8b-a9-e4-b8-8e-e7-bb-84-e8-a3-85.html&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas2-e7-a1-ac-e4-bb-b6-e9-80-89-e6-8b-a9-e4-b8-8e-e7-bb-84-e8-a3-85.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas2-e7-a1-ac-e4-bb-b6-e9-80-89-e6-8b-a9-e4-b8-8e-e7-bb-84-e8-a3-85.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas2-e7-a1-ac-e4-bb-b6-e9-80-89-e6-8b-a9-e4-b8-8e-e7-bb-84-e8-a3-85.html&title=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas2-e7-a1-ac-e4-bb-b6-e9-80-89-e6-8b-a9-e4-b8-8e-e7-bb-84-e8-a3-85.html" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/orange-pi-e6-90-ad-e5-bb-banas2-e7-a1-ac-e4-bb-b6-e9-80-89-e6-8b-a9-e4-b8-8e-e7-bb-84-e8-a3-85.html&text=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAADECAAAAADlzdG3AAADJ0lEQVR42u3aQXLbQAxEUd3/0sk6Con+TRKSk/rcOI4kc56qhsAAeP36D66XCBEiRIhYR7yG6+g97//3xx99e/2vmw73eP8cWpcIEUuIw00zLHC6ydF7JiB5z+kXJULEIuJ9IeQnuenRQhvE2bpEiPgmIt1kClLpPelBIELET0SMAeckUUwLTUmmCBHfRkyHkwlFXieglIDeymJFiCgR04b85s/Hqh0iRBSIWLQNwWxKEkkAnILZY1VxESLK/kQq9p4d8ttCcFNkQMVnESIWEc0iGzQ5WKXGTdVkESHiQURzuCHBiTZQSLJ3+DkRIpYQpMnYBjiSQJLGyvhwECFiEdHcPA2WTJs3BVXysBAhYhORmiZp89MEMiWSbUNShIhNxDQ4Mg2TnP0+LZAUBvDBSoSIBQRZGBkgmQ5FqeD8aBYrQsRNRFPIbTfxtDmbQh1KAEWIWEDQBI4OydOiGgmghw8aESKWELQ5mJopqRlDMbSwIELEBoIuimxUmtxNhYJURBAh4hOIO0Ml9PNt8EMHKhEiFhBkc6ZCWtu0bIbCquFeESIeQJBB97aJnooKTbHsUjNehIgFRGp+pIY7LcaR4ZjTtYkQsYBok7k0nHJ1KDF9PiaAIkQ8hKBBbBrmagF0MCveX4SIBUQb1Egy2AwxToXnOMwlQsQCYhrqTcOEFNQMqKRkcXw6iRDxAII23KdFkCIDHVAhTRgRIjYRbbBpAhxdLAmw44CKCBEPImjSlg7zzd8jgRR9ESJELCBog4M2JUkhgRScp3+LEPEpRNssITeaimPptTTgIkLENoIWlc8OPLQ50jTpR6QIEQsI2kRMhWGCpsU1MuglQsQm4krTvH0ApISQFqZFiNhGtIeYq4MtbdGAJKYiRGwg0kUPQFcai6RINm54ESIWEO3gIT3gtEhawEOFAhEibiJSIEs3awdQrjRsRIj4NCJtLFoUJgU02vRPRQQRIr6FmAYdSXOlKb5NhycRIn4a4soQ1/SgIIljVTwTIeJBRApm6YB/lvClQRdSJDg9jIkQsYS400gnAyfkCyHJ4+VqhwgRBeJfvkSIECFCxNr1G1q4373OH+P9AAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#所需硬件"><span class="post-toc-number">1.</span> <span class="post-toc-text">所需硬件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#各型号的资源"><span class="post-toc-number">2.</span> <span class="post-toc-text">各型号的资源</span></a></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <h3 id="所需硬件"><a href="#所需硬件" class="headerlink" title="所需硬件"></a>所需硬件</h3><p>下面列出所需硬件，注意有的是可选</p>
+<ul>
+<li>Orange Pi One(建议)，降低延迟选择有网口的，我因为要中继选择Lite</li>
+<li>散热片（两片）+外壳(带风扇)，一天24小时开机，这个还是有必要。</li>
+<li>5V 2A电源，官方店铺有，也可以自己买DC-0.4mm(这种口径很少见，建议直接买官方的)</li>
+<li>8 G micro SD card(class 10+)，至少class10，不然后面没得玩。</li>
+<li>移动硬盘或者U盘(如果选择硬盘要有易驱线，以及硬盘电源)[可选]</li>
+<li>USB Wifi(RTL8188eu，MT7601需要编译)[可选]</li>
+</ul>
+<h3 id="各型号的资源"><a href="#各型号的资源" class="headerlink" title="各型号的资源"></a>各型号的资源</h3><p>详情:<a href="http://www.orangepi.cn/downloadresourcescn/" target="_blank" rel="noopener">http://www.orangepi.cn/downloadresourcescn/</a> 安装步骤很简单</p>
+<ol>
+<li>拿起香橙派板子，看清楚各种插槽接口，搞清楚是干嘛的，小心插坏了~</li>
+<li>给cpu贴上散热片，要买那种自带粘胶的，手不要抖哦，小心贴歪了。</li>
+<li>把风扇的电源插头接到电源引脚上，然后接上电源看风扇转不。香橙派40pin接口板上有个小三角标注一号针，正极接2号针，负极接任何的GND针</li>
+<li>没什么问题就装上外壳。</li>
+</ol>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2019-05-09");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2017-07-11T15:09:01.000Z" itemprop="datePublished">2017-07-11</time>
+
+    , 最后修改于&nbsp;<time datetime="2019-05-09T13:16:42.701Z" itemprop="dateModified">2019-05-09</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+
+<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href="/tags/Orange-Pi/">#&nbsp;Orange Pi</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/orange-pi-e6-90-ad-e5-bb-banas3-e7-b3-bb-e7-bb-9f-e5-ae-89-e8-a3-85.html">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Orange Pi搭建NAS(3)-系统安装</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/orange-pi-e6-90-ad-e5-bb-banas1-e5-bc-80-e5-9d-91.html">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Orange Pi搭建NAS(1)-开坑</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+            
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2017;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+    <!-- Busuanzi -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>

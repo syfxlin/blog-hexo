@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>JS生成列表树 | 青空之蓝</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="shortcut icon" type="image/ico" href="/image/favicon.png">
+
+
+
+
+
+
+<!-- Android Chrome Color -->
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="
+上一篇文章我们使用PHP的构建简单的目录树，这次由于一个项目的需要（构建标题大纲），需要在前端使用JS构建ul li的多层次列表，其实就是类似于ZUI的树形菜单啦(￣▽￣)”
+">
+
+<!-- Keywords -->
+<meta name="keywords" content=", JavaScript, 目录树, 递归">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+    <!-- prism.css -->
+    
+    <!-- prism.line_number -->
+    
+        
+            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
+        
+    
+    <!-- prism.theme -->
+    
+        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
+    
+
+
+
+
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="青空之蓝">
+<meta name="msapplication-starturl" content="https://hexo.ixk.me">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="青空之蓝">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="JS生成列表树 | 青空之蓝">
+<meta property="og:site_name" content="青空之蓝">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://hexo.ixk.me/js-generate-list-tree.html">
+<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+
+<meta property="og:description" content="
+上一篇文章我们使用PHP的构建简单的目录树，这次由于一个项目的需要（构建标题大纲），需要在前端使用JS构建ul li的多层次列表，其实就是类似于ZUI的树形菜单啦(￣▽￣)”
+">
+
+<meta name="twitter:card" content="summary">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2019-04-19T15:51:16.000Z">
+    <meta property="article:modified_time" content="2019-04-19T15:51:16.000Z">
+    <meta property="article:author" content="Otstar Lin">
+    <meta property="og:article:tag" content=", JavaScript, 目录树, 递归"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/js-generate-list-tree.html">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/js-generate-list-tree.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/js-generate-list-tree.html"
+    },
+    "headline": "JS生成列表树 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2019-04-19T15:51:16.000Z",
+    "dateModified": "2019-05-09T13:16:42.705Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", JavaScript, 目录树, 递归",
+    "description": "
+上一篇文章我们使用PHP的构建简单的目录树，这次由于一个项目的需要（构建标题大纲），需要在前端使用JS构建ul li的多层次列表，其实就是类似于ZUI的树形菜单啦(￣▽￣)”
+"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=JS生成列表树" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=JS生成列表树&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=JS生成列表树" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5klEQVR42u3a0W4CMQxE0f3/n6ZPlQDFnut0K8Xe2ZdKKYSDZJLY8fU68LmMMsoooxaoK3l+///92tV7PyZP3ht9jlGzUMugW4xHY++Ib9AKGM1p1CyUCnCFyAIcf45Rj0BFgbrCrRbS0pc36jGobCzacLOAN+oZqCwwowAnQf4vpwSjjkeRxOGOv7dnM0YdiZJFh2DRy4I8W2RvqboYdTQqK05EG2eUkEY/lDS4yYpuVCtUtNGqTZQU17Ki2nLcqFEocigjk2cFEHmANGoMSk1ENl16SMSnBKPaougk2cWRKsLiwppRY1BZkYwshNXEFCcORo1BkSIqHSNJq1EzUeRgRxOJCCWTWqNGoKqHPVIwU4e9UjZjVFsUbeSiRTJy6WTUTJRqpslet9N8gwocRrVHkYvHSuNgJeCNmocil0AUljU7lwocRrVGkQLYTvJA5pG/PqNaomigq8RCLbio2dCoUSiFoMUM+sMoNUsY1QpVwVQKtfQLoFsso1qhyCJKCxuVpp6tFd2oFqi/FOZVIbaS2Bo1C7UT4PRSQF0QGDUXVU0kyZhacNNDnlFjUSp4d5sqShdGRo1EqSJ+ttFuFWKNao+qNN6QBgm1gRs1G0USB7Uw0sShXDQzqh3qpMcoo4wy6u35ASPhX24nxASRAAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">JS生成列表树</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2019-04-19</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=JS生成列表树&url=https://hexo.ixk.me/js-generate-list-tree.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=JS生成列表树&url=https://hexo.ixk.me/js-generate-list-tree.html&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/js-generate-list-tree.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/js-generate-list-tree.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/js-generate-list-tree.html&title=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/js-generate-list-tree.html" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/js-generate-list-tree.html&text=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5klEQVR42u3a0W4CMQxE0f3/n6ZPlQDFnut0K8Xe2ZdKKYSDZJLY8fU68LmMMsoooxaoK3l+///92tV7PyZP3ht9jlGzUMugW4xHY++Ib9AKGM1p1CyUCnCFyAIcf45Rj0BFgbrCrRbS0pc36jGobCzacLOAN+oZqCwwowAnQf4vpwSjjkeRxOGOv7dnM0YdiZJFh2DRy4I8W2RvqboYdTQqK05EG2eUkEY/lDS4yYpuVCtUtNGqTZQU17Ki2nLcqFEocigjk2cFEHmANGoMSk1ENl16SMSnBKPaougk2cWRKsLiwppRY1BZkYwshNXEFCcORo1BkSIqHSNJq1EzUeRgRxOJCCWTWqNGoKqHPVIwU4e9UjZjVFsUbeSiRTJy6WTUTJRqpslet9N8gwocRrVHkYvHSuNgJeCNmocil0AUljU7lwocRrVGkQLYTvJA5pG/PqNaomigq8RCLbio2dCoUSiFoMUM+sMoNUsY1QpVwVQKtfQLoFsso1qhyCJKCxuVpp6tFd2oFqi/FOZVIbaS2Bo1C7UT4PRSQF0QGDUXVU0kyZhacNNDnlFjUSp4d5sqShdGRo1EqSJ+ttFuFWKNao+qNN6QBgm1gRs1G0USB7Uw0sShXDQzqh3qpMcoo4wy6u35ASPhX24nxASRAAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现原理"><span class="post-toc-number">1.</span> <span class="post-toc-text">实现原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现代码"><span class="post-toc-number">2.</span> <span class="post-toc-text">实现代码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#构建HTML"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">构建HTML</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#为目录添加toggle功能"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">为目录添加toggle功能</span></a></li></ol></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <blockquote>
+<p>上一篇文章我们使用PHP的构建简单的目录树，这次由于一个项目的需要（构建标题大纲），需要在前端使用JS构建ul li的多层次列表，其实就是类似于ZUI的树形菜单啦(￣▽￣)”</p>
+</blockquote>
+<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>首先需要准备一个对象数组，数组中的对象拥有<code>level</code>和<code>title</code>（可以自行命名，由于博主是生成标题的索引所以就使用title命名）</p>
+<p>另外，该数组需要按一定的顺序进行排序，否则就需要自行设置索引，排序的规则是子级必须紧跟在父级后，例如</p>
+<pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// # 1</span>
+<span class="token comment" spellcheck="true">// ## 2</span>
+<span class="token comment" spellcheck="true">// ## 3</span>
+<span class="token comment" spellcheck="true">// ### 4</span>
+<span class="token comment" spellcheck="true">// ### 5</span>
+<span class="token comment" spellcheck="true">// # 6</span>
+
+<span class="token keyword">var</span> tocContent <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+        level<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        title<span class="token punctuation">:</span> <span class="token string">"1"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        level<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+        title<span class="token punctuation">:</span> <span class="token string">"2"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        level<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+        title<span class="token punctuation">:</span> <span class="token string">"3"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        level<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+        title<span class="token punctuation">:</span> <span class="token string">"4"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        level<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+        title<span class="token punctuation">:</span> <span class="token string">"5"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        level<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        title<span class="token punctuation">:</span> <span class="token string">"6"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>有了目录的对象数组，我们就可以通过递归或者栈来构建列表树了</p>
+<h2 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h2><h3 id="构建HTML"><a href="#构建HTML" class="headerlink" title="构建HTML"></a>构建HTML</h3><pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token keyword">var</span> tocContent <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">getTocHtml</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> html <span class="token operator">=</span> <span class="token function">getTocHtmlTree</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span>
+  window<span class="token punctuation">.</span>$toc <span class="token operator">=</span> html
+  <span class="token keyword">return</span> html<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">getTocHtmlTree</span><span class="token punctuation">(</span>index<span class="token punctuation">,</span> str<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>index <span class="token operator">>=</span> tocContent<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token keyword">return</span> str<span class="token punctuation">;</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>index <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    str <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">''</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>tocContent<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>level <span class="token operator">></span> tocContent<span class="token punctuation">[</span>index<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>level<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> tocContent<span class="token punctuation">[</span>index<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>level<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> tocContent<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>level<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      str <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">'&lt;ul>'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>tocContent<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>level <span class="token operator">&lt;</span> tocContent<span class="token punctuation">[</span>index<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>level<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> tocContent<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>level<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> tocContent<span class="token punctuation">[</span>index<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>level<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      str <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">'&lt;/ul>&lt;/li>'</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    str <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">'&lt;/li>'</span>
+  <span class="token punctuation">}</span>
+  str <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">'&lt;li>&lt;img class="toc-img" src="/static/svg/disc.svg">&lt;a href="#'</span> <span class="token operator">+</span> tocContent<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>title<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/ /g</span><span class="token punctuation">,</span> <span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/[^\u4e00-\u9fa5a-zA-Z0-9-]/g</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'">'</span> <span class="token operator">+</span> tocContent<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>title <span class="token operator">+</span> <span class="token string">'&lt;/a>'</span>
+  <span class="token keyword">return</span> <span class="token function">getTocHtmlTree</span><span class="token punctuation">(</span>index<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> str<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过调用<code>getTocHtml()</code>就可以获得目录的HTML，生成后的效果如下</p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/js-toc-1.png" alt></p>
+<p>从代码中可以看到在li标签中还有<code>img</code>标签和带锚点的<code>a</code>标签，a标签是为了跳转到指定位置而设置的，可以按不同的需求进行调整，img标签是为了点击时显示和隐藏子级列表而设置的</p>
+<h3 id="为目录添加toggle功能"><a href="#为目录添加toggle功能" class="headerlink" title="为目录添加toggle功能"></a>为目录添加toggle功能</h3><p>废话不多说，先上代码</p>
+<pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">initTocTree</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> items <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelectorAll</span><span class="token punctuation">(</span><span class="token string">'#toc .toc-img ~ ul'</span><span class="token punctuation">)</span> <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> items<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        items<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>parentNode<span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">'src'</span><span class="token punctuation">,</span> <span class="token string">'/static/svg/minus-square.svg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        items<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>parentNode<span class="token punctuation">.</span>children<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">'onclick'</span><span class="token punctuation">,</span> <span class="token string">'toggleToc(this)'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">function</span> <span class="token function">toggleToc</span><span class="token punctuation">(</span>ele<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> display <span class="token operator">=</span> ele<span class="token punctuation">.</span>nextElementSibling<span class="token punctuation">.</span>nextElementSibling<span class="token punctuation">.</span>style<span class="token punctuation">.</span>display
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>display <span class="token operator">===</span> <span class="token string">''</span> <span class="token operator">||</span> display <span class="token operator">===</span> <span class="token string">'block'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        ele<span class="token punctuation">.</span>nextElementSibling<span class="token punctuation">.</span>nextElementSibling<span class="token punctuation">.</span>style<span class="token punctuation">.</span>display <span class="token operator">=</span> <span class="token string">'none'</span><span class="token punctuation">;</span>
+        ele<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">'src'</span><span class="token punctuation">,</span> <span class="token string">'/static/svg/plus-square.svg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        ele<span class="token punctuation">.</span>nextElementSibling<span class="token punctuation">.</span>nextElementSibling<span class="token punctuation">.</span>style<span class="token punctuation">.</span>display <span class="token operator">=</span> <span class="token string">'block'</span><span class="token punctuation">;</span>
+        ele<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">'src'</span><span class="token punctuation">,</span> <span class="token string">'/static/svg/minus-square.svg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>initTocTree()</code>是用来初始化列表树的，该函数会修改有子列表点的父级列表图片，并为其添加onclick事件，<code>toggleToc()</code>是在img标签被点击的时候展开/隐藏子级列表的，同时修改其img图像，便于用户判断子列表是否已经展开，具体效果如下</p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/js-toc-2.png" alt></p>
+<p>虽然有上篇文章的参考我还是想了很久，写出来的代码也很渣，看来还需不断的学习啊＞﹏＜</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2019-05-09");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-04-19T15:51:16.000Z" itemprop="datePublished">2019-04-19</time>
+
+    , 最后修改于&nbsp;<time datetime="2019-05-09T13:16:42.705Z" itemprop="dateModified">2019-05-09</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+
+<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href="/tags/JavaScript/">#&nbsp;JavaScript</a>
+
+<a class="post-tags-list-item" href="/tags/目录树/">#&nbsp;目录树</a>
+
+<a class="post-tags-list-item" href="/tags/递归/">#&nbsp;递归</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+        <li class="page-item page-prev">
+            <a href="/xkeditor.html">
+                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">XK-Editor - 一个支持富文本和Markdown的编辑器</div>
+            </a>
+        </li>
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/laravel-generating-directory-tree.html">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Laravel生成目录树</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+            
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2017;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+    <!-- Busuanzi -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>
