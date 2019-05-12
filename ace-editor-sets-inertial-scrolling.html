@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>ace编辑器设置惯性滚动 | 青空之蓝</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="shortcut icon" type="image/ico" href="/image/favicon.png">
+
+
+
+
+
+
+<!-- Android Chrome Color -->
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="
+上个月我写了XK Editor这个项目，使用...">
+
+<!-- Keywords -->
+<meta name="keywords" content=", JavaScript, Mobile">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+    <!-- prism.css -->
+    
+    <!-- prism.line_number -->
+    
+        
+            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
+        
+    
+    <!-- prism.theme -->
+    
+        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
+    
+
+
+
+
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="青空之蓝">
+<meta name="msapplication-starturl" content="https://hexo.ixk.me">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="青空之蓝">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="ace编辑器设置惯性滚动 | 青空之蓝">
+<meta property="og:site_name" content="青空之蓝">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://hexo.ixk.me/ace-editor-sets-inertial-scrolling.html">
+<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+
+<meta property="og:description" content="
+上个月我写了XK Editor这个项目，使用...">
+
+<meta name="twitter:card" content="summary">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2019-05-11T08:21:19.000Z">
+    <meta property="article:modified_time" content="2019-05-11T08:21:19.000Z">
+    <meta property="article:author" content="Otstar Lin">
+    <meta property="og:article:tag" content=", JavaScript, Mobile"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/ace-editor-sets-inertial-scrolling.html">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/ace-editor-sets-inertial-scrolling.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/ace-editor-sets-inertial-scrolling.html"
+    },
+    "headline": "ace编辑器设置惯性滚动 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2019-05-11T08:21:19.000Z",
+    "dateModified": "2019-05-12T00:24:33.646Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", JavaScript, Mobile",
+    "description": "
+上个月我写了XK Editor这个项目，使用..."
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=ace编辑器设置惯性滚动" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=ace编辑器设置惯性滚动&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=ace编辑器设置惯性滚动" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5ElEQVR42u3aQW7DMAxEUd//0u2qQBuIM5+pA0j0eNM0SKJnQKZEitfXhtcVVFBBBbVAXeL684WX935eq++9vnbjBDUHtZx0i/craDX4K96NE9QslPqxauJXg6pJX40T1PNQqwDqHgpyk0E9E1UtyCtw98EJai6qmrxkcVUPw0d2CUFtj1Ib+jv/3pbNBLU1yhYdRILqFuOPVV2C2hpFChWrxEAlEW6BLm8wqHGoanACJEG4+mxQs1AqYNJimfqsuwkc0YM6EkUSSJckqI2iW+CDmosiRTNVzKgGV9ig5qBI4cst2LSg7yZ7UDNQZJF1hbLOYWVrQQ7qWNQ7ha5OU4ULtEHNRJHkgGwA3eGAbNIJagTKNWIptAqM1YJdLfRBzUGRQr5aeEkxhBxWBjUHdUeA7DaH/TubCWprFC3Edg6QaIGjdTIa1DGoTpGMJhcoUNJOs6CORdEfopOWHhrJiR7U0ahuMHQFDpo8oKcvqCNR1cQkjVyuKRU39gQ1AtUNejQh6BRGgpqFQkkiaDAlwRI34AR1PIoET9II2NkoBjUf5Qr0nQT13eAa1LNQJKF0h9ruQQjq2SiXVHSLaEHNQ7mEE238ScJJGnCCOh5FF01X2KDNqOX/QY1A7XQFFVRQQf26vgHRGXFAexzBIgAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">ace编辑器设置惯性滚动</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2019-05-11</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=ace编辑器设置惯性滚动&url=https://hexo.ixk.me/ace-editor-sets-inertial-scrolling.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=ace编辑器设置惯性滚动&url=https://hexo.ixk.me/ace-editor-sets-inertial-scrolling.html&via=Otstar Lin" target="_blank" rel="noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/ace-editor-sets-inertial-scrolling.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/ace-editor-sets-inertial-scrolling.html" target="_blank" rel="noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/ace-editor-sets-inertial-scrolling.html&title=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/ace-editor-sets-inertial-scrolling.html" target="_blank" rel="noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/ace-editor-sets-inertial-scrolling.html&text=青空之蓝" target="_blank" rel="noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5ElEQVR42u3aQW7DMAxEUd//0u2qQBuIM5+pA0j0eNM0SKJnQKZEitfXhtcVVFBBBbVAXeL684WX935eq++9vnbjBDUHtZx0i/craDX4K96NE9QslPqxauJXg6pJX40T1PNQqwDqHgpyk0E9E1UtyCtw98EJai6qmrxkcVUPw0d2CUFtj1Ib+jv/3pbNBLU1yhYdRILqFuOPVV2C2hpFChWrxEAlEW6BLm8wqHGoanACJEG4+mxQs1AqYNJimfqsuwkc0YM6EkUSSJckqI2iW+CDmosiRTNVzKgGV9ig5qBI4cst2LSg7yZ7UDNQZJF1hbLOYWVrQQ7qWNQ7ha5OU4ULtEHNRJHkgGwA3eGAbNIJagTKNWIptAqM1YJdLfRBzUGRQr5aeEkxhBxWBjUHdUeA7DaH/TubCWprFC3Edg6QaIGjdTIa1DGoTpGMJhcoUNJOs6CORdEfopOWHhrJiR7U0ahuMHQFDpo8oKcvqCNR1cQkjVyuKRU39gQ1AtUNejQh6BRGgpqFQkkiaDAlwRI34AR1PIoET9II2NkoBjUf5Qr0nQT13eAa1LNQJKF0h9ruQQjq2SiXVHSLaEHNQ7mEE238ScJJGnCCOh5FF01X2KDNqOX/QY1A7XQFFVRQQf26vgHRGXFAexzBIgAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">1.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现方案"><span class="post-toc-number">2.</span> <span class="post-toc-text">实现方案</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现代码"><span class="post-toc-number">3.</span> <span class="post-toc-text">实现代码</span></a></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <blockquote>
+<p>上个月我写了<a href="https://blog.ixk.me/xkeditor.html" target="_blank" rel="noopener">XK Editor</a>这个项目，使用了ace编辑器和tinymce编辑器作为基础编辑器，但是当项目进入适配移动端的时候，遇到了一个很头疼的问题，ace编辑器不支持惯性滚动，用起来会非常变扭，于是便为之增加惯性滚动的功能。</p>
+</blockquote>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>惯性滚动，即在触屏设备中滑动手指，当手指离开屏幕后，滚动事件并不会立即停止，而是会继续移动一段距离，这段距离是由手离开屏幕时的滚动速度和预设的摩擦力决定的，通过这时的速度，预设的摩擦力和特定的公式计算出一系列滚动点，然后逐个滚动到滚动点，来模拟惯性滚动。</p>
+<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><ol>
+<li>监听开始触摸的事件，记录开始的时间和开始的坐标，同时重置滚动(防止连续滚动出现Bug)</li>
+<li>监听触摸结束的时间，记录结束的时间和结束的坐标</li>
+<li>通过公式<code>v = (endY - startY) / (endTime - startTime) * 1.5</code> 1.5的值可以调整</li>
+<li>定义“摩擦力”<code>deceleration = dir * 0.0018</code> 0.0018也可以调整</li>
+<li>在每次微滚动前都计算一下滚动的坐标，然后进行滚动。</li>
+<li>直至速度为0或者速度方向改变的时候停止滚动</li>
+</ol>
+<h2 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h2><pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">//惯性滚动</span>
+<span class="token keyword">var</span> editorDom <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelector</span><span class="token punctuation">(</span><span class="token string">'.ace-editor'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> inertiaScrollTime <span class="token operator">=</span> <span class="token keyword">null</span>
+editorDom<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'touchstart'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">clearTimeout</span><span class="token punctuation">(</span>inertiaScrollTime<span class="token punctuation">)</span>
+    <span class="token keyword">var</span> startY <span class="token operator">=</span> event<span class="token punctuation">.</span>changedTouches<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>pageY
+    <span class="token keyword">var</span> endY <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">var</span> startTime <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">var</span> endTime <span class="token operator">=</span> <span class="token number">0</span>
+    editorDom<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'touchend'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        endY <span class="token operator">=</span> event<span class="token punctuation">.</span>changedTouches<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>pageY
+        endTime <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">var</span> _v <span class="token operator">=</span> <span class="token punctuation">(</span>endY <span class="token operator">-</span> startY<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token punctuation">(</span>endTime <span class="token operator">-</span> startTime<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">1.5</span>
+
+        <span class="token keyword">function</span> <span class="token function">scrollToTop</span><span class="token punctuation">(</span>v<span class="token punctuation">,</span> sTime<span class="token punctuation">,</span> contentY<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">var</span> dir <span class="token operator">=</span> v <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token punctuation">:</span> <span class="token number">1</span>
+            <span class="token keyword">var</span> deceleration <span class="token operator">=</span> dir <span class="token operator">*</span> <span class="token number">0.0018</span>
+            <span class="token keyword">var</span> duration <span class="token operator">=</span> v <span class="token operator">/</span> deceleration
+
+            <span class="token keyword">function</span> <span class="token function">inertiaMove</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// if(stopInertia) return</span>
+                <span class="token keyword">var</span> nowTime <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token keyword">var</span> t <span class="token operator">=</span> nowTime <span class="token operator">-</span> sTime
+                <span class="token keyword">var</span> nowV <span class="token operator">=</span> v <span class="token operator">+</span> t <span class="token operator">*</span> deceleration
+                <span class="token comment" spellcheck="true">// 速度方向变化表示速度达到0了</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>dir <span class="token operator">*</span> nowV <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">var</span> moveY <span class="token operator">=</span> <span class="token operator">-</span><span class="token punctuation">(</span>v <span class="token operator">+</span> nowV<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">*</span> t
+                window<span class="token punctuation">.</span>$ace<span class="token punctuation">.</span>session<span class="token punctuation">.</span><span class="token function">setScrollTop</span><span class="token punctuation">(</span>contentY <span class="token operator">+</span> moveY<span class="token punctuation">)</span>
+                inertiaScrollTime <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span>inertiaMove<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+            <span class="token function">inertiaMove</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">scrollToTop</span><span class="token punctuation">(</span>_v<span class="token punctuation">,</span> endTime<span class="token punctuation">,</span> window<span class="token punctuation">.</span>$ace<span class="token punctuation">.</span>session<span class="token punctuation">.</span><span class="token function">getScrollTop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2019-05-12");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-05-11T08:21:19.000Z" itemprop="datePublished">2019-05-11</time>
+
+    , 最后修改于&nbsp;<time datetime="2019-05-12T00:24:33.646Z" itemprop="dateModified">2019-05-12</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+
+<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href="/tags/JavaScript/">#&nbsp;JavaScript</a>
+
+<a class="post-tags-list-item" href="/tags/Mobile/">#&nbsp;Mobile</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/recompilation-of-nginx-installed-for-apt-mode-adds-webdav.html">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">为apt方式安装的nginx重新编译增加WebDAV</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+            
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2017;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+    <!-- Busuanzi -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>
