@@ -1,4 +1,6 @@
 # blog-hexo
+[![Build Status](https://drone.lincdn.top/api/badges/syfxlin/blog-source/status.svg)](https://drone.lincdn.top/syfxlin/blog-source)
+
 Otstar Lin的Hexo博客，由CI自动从WordPress源站同步。
 
 - WordPress源站：[https://blog.ixk.me](https://blog.ixk.me)
