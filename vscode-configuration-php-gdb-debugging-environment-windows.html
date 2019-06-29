@@ -283,7 +283,7 @@ window.oldVersion = [
     },
     
     "datePublished": "2018-09-06T17:20:06.000Z",
-    "dateModified": "2019-06-28T00:24:51.706Z",
+    "dateModified": "2019-06-29T00:25:37.764Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -544,13 +544,39 @@ window.oldVersion = [
 <blockquote>
 <p>其实是我刚配好,比较健忘,以后重新配置的时候方便</p>
 </blockquote>
-<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><h2 id="XAMPP-amp-XDebug"><a href="#XAMPP-amp-XDebug" class="headerlink" title="XAMPP&amp;XDebug"></a>XAMPP&amp;XDebug</h2><p>下载 <a href="https://www.apachefriends.org/xampp-files/7.2.9/xampp-win32-7.2.9-0-VC15-installer.exe" target="_blank" rel="noopener">XAMPP</a> 并安装记好安装路径,后面会用到 打开XAMPP开启Apache,获取PHP info,进入PHP info页面后直接全选复制,全部复制到 <a href="https://xdebug.org/wizard.php" target="_blank" rel="noopener">XDebug 检测网址</a> 中的输入框中,点击后网站会分析出你当前的 php 环境最适合的 xdebug 版本,并给出下载链接,下载完成后，将该文件复制到 php 的扩展目录中,即安装目录中的 ext 文件夹下 打开XAMPP,进行配置php.ini <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php01.png" alt> 编辑php.ini,在最下方添加以下代码,路径记得更改</p>
-<p>[xdebug]<br>zend_extension = “L:\XAMPP\php\ext\php_xdebug-2.6.1-7.2-vc15.dll”<br>xdebug.remote_enable = 1<br>xdebug.remote_autostart = 1</p>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><h2 id="XAMPP-amp-XDebug"><a href="#XAMPP-amp-XDebug" class="headerlink" title="XAMPP&amp;XDebug"></a>XAMPP&amp;XDebug</h2><p>下载 <a href="https://www.apachefriends.org/xampp-files/7.2.9/xampp-win32-7.2.9-0-VC15-installer.exe" target="_blank" rel="noopener">XAMPP</a> 并安装记好安装路径,后面会用到</p>
+<p>打开XAMPP开启Apache,获取PHP info,进入PHP info页面后直接全选复制,全部复制到 <a href="https://xdebug.org/wizard.php" target="_blank" rel="noopener">XDebug 检测网址</a> 中的输入框中,点击后网站会分析出你当前的 php 环境最适合的 xdebug 版本,并给出下载链接,下载完成后，将该文件复制到 php 的扩展目录中,即安装目录中的 ext 文件夹下</p>
+<p>打开XAMPP,进行配置php.ini</p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php01.png" alt></p>
+<p>编辑php.ini,在最下方添加以下代码,路径记得更改</p>
+<pre class="line-numbers highlight language-undefined"><code class="language-undefined">[xdebug] 
+zend_extension = "L:\XAMPP\php\ext\php_xdebug-2.6.1-7.2-vc15.dll"
+xdebug.remote_enable = 1 
+xdebug.remote_autostart = 1
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="VSCode"><a href="#VSCode" class="headerlink" title="VSCode"></a>VSCode</h2><p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php02.png" alt></p>
-<h1 id="配置VSCode"><a href="#配置VSCode" class="headerlink" title="配置VSCode"></a>配置VSCode</h1><p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php03.png" alt> <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php04.png" alt> <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php05.png" alt> 找到XAMPP的网站文件夹,即htdocs文件夹,在htdocs下创建你的工作区(文件夹),然后在VSCode中打开此文件夹,然后创建一个测试用的PHP文件</p>
-<p>&lt;?php<br>$a = 5;<br>$b = 5;<br>$c = 5;<br>$a = $a + $b;<br>$a = $a + $c;<br>echo $a;<br>?&gt;</p>
-<p>接着照着以下操作配置 <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php06.png" alt> <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php07.png" alt></p>
-<h4 id="至此VSCode-PHP调试环境就配置完成了-接下来就是重-坑-磅-逼-的断点调试技巧"><a href="#至此VSCode-PHP调试环境就配置完成了-接下来就是重-坑-磅-逼-的断点调试技巧" class="headerlink" title="至此VSCode PHP调试环境就配置完成了,接下来就是重(坑)磅(逼)的断点调试技巧"></a>至此VSCode PHP调试环境就配置完成了,接下来就是重(坑)磅(逼)的断点调试技巧</h4><h2 id="断点调试"><a href="#断点调试" class="headerlink" title="断点调试"></a>断点调试</h2><p>返回刚创建的php文件 <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php08.png" alt> <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php09.png" alt> <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php10.png" alt> <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php11.png" alt> <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php12.png" alt></p>
+<h1 id="配置VSCode"><a href="#配置VSCode" class="headerlink" title="配置VSCode"></a>配置VSCode</h1><p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php03.png" alt></p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php04.png" alt></p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php05.png" alt></p>
+<p>找到XAMPP的网站文件夹,即htdocs文件夹,在htdocs下创建你的工作区(文件夹),然后在VSCode中打开此文件夹,然后创建一个测试用的PHP文件</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token variable">$a</span> <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token variable">$b</span> <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token variable">$c</span> <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+<span class="token variable">$a</span> <span class="token operator">=</span> <span class="token variable">$a</span> <span class="token operator">+</span> <span class="token variable">$b</span><span class="token punctuation">;</span> 
+<span class="token variable">$a</span> <span class="token operator">=</span> <span class="token variable">$a</span> <span class="token operator">+</span> <span class="token variable">$c</span><span class="token punctuation">;</span>
+<span class="token keyword">echo</span> <span class="token variable">$a</span><span class="token punctuation">;</span>
+<span class="token delimiter">?></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>接着照着以下操作配置</p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php06.png" alt></p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php07.png" alt></p>
+<h4 id="至此VSCode-PHP调试环境就配置完成了-接下来就是重-坑-磅-逼-的断点调试技巧"><a href="#至此VSCode-PHP调试环境就配置完成了-接下来就是重-坑-磅-逼-的断点调试技巧" class="headerlink" title="至此VSCode PHP调试环境就配置完成了,接下来就是重(坑)磅(逼)的断点调试技巧"></a>至此VSCode PHP调试环境就配置完成了,接下来就是重(坑)磅(逼)的断点调试技巧</h4><h2 id="断点调试"><a href="#断点调试" class="headerlink" title="断点调试"></a>断点调试</h2><p>返回刚创建的php文件</p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php08.png" alt></p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php09.png" alt></p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php10.png" alt></p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php11.png" alt></p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-php12.png" alt></p>
 <h4 id="开始愉快的调试吧-逃"><a href="#开始愉快的调试吧-逃" class="headerlink" title="开始愉快的调试吧 (逃"></a>开始愉快的调试吧 (逃</h4>
                     </article>
                     
@@ -558,7 +584,7 @@ window.oldVersion = [
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-06-28");
+        var dateUpdate = Date.parse("2019-06-29");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -573,7 +599,7 @@ window.oldVersion = [
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2018-09-06T17:20:06.000Z" itemprop="datePublished">2018-09-07</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-06-28T00:24:51.706Z" itemprop="dateModified">2019-06-28</time>
+    , 最后修改于&nbsp;<time datetime="2019-06-29T00:25:37.764Z" itemprop="dateModified">2019-06-29</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">

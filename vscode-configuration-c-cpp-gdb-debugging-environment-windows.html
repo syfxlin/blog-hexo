@@ -277,7 +277,7 @@ window.oldVersion = [
     },
     
     "datePublished": "2018-09-04T04:23:40.000Z",
-    "dateModified": "2019-06-28T00:24:51.706Z",
+    "dateModified": "2019-06-29T00:25:37.764Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -551,6 +551,9 @@ window.oldVersion = [
 <li>点击<code>Apply</code>,等待安装完成,点击close</li>
 </ol>
 <p>至此GDB环境部分配置完成</p>
+<blockquote>
+<p>MinGW配置较为繁琐，可以考虑使用<a href="https://mingw-w64.org" target="_blank" rel="noopener">MinGW64</a>，MinGW64安装后就不需上方的配置，一路点击下一步即可。（但是还是要配置环境变量</p>
+</blockquote>
 <h2 id="添加环境变量"><a href="#添加环境变量" class="headerlink" title="添加环境变量"></a>添加环境变量</h2><ol>
 <li>进入设置,点击系统,然后选择关于,然后点击右侧系统信息</li>
 <li>在弹出的系统信息中,选中左栏高级系统设置,然后选中环境变量</li>
@@ -559,31 +562,102 @@ window.oldVersion = [
 <li>重启电脑</li>
 </ol>
 <h1 id="配置VSCode"><a href="#配置VSCode" class="headerlink" title="配置VSCode"></a>配置VSCode</h1><p>新建一个<code>cpp</code>文件,写上以下测试代码</p>
-<p>#include <iostream><br>int main()<br>{<br>    using namespace std;<br>    cout &lt;&lt; “Test 1”;<br>    cin.get ();<br>    return 0;<br>}</iostream></p>
+<pre class="line-numbers highlight language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    using namespace std<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Test 1"</span><span class="token punctuation">;</span>
+    cin<span class="token punctuation">.</span><span class="token function">get</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>Ctrl+S保存,然后按F5,VSCode会在上方弹出选择环境,选择<code>C++(GDB/LLDB)</code>,然后将以下代码覆盖至<code>launch.json</code>,注意<code>miDebuggerPath</code>路径要对应</p>
-<p>{<br>    // Use IntelliSense to learn about possible attributes.<br>    // Hover to view descriptions of existing attributes.<br>    // For more information, visit: <a href="https://go.microsoft.com/fwlink/?linkid=830387" target="_blank" rel="noopener">https://go.microsoft.com/fwlink/?linkid=830387</a><br>    “version”: “0.2.0”,<br>    “configurations”: [<br>        {<br>            “name”: “(gdb) Launch”,<br>            “type”: “cppdbg”,<br>            “request”: “launch”,<br>            “program”: “${fileDirname}/${fileBasenameNoExtension}.exe”,<br>            “args”: [],<br>            “stopAtEntry”: false,<br>            “cwd”: “${workspaceFolder}”,<br>            “externalConsole”: true,<br>            “MIMode”: “gdb”,<br>            “miDebuggerPath”: “C:/MinGW/bin/gdb.exe”,<br>            “setupCommands”: [<br>                {<br>                    “description”: “Enable pretty-printing for gdb”,<br>                    “text”: “-enable-pretty-printing”,<br>                    “ignoreFailures”: true<br>                }<br>            ],<br>            “preLaunchTask”: “Build”<br>        }<br>    ]</p>
-<p>}</p>
+<pre class="line-numbers highlight language-json"><code class="language-json"><span class="token punctuation">{</span>
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information<span class="token punctuation">,</span> visit<span class="token operator">:</span> https<span class="token operator">:</span>//go.microsoft.com/fwlink/?linkid=<span class="token number">830387</span>
+    <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"0.2.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"configurations"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"(gdb) Launch"</span><span class="token punctuation">,</span>
+            <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"cppdbg"</span><span class="token punctuation">,</span>
+            <span class="token property">"request"</span><span class="token operator">:</span> <span class="token string">"launch"</span><span class="token punctuation">,</span>
+            <span class="token property">"program"</span><span class="token operator">:</span> <span class="token string">"${fileDirname}/${fileBasenameNoExtension}.exe"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"stopAtEntry"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+            <span class="token property">"cwd"</span><span class="token operator">:</span> <span class="token string">"${workspaceFolder}"</span><span class="token punctuation">,</span>
+            <span class="token property">"externalConsole"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+            <span class="token property">"MIMode"</span><span class="token operator">:</span> <span class="token string">"gdb"</span><span class="token punctuation">,</span>
+            <span class="token property">"miDebuggerPath"</span><span class="token operator">:</span> <span class="token string">"C:/MinGW/bin/gdb.exe"</span><span class="token punctuation">,</span>
+            <span class="token property">"setupCommands"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token punctuation">{</span>
+                    <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">"Enable pretty-printing for gdb"</span><span class="token punctuation">,</span>
+                    <span class="token property">"text"</span><span class="token operator">:</span> <span class="token string">"-enable-pretty-printing"</span><span class="token punctuation">,</span>
+                    <span class="token property">"ignoreFailures"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"preLaunchTask"</span><span class="token operator">:</span> <span class="token string">"Build"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>回到新建的<code>cpp</code>中,按下F5,会显示找不到任务,点击配置任务,点击使用模板创建,然后点击带有<code>Other</code>的选项,用以下代码覆盖<code>tasks.json</code></p>
-<p>{<br>    “version”: “2.0.0”,<br>    “tasks”: [<br>        {<br>            “label”: “Build”,<br>            “command”: “g++”,<br>            “args”: [<br>                “-g”,<br>                “-Wall”,<br>                “-std=c++11”,<br>                “-lm”,<br>                “${file}”,<br>                “-o”,<br>                “${fileDirname}/${fileBasenameNoExtension}.exe”<br>            ],<br>            “presentation”: {<br>                “reveal”: “always”,<br>                “echo”: false,<br>                “focus”: true<br>            },<br>            “problemMatcher”: {<br>                “owner”: “cpp”,<br>                “fileLocation”: “absolute”,<br>                “pattern”: {<br>                    “regexp”: “^(.<em>):(\\d+):(\\d+):\\s+(error):\\s+(.</em>)$”,<br>                    “file”: 1,<br>                    “line”: 2,<br>                    “column”: 3,<br>                    “severity”: 4,<br>                    “message”: 5<br>                }<br>            }<br>        },</p>
-<pre><code>    {
-        &quot;label&quot;: &quot;Run&quot;,
-        &quot;type&quot;: &quot;shell&quot;,
-        &quot;dependsOn&quot;: &quot;Build&quot;,
-        &quot;command&quot;: &quot;${fileDirname}/${fileBasenameNoExtension}.exe&quot;,
-        &quot;args&quot;: \[\],
-        &quot;presentation&quot;: {
-            &quot;reveal&quot;: &quot;always&quot;,
-            &quot;focus&quot;: true
-        },
-        &quot;problemMatcher&quot;: \[\],
-        &quot;group&quot;: {
-            &quot;kind&quot;: &quot;test&quot;,
-            &quot;isDefault&quot;: true
-        }
-    }
-\]
-</code></pre><p>}</p>
-<p>Ctrl+S保存,然后回到新建的<code>cpp</code>,按下F5,程序就会被编译运行,至此GDB调试环境便配置完成. 对了,C/C++也是可以进行断点调试的,具体方法可以参考 <a href="https://blog.ixk.me/vscode-configuration-php-gdb-debugging-environment-windows.html" target="_blank" rel="noopener">VSCode配置PHP调试环境[Windows]</a></p>
+<pre class="line-numbers highlight language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"2.0.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"tasks"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"label"</span><span class="token operator">:</span> <span class="token string">"Build"</span><span class="token punctuation">,</span>
+            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"g++"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                <span class="token string">"-g"</span><span class="token punctuation">,</span>
+                <span class="token string">"-Wall"</span><span class="token punctuation">,</span>
+                <span class="token string">"-std=c++11"</span><span class="token punctuation">,</span>
+                <span class="token string">"-lm"</span><span class="token punctuation">,</span>
+                <span class="token string">"${file}"</span><span class="token punctuation">,</span>
+                <span class="token string">"-o"</span><span class="token punctuation">,</span>
+                <span class="token string">"${fileDirname}/${fileBasenameNoExtension}.exe"</span>
+            <span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"presentation"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"reveal"</span><span class="token operator">:</span> <span class="token string">"always"</span><span class="token punctuation">,</span>
+                <span class="token property">"echo"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+                <span class="token property">"focus"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">"problemMatcher"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"owner"</span><span class="token operator">:</span> <span class="token string">"cpp"</span><span class="token punctuation">,</span>
+                <span class="token property">"fileLocation"</span><span class="token operator">:</span> <span class="token string">"absolute"</span><span class="token punctuation">,</span>
+                <span class="token property">"pattern"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                    <span class="token property">"regexp"</span><span class="token operator">:</span> <span class="token string">"^(.*):(\\d+):(\\d+):\\s+(error):\\s+(.*)$"</span><span class="token punctuation">,</span>
+                    <span class="token property">"file"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                    <span class="token property">"line"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+                    <span class="token property">"column"</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+                    <span class="token property">"severity"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+                    <span class="token property">"message"</span><span class="token operator">:</span> <span class="token number">5</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+        <span class="token punctuation">{</span>
+            <span class="token property">"label"</span><span class="token operator">:</span> <span class="token string">"Run"</span><span class="token punctuation">,</span>
+            <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"shell"</span><span class="token punctuation">,</span>
+            <span class="token property">"dependsOn"</span><span class="token operator">:</span> <span class="token string">"Build"</span><span class="token punctuation">,</span>
+            <span class="token property">"command"</span><span class="token operator">:</span> <span class="token string">"${fileDirname}/${fileBasenameNoExtension}.exe"</span><span class="token punctuation">,</span>
+            <span class="token property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"presentation"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"reveal"</span><span class="token operator">:</span> <span class="token string">"always"</span><span class="token punctuation">,</span>
+                <span class="token property">"focus"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token property">"problemMatcher"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token property">"group"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+                <span class="token property">"kind"</span><span class="token operator">:</span> <span class="token string">"test"</span><span class="token punctuation">,</span>
+                <span class="token property">"isDefault"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Ctrl+S保存,然后回到新建的<code>cpp</code>,按下F5,程序就会被编译运行,至此GDB调试环境便配置完成.</p>
+<p>对了,C/C++也是可以进行断点调试的,具体方法可以参考 <a href="https://blog.ixk.me/vscode-configuration-php-gdb-debugging-environment-windows.html" target="_blank" rel="noopener">VSCode配置PHP调试环境[Windows]</a></p>
 
                     </article>
                     
@@ -591,7 +665,7 @@ window.oldVersion = [
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-06-28");
+        var dateUpdate = Date.parse("2019-06-29");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -606,7 +680,7 @@ window.oldVersion = [
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2018-09-04T04:23:40.000Z" itemprop="datePublished">2018-09-04</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-06-28T00:24:51.706Z" itemprop="dateModified">2019-06-28</time>
+    , 最后修改于&nbsp;<time datetime="2019-06-29T00:25:37.764Z" itemprop="dateModified">2019-06-29</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">

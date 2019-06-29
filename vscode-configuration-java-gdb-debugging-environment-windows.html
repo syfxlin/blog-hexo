@@ -277,7 +277,7 @@ window.oldVersion = [
     },
     
     "datePublished": "2018-11-06T12:04:27.000Z",
-    "dateModified": "2019-06-28T00:24:51.706Z",
+    "dateModified": "2019-06-29T00:25:37.764Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -524,7 +524,7 @@ window.oldVersion = [
                     
                         
                             <div id="post-toc">
-                                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#环境准备"><span class="post-toc-number">1.</span> <span class="post-toc-text">环境准备</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JDK"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">JDK</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#VSCode"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">VSCode</span></a></li></ol></li></ol>
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#环境准备"><span class="post-toc-number">1.</span> <span class="post-toc-text">环境准备</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JDK"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">JDK</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#VSCode"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">VSCode</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2019-06-29更新"><span class="post-toc-number">1.2.0.1.</span> <span class="post-toc-text">2019-06-29更新</span></a></li></ol></li></ol></li></ol>
                             </div>
                         
                     
@@ -532,10 +532,28 @@ window.oldVersion = [
                         <blockquote>
 <p>其实Java环境我很早就开始配置了，但是一直有问题，今天又手贱尝试了一下，没想到就成功了，即时更新博文是我的习惯 （防止被打死，赶紧逃(/ω＼)</p>
 </blockquote>
-<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><h2 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h2><p>下载 <a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">JDK</a> 并进行安装，我比较推荐安装Java SE8，另外下载时记得点上Accept License Agreement，否则点击不会反应 <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-01.png" alt="vscode-java-01"> 打开PowerShell或者CMD，输入 <code>java -version</code> 和 <code>javac -version</code>如果没提示错误信息就代表JDK配置成功 <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-02.png" alt="vscode-java-02"></p>
-<h2 id="VSCode"><a href="#VSCode" class="headerlink" title="VSCode"></a>VSCode</h2><p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-03.png" alt="vscode-java-03"> 按下 <code>Shift+Ctrl+P</code>进入命令面板 <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-04.png" alt="vscode-java-04"> <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-05.png" alt="vscode-java-05"> <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-06.png" alt="vscode-java-06"> <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-07.png" alt="vscode-java-07"> 然后在src文件夹内创建一个 <code>HelloWorld.java</code>文件</p>
-<p>class hello {<br>    public static void main(String[] args) {<br>        System.out.println(“Hello World!”);<br>    }<br>}</p>
-<p>然后点击<code>F5</code>，就会发现在父文件夹下多了一个<code>.vscode</code>文件夹，里面有一个<code>launch.json</code>文件，不进行配置的话也可以进行运行，但你是否发现没有出现界面，这时还需要修改一个值 <img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-08.png" alt="vscode-java-08"> 这时再次点击<code>F5</code>就可以正常调试了</p>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><h2 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h2><p>下载 <a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">JDK</a> 并进行安装，我比较推荐安装Java SE8，另外下载时记得点上Accept License Agreement，否则点击不会反应</p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-01.png" alt="vscode-java-01"></p>
+<p>打开PowerShell或者CMD，输入 <code>java -version</code> 和 <code>javac -version</code>如果没提示错误信息就代表JDK配置成功</p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-02.png" alt="vscode-java-02"></p>
+<p>正常情况下JDK安装时是不会自动配置环境变量的，所以<code>javac -version</code>一般都会提示错误，这时只需将JDK目录下的bin目录添加到环境变量即可，具体操作请自行搜索或者查看<a href="https://blog.ixk.me/vscode-configuration-c-cpp-gdb-debugging-environment-windows.html" target="_blank" rel="noopener">VSCode配置C/C++ GDB调试环境[Windows]</a></p>
+<h2 id="VSCode"><a href="#VSCode" class="headerlink" title="VSCode"></a>VSCode</h2><p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-03.png" alt="vscode-java-03"></p>
+<p>按下 <code>Shift+Ctrl+P</code>进入命令面板</p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-04.png" alt="vscode-java-04"></p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-05.png" alt="vscode-java-05"></p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-06.png" alt="vscode-java-06"></p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-07.png" alt="vscode-java-07"></p>
+<p>然后在src文件夹内创建一个 <code>HelloWorld.java</code>文件</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">hello</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Hello World!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后点击<code>F5</code>，就会发现在父文件夹下多了一个<code>.vscode</code>文件夹，里面有一个<code>launch.json</code>文件，不进行配置的话也可以进行运行，但你是否发现没有出现界面，这时还需要修改一个值</p>
+<p><img src="https://static.yecdn.com/syfxlin/blog-img/vscode-java-08.png" alt="vscode-java-08"></p>
+<p>这时再次点击<code>F5</code>就可以正常调试了</p>
+<h4 id="2019-06-29更新"><a href="#2019-06-29更新" class="headerlink" title="2019-06-29更新"></a>2019-06-29更新</h4><p>VSCode的Java插件包现在似乎添加了自动安装JDK的功能和一些常用函数的补全</p>
 
                     </article>
                     
@@ -543,7 +561,7 @@ window.oldVersion = [
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-06-28");
+        var dateUpdate = Date.parse("2019-06-29");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -558,7 +576,7 @@ window.oldVersion = [
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2018-11-06T12:04:27.000Z" itemprop="datePublished">2018-11-06</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-06-28T00:24:51.706Z" itemprop="dateModified">2019-06-28</time>
+    , 最后修改于&nbsp;<time datetime="2019-06-29T00:25:37.764Z" itemprop="dateModified">2019-06-29</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">

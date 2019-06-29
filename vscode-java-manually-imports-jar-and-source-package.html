@@ -81,7 +81,8 @@ window.oldVersion = [
 
 <!-- Description -->
 <meta name="description" content="
-之前有一篇文章讲述了如何配置VSCode的Java调试环境，博主我从配置成功使用到现在一直只使用了JDK自带的包，直到昨天由于有一个项目需要进行邮件发送，需要引入Mail包，网上的教程大多是在JDK中引...">
+使用Maven等包管理的可以不用向下看了，以下只讲述如何为普通Java项目导入单独的jar包
+之前有一篇文章讲述了如何配置VSCode的Java调试环境，博主我从配置成功使用到现在一直只使...">
 
 <!-- Keywords -->
 <meta name="keywords" content=", Java, VSCode, 开发环境">
@@ -222,7 +223,8 @@ window.oldVersion = [
 <meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
 
 <meta property="og:description" content="
-之前有一篇文章讲述了如何配置VSCode的Java调试环境，博主我从配置成功使用到现在一直只使用了JDK自带的包，直到昨天由于有一个项目需要进行邮件发送，需要引入Mail包，网上的教程大多是在JDK中引...">
+使用Maven等包管理的可以不用向下看了，以下只讲述如何为普通Java项目导入单独的jar包
+之前有一篇文章讲述了如何配置VSCode的Java调试环境，博主我从配置成功使用到现在一直只使...">
 
 <meta name="twitter:card" content="summary">
 
@@ -273,7 +275,7 @@ window.oldVersion = [
     },
     
     "datePublished": "2018-12-30T08:45:59.000Z",
-    "dateModified": "2019-06-28T00:24:51.710Z",
+    "dateModified": "2019-06-29T00:25:37.764Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -300,7 +302,8 @@ window.oldVersion = [
     
     "keywords": ", Java, VSCode, 开发环境",
     "description": "
-之前有一篇文章讲述了如何配置VSCode的Java调试环境，博主我从配置成功使用到现在一直只使用了JDK自带的包，直到昨天由于有一个项目需要进行邮件发送，需要引入Mail包，网上的教程大多是在JDK中引..."
+使用Maven等包管理的可以不用向下看了，以下只讲述如何为普通Java项目导入单独的jar包
+之前有一篇文章讲述了如何配置VSCode的Java调试环境，博主我从配置成功使用到现在一直只使..."
 }
 </script>
 
@@ -524,11 +527,11 @@ window.oldVersion = [
                     
                     <article id="post-content">
                         <blockquote>
+<p>使用Maven等包管理的可以不用向下看了，以下只讲述如何为普通Java项目导入单独的jar包</p>
 <p>之前有一篇文章讲述了如何配置VSCode的Java调试环境，博主我从配置成功使用到现在一直只使用了JDK自带的包，直到昨天由于有一个项目需要进行邮件发送，需要引入Mail包，网上的教程大多是在JDK中引入jar包，但是这时VSCode会报一大堆莫名奇妙的错误，然而实际运行JVM却没有报错，直到今天学习JDBC时Eclipse导入jar包时才发现可以在每个Java项目中独立导入jar包，然而VSCode又该如何导入jar包？</p>
 </blockquote>
 <h1 id="探索"><a href="#探索" class="headerlink" title="探索"></a>探索</h1><p>在之前的教程中我的方案时利用一个插件来创建Java项目，而创建的Java项目就是Eclipse项目（VSCode支持Eclipse项目），创建项目后我们看到在项目文件夹中有两个子文件夹，一个用来存源码，一个用来存class文件，另外还有两个文件一个是<code>.classpath</code>文件，一个是<code>.project</code>文件，通过从Eclipse导出添加过jar和源码的项目可以发现，在<code>.classpath</code>的文件中多了一行配置</p>
-<pre class="line-numbers highlight language-xhtml"><code class="language-xhtml"><?xml version="1.0" encoding="UTF-8"?>
-<classpath>
+<pre class="line-numbers highlight language-xhtml"><code class="language-xhtml"><classpath>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
     <attributes>
       <attribute name="module" value="true">
@@ -539,12 +542,18 @@ window.oldVersion = [
   <!--多出的一行-->
   <classpathentry kind="lib" path="lib/mysql-connector-java-8.0.13.jar" sourcepath="lib/sources/mysql-connector-java-8.0.13.zip">
 </classpathentry></classpathentry></classpathentry></classpath>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>从中可以看到，在VSCode中引入jar包只需将jar的路径填入到path中，源码路径填入到sourcepath中即可</p>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>第一步：在项目文件夹中添加一个lib目录，一般引入的jar包都存储在lib目录，方便后续操作 第二步：将要引入的jar包复制到lib目录下 第三步：修改<code>.classpath</code>文件，增加一行classpathentry，并填入正确的路径，可以填相对路径，也可以填绝对路径</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>第一步：在项目文件夹中添加一个lib目录，一般引入的jar包都存储在lib目录，方便后续操作</p>
+<p>第二步：将要引入的jar包复制到lib目录下</p>
+<p>第三步：修改<code>.classpath</code>文件，增加一行classpathentry，并填入正确的路径，可以填相对路径，也可以填绝对路径</p>
 <pre class="line-numbers highlight language-xhtml"><code class="language-xhtml"><classpathentry kind="lib" path="lib/mysql-connector-java-8.0.13.jar" sourcepath="lib/sources/mysql-connector-java-8.0.13.zip">
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></classpathentry></code></pre>
-<p>若不导入源码只需将sourcepath属性删除即可 若要导入源码请继续往下 第四步：在lib目录中新建一个sources文件夹，然后将该jar包的源码复制到该文件夹即可 第五步：在该jar包的classpathentry标签中增加sourcepath属性，并填入正确的路径 第六步：Ctrl+S保存，然后回到java文件，此时一堆莫名奇妙的报错应该都已经消失了，若还存在，请重新启动VSCode或者重置VSCode中的Java环境</p>
+<p>若不导入源码只需将sourcepath属性删除即可</p>
+<p>若要导入源码请继续往下</p>
+<p>第四步：在lib目录中新建一个sources文件夹，然后将该jar包的源码复制到该文件夹即可</p>
+<p>第五步：在该jar包的classpathentry标签中增加sourcepath属性，并填入正确的路径</p>
+<p>第六步：Ctrl+S保存，然后回到java文件，此时一堆莫名奇妙的报错应该都已经消失了，若还存在，请重新启动VSCode或者重置VSCode中的Java环境</p>
 <h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>这时有些人可能会吐槽这么麻烦为什么不换其他的IDE，因为已经掉入了VSCode的坑里爬不出来了，各种神奇的插件，非常快的启动速度，以及多种编程语言快速切换，博主我有多个工作区，比如C和Java的，切换时只需关闭目前的工作区然后切换另一个工作区，VSCode就会将该语言的编译环境自动加载，同时VSCode的代码补全也是极为方便的，基本只需要打两个字母然后按下Tab键，VSCode就能完成正确的补全，这时就要吐槽一下Eclipse反人类的补全快捷键，大多编辑器和IDE的补全快捷键都是Tab键，然而Eclipse却是不同寻常的Enter键，用起来实在难受，然而学校机房就是使用Eclipse（捂脸</p>
 
                     </article>
@@ -553,7 +562,7 @@ window.oldVersion = [
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-06-28");
+        var dateUpdate = Date.parse("2019-06-29");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -568,7 +577,7 @@ window.oldVersion = [
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2018-12-30T08:45:59.000Z" itemprop="datePublished">2018-12-30</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-06-28T00:24:51.710Z" itemprop="dateModified">2019-06-28</time>
+    , 最后修改于&nbsp;<time datetime="2019-06-29T00:25:37.764Z" itemprop="dateModified">2019-06-29</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
