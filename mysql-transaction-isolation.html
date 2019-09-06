@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>MySQL事务隔离 | 青空之蓝</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="icon" type="image/ico" href="/image/favicon.png">
+
+
+
+
+
+
+<!-- Android Chrome Color -->
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="事务（Transaction）是由一系列对系统中数据进行访问与更新的操作所组成的一个程序执行逻辑单元。 或许这么说你可能难以理解，那我们举个经典例子来说明事务的用途吧：
+用户A向用户B转账，我们需要进行以下操作：从...">
+
+<!-- Keywords -->
+<meta name="keywords" content=", Mysql, 数据库">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+    <!-- prism.css -->
+    
+    <!-- prism.line_number -->
+    
+        
+            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
+        
+    
+    <!-- prism.theme -->
+    
+        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
+    
+
+
+
+
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="青空之蓝">
+<meta name="msapplication-starturl" content="https://hexo.ixk.me">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="青空之蓝">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="MySQL事务隔离 | 青空之蓝">
+<meta property="og:site_name" content="青空之蓝">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://hexo.ixk.me/mysql-transaction-isolation.html">
+<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+
+<meta property="og:description" content="事务（Transaction）是由一系列对系统中数据进行访问与更新的操作所组成的一个程序执行逻辑单元。 或许这么说你可能难以理解，那我们举个经典例子来说明事务的用途吧：
+用户A向用户B转账，我们需要进行以下操作：从...">
+
+<meta name="twitter:card" content="summary">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2019-09-05T15:06:22.000Z">
+    <meta property="article:modified_time" content="2019-09-05T15:06:22.000Z">
+    <meta property="article:author" content="Otstar Lin">
+    <meta property="og:article:tag" content=", Mysql, 数据库"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/mysql-transaction-isolation.html">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/mysql-transaction-isolation.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/mysql-transaction-isolation.html"
+    },
+    "headline": "MySQL事务隔离 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2019-09-05T15:06:22.000Z",
+    "dateModified": "2019-09-06T00:13:26.086Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", Mysql, 数据库",
+    "description": "事务（Transaction）是由一系列对系统中数据进行访问与更新的操作所组成的一个程序执行逻辑单元。 或许这么说你可能难以理解，那我们举个经典例子来说明事务的用途吧：
+用户A向用户B转账，我们需要进行以下操作：从..."
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=MySQL事务隔离" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=MySQL事务隔离&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=MySQL事务隔离" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB4UlEQVR42u3a246DMAyE4b7/S3dvEYpnxpSViPm5WWlLyYdkpfHh833g9QEFChSoBeojrvLLh8+O956/t7pPrQNqDqqzcLWAujdeB9Qo1HmB1cOqz1bBrnCrdUC9F1XdrzZLUKA6Qb3aMCskqHehqge6YFWb7L+dEkA9HqUO9Hf+vS2bAfVolC06BEnB+X6XzP5cdQH1aJQKRHe46yYZroACagYqCe47EosoYQU1AqUOX9UhLjnMne9Pkg1Qc1DqQW6R6kVUUhGfPEFtjXKBmAS62kiTAyCoOahfGkVps0g9B9Q8VLVppk1v1dxu/Q/UCJQrvLqN1S1WJRBRMgpqS5RKGF2hQgHVS8bFfVBbopJkoNuU7Ax/gZqHSgocaVPJFTps0IMag3JDD6pgqzbT5OVAzUMlRa80WU2KuVGBA9TWqOSQ74ZvqgWTF7A/yKC2R3Uaiq6hlAzgRIEOaltUt0l0ZQCnNcEBahQqDfIU4DZXUHNQaXKQDHS5BpJNVkGNQHWaQu5HuzMEFmXIoLZFucNZWszoNCQvDwqC2gbVCUy3WDdhAPVeVDfw3Y/0LYEOakuUW6hThJUbNqhRqKSIrxJKmWReGcABtTXKNa3TQcHOoKqtuoDaFvWkCxQoUKAO1x83czGAhEJIIwAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">MySQL事务隔离</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2019-09-05</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=MySQL事务隔离&url=https://hexo.ixk.me/mysql-transaction-isolation.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=MySQL事务隔离&url=https://hexo.ixk.me/mysql-transaction-isolation.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/mysql-transaction-isolation.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/mysql-transaction-isolation.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/mysql-transaction-isolation.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/mysql-transaction-isolation.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/mysql-transaction-isolation.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB4UlEQVR42u3a246DMAyE4b7/S3dvEYpnxpSViPm5WWlLyYdkpfHh833g9QEFChSoBeojrvLLh8+O956/t7pPrQNqDqqzcLWAujdeB9Qo1HmB1cOqz1bBrnCrdUC9F1XdrzZLUKA6Qb3aMCskqHehqge6YFWb7L+dEkA9HqUO9Hf+vS2bAfVolC06BEnB+X6XzP5cdQH1aJQKRHe46yYZroACagYqCe47EosoYQU1AqUOX9UhLjnMne9Pkg1Qc1DqQW6R6kVUUhGfPEFtjXKBmAS62kiTAyCoOahfGkVps0g9B9Q8VLVppk1v1dxu/Q/UCJQrvLqN1S1WJRBRMgpqS5RKGF2hQgHVS8bFfVBbopJkoNuU7Ax/gZqHSgocaVPJFTps0IMag3JDD6pgqzbT5OVAzUMlRa80WU2KuVGBA9TWqOSQ74ZvqgWTF7A/yKC2R3Uaiq6hlAzgRIEOaltUt0l0ZQCnNcEBahQqDfIU4DZXUHNQaXKQDHS5BpJNVkGNQHWaQu5HuzMEFmXIoLZFucNZWszoNCQvDwqC2gbVCUy3WDdhAPVeVDfw3Y/0LYEOakuUW6hThJUbNqhRqKSIrxJKmWReGcABtTXKNa3TQcHOoKqtuoDaFvWkCxQoUKAO1x83czGAhEJIIwAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ACID特性"><span class="post-toc-number">1.</span> <span class="post-toc-text">ACID特性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-原子性"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1. 原子性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-一致性"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2. 一致性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-隔离性"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">3. 隔离性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-持久性"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">4. 持久性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#隔离性和隔离级别"><span class="post-toc-number">2.</span> <span class="post-toc-text">隔离性和隔离级别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#隔离性"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">隔离性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#隔离级别"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">隔离级别</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#读未提交（Read-uncommitted）"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">读未提交（Read uncommitted）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#读提交（Read-committed）"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">读提交（Read committed）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#重复读（Repeatable-read）"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">重复读（Repeatable read）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#序列化（Serializable）"><span class="post-toc-number">2.2.4.</span> <span class="post-toc-text">序列化（Serializable）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#简单说一下事务的问题"><span class="post-toc-number">2.2.5.</span> <span class="post-toc-text">简单说一下事务的问题</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#简单整理一下各种隔离级别可避免的问题"><span class="post-toc-number">2.2.6.</span> <span class="post-toc-text">简单整理一下各种隔离级别可避免的问题</span></a></li></ol></li></ol></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <p>事务（Transaction）是由一系列对系统中数据进行访问与更新的操作所组成的一个程序执行逻辑单元。 或许这么说你可能难以理解，那我们举个经典例子来说明事务的用途吧：</p>
+<p>用户A向用户B转账，我们需要进行以下操作：从A账号中把余额读出来。对A账号做减法操作。把结果写回A账号中。从B账号中把余额读出来。对B账号做加法操作。把结果写回B账号中。在这些操作中需要保证这些操作是一体的要么都成功做完，要么都不成功。 为了解决这种问题这也就是<code>事务</code>诞生的背景。</p>
+<h2 id="ACID特性"><a href="#ACID特性" class="headerlink" title="ACID特性"></a><strong>ACID特性</strong></h2><p>数据库事务拥有以下4大特性： <strong>原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability</strong>）</p>
+<h3 id="1-原子性"><a href="#1-原子性" class="headerlink" title="1. 原子性"></a><strong>1. 原子性</strong></h3><p>原子性是指事务是一个<strong>不可再分割的工作单元</strong>，事务中的操作要么都发生，要么都不发生。</p>
+<p>简单来说就是操作成功了就成功了，一旦操作失败了就会放弃事务中已经执行的操作，回到事务刚开始的状态。</p>
+<h3 id="2-一致性"><a href="#2-一致性" class="headerlink" title="2. 一致性"></a><strong>2. 一致性</strong></h3><p>一致性是指在<strong>事务开始之前和事务结束以后</strong>，<strong>数据库的完整性约束没有被破坏</strong>。这是说数据库事务不能破坏<strong>关系数据的完整性</strong>以及<strong>业务逻辑上的一致性</strong>。</p>
+<p>一致性就是说不管操作是否成功，总的数据不会发生改变，即A给B转账，A和B的总金额不发生变化。</p>
+<h3 id="3-隔离性"><a href="#3-隔离性" class="headerlink" title="3. 隔离性"></a><strong>3. 隔离性</strong></h3><p><strong>多个事务并发访问时，事务之间是隔离的</strong>，一个事务不应该影响其它事务运行效果。</p>
+<p>如果A在转账1亿给B（事务1），同时C又在转账3亿给A（事务2），不管事务1和事务2谁先执行完毕，最终结果必须是A账户增加2亿，而不是3亿，B增加1亿，C减少3亿。</p>
+<p>事务最复杂问题都是由事务隔离性引起的。完全的隔离性是不现实的，完全的隔离性(序列化)要求数据库同一时间只执行一条事务，这样会严重影响性能。</p>
+<h3 id="4-持久性"><a href="#4-持久性" class="headerlink" title="4. 持久性"></a><strong>4. 持久性</strong></h3><p>这是最好理解的一个特性：持久性，意味着在事务完成以后，<strong>该事务所对数据库所作的更改便持久的保存在数据库之中，并不会被回滚。</strong>（完成的事务是<strong>系统永久的部分</strong>，对系统的影响是永久性的，该修改即使出现致命的系统故障也将一直保持）</p>
+<h2 id="隔离性和隔离级别"><a href="#隔离性和隔离级别" class="headerlink" title="隔离性和隔离级别"></a>隔离性和隔离级别</h2><h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><p>隔离性是通过锁实现的，当一个事务对某项数据进行更新操作的时候就会对数据加锁，从而防止其他事务对该数据的影响，锁的级别一般有3种，全局锁，表锁，行锁，MySQL中的InnoDB支持以上的三种锁，MyISAM不支持行锁。锁获取的时机是事务执行的第一句才开始锁住数据的，并不是在数据开启的时候获取的，当事务提交成功后才会释放锁。</p>
+<h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><p>隔离级别有4种从低到高分别是<strong>读未提交（Read uncommitted）、读提交（Read committed）、重复读（Repeatable read）、序列化（Serializable）</strong>。</p>
+<h4 id="读未提交（Read-uncommitted）"><a href="#读未提交（Read-uncommitted）" class="headerlink" title="读未提交（Read uncommitted）"></a><strong>读未提交（Read uncommitted）</strong></h4><p>从名称中就可以看出，读 未提交，即一个事务可以读另一个事务未提交的数据，简单来说就是一个事务修改了某个数据当它还没提交的时候，另一个事务读取该数据的时候会读取到修改后的数据，即使修改的事务还没有提交。这种隔离级别解决了<strong>更新丢失</strong>，一事务<strong>写</strong>时其他事务<strong>可读不可写</strong>。</p>
+<h4 id="读提交（Read-committed）"><a href="#读提交（Read-committed）" class="headerlink" title="读提交（Read committed）"></a><strong>读提交（Read committed）</strong></h4><p>从名称也可以看出来，读 提交，一个事务要等另一个事务提交后才能读取数据，即事务期间独占数据，其他数据不能对该数据进行读写操作。这种级别解决了<strong>脏读和更新丢失</strong>，一事务<strong>写</strong>时其他事务<strong>不可读写</strong>。</p>
+<h4 id="重复读（Repeatable-read）"><a href="#重复读（Repeatable-read）" class="headerlink" title="重复读（Repeatable read）"></a><strong>重复读（Repeatable read）</strong></h4><p>这个从名称应该是无法看出来了，重复读即一个事务重复读的数据是相同的，就是当一个事务对数据进行读操作的时候其他事务不能对其进行修改但可读。这种隔离级别解决了<strong>脏读，更新丢失和不可重复读</strong>，一事务<strong>读</strong>时其他事务<strong>可读不可写</strong>。</p>
+<h4 id="序列化（Serializable）"><a href="#序列化（Serializable）" class="headerlink" title="序列化（Serializable）"></a><strong>序列化（Serializable）</strong></h4><p>这是最高的隔离级别，所有的事务只能一个接一个的执行，可以避免<strong>脏读、不可重复读与幻读</strong>。但是这种事务隔离级别效率低下，比较耗数据库性能，一般不使用。</p>
+<h4 id="简单说一下事务的问题"><a href="#简单说一下事务的问题" class="headerlink" title="简单说一下事务的问题"></a>简单说一下事务的问题</h4><ul>
+<li><strong>更新丢失：</strong>当事务1更新失败时会回滚数据，而在回滚之前事务2若成功更新数据，则事务2更新成功后的数据会被回滚覆盖，造成更新丢失。</li>
+<li><strong>脏读：</strong>当事务1读取了事务2未提交的数据，而事务2若失败回滚数据了，则事务1读取到是数据就是无中生有的数据，即脏数据</li>
+<li><strong>不可重复读：</strong>事务1读取某个数据后，事务2对其做了修改，当事务1再次读该数据时得到与前一次不同的值。</li>
+<li><strong>幻读：</strong>事务1读取在读取某范围数据时，事务2插入一条数据，当事务1再次数据这个范围数据时就不一样了，出现了一些幻数据</li>
+</ul>
+<h4 id="简单整理一下各种隔离级别可避免的问题"><a href="#简单整理一下各种隔离级别可避免的问题" class="headerlink" title="简单整理一下各种隔离级别可避免的问题"></a>简单整理一下各种隔离级别可避免的问题</h4><p><strong>更新丢失</strong></p>
+<p><strong>脏读</strong></p>
+<p><strong>不可重复读</strong></p>
+<p><strong>幻读</strong></p>
+<p><strong>读提交（Read committed）</strong></p>
+<p>避免</p>
+<p><strong>读提交（Read committed）</strong></p>
+<p>避免</p>
+<p>避免</p>
+<p><strong>重复读（Repeatable read）</strong></p>
+<p>避免</p>
+<p>避免</p>
+<p>避免</p>
+<p><strong>序列化（Serializable）</strong></p>
+<p>避免</p>
+<p>避免</p>
+<p>避免</p>
+<p>避免</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2019-09-06");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-09-05T15:06:22.000Z" itemprop="datePublished">2019-09-05</time>
+
+    , 最后修改于&nbsp;<time datetime="2019-09-06T00:13:26.086Z" itemprop="dateModified">2019-09-06</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+
+<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href="/tags/Mysql/" rel="tag">#&nbsp;Mysql</a>
+
+<a class="post-tags-list-item" href="/tags/数据库/" rel="tag">#&nbsp;数据库</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/algorithm-complexity-analysis-1.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">算法复杂度分析(1)</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+            
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2017;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+    <!-- Busuanzi -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>
