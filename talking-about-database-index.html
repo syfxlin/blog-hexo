@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>浅谈数据库索引 | 青空之蓝</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="icon" type="image/ico" href="/image/favicon.png">
+
+
+
+
+
+
+<!-- Android Chrome Color -->
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="提起索引我想你应该不陌生，当我们查阅一本大部头的时候我们应该如何快速的找到想要的内容呢？很简单，先找目录，通过目录我们就可以了解到我们要找的内容在书中的什么地方，而这个目录就担任着索引的功能。相同，数据库为了能快速的寻找到指定的...">
+
+<!-- Keywords -->
+<meta name="keywords" content=", Mysql, 数据库">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+    <!-- prism.css -->
+    
+    <!-- prism.line_number -->
+    
+        
+            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
+        
+    
+    <!-- prism.theme -->
+    
+        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
+    
+
+
+
+
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="青空之蓝">
+<meta name="msapplication-starturl" content="https://hexo.ixk.me">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="青空之蓝">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="浅谈数据库索引 | 青空之蓝">
+<meta property="og:site_name" content="青空之蓝">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://hexo.ixk.me/talking-about-database-">
+<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+
+<meta property="og:description" content="提起索引我想你应该不陌生，当我们查阅一本大部头的时候我们应该如何快速的找到想要的内容呢？很简单，先找目录，通过目录我们就可以了解到我们要找的内容在书中的什么地方，而这个目录就担任着索引的功能。相同，数据库为了能快速的寻找到指定的...">
+
+<meta name="twitter:card" content="summary">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2019-09-07T14:53:01.000Z">
+    <meta property="article:modified_time" content="2019-09-07T14:53:01.000Z">
+    <meta property="article:author" content="Otstar Lin">
+    <meta property="og:article:tag" content=", Mysql, 数据库"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/talking-about-database-">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/talking-about-database-index.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/talking-about-database-index.html"
+    },
+    "headline": "浅谈数据库索引 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2019-09-07T14:53:01.000Z",
+    "dateModified": "2019-09-08T00:13:27.867Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", Mysql, 数据库",
+    "description": "提起索引我想你应该不陌生，当我们查阅一本大部头的时候我们应该如何快速的找到想要的内容呢？很简单，先找目录，通过目录我们就可以了解到我们要找的内容在书中的什么地方，而这个目录就担任着索引的功能。相同，数据库为了能快速的寻找到指定的..."
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=浅谈数据库索引" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=浅谈数据库索引&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=浅谈数据库索引" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB3UlEQVR42u3a0W7DIAyF4bz/S29Xk6IOzjnOMgnMn5uqSlu+Sg5gm+trwesCBQoUqAHqEtfP/V9fvt1P3ifjgOqFGgbdB+r+OkKPBhl9fzYOqH6oZDAbqOIhceOAOgflBvzrAwHqPNTnfQV1izaos1ByoZxs4NxE+m+7BFDLo5LE4Y3X17MZUEuiosJDGNxq8ny96gJqWdRs468mRLVQq0TCJa+g+qCSYJ0FepIkxBtDUC1Qs82eC9DKHyonDqC2RqnFVS3EM0TyW9OmAahWqCSgXQG/snBHySiobVGqWeQKF0mhIy52gGqBUsX7pNivJtD0j4LqiVKTXzo5qgchalSCaoNyG7lkMVXIuNAGqh0qKXCkyYI7iGOL+6C2R7nF+Ol7VWSzkyeorVEuuN0BrspCDao3KilauAQ0LbCVMmRQW6MqTSJ3QMcFddzFAtUC5RbQpEFUxT7qtoPaClVp8rhGdtqAAtUPpQ4IJotvEsxuDFB9UPbwXoBLGpnJRg9UD1Q5GMMHwDUgQfVGqQBXhY3KZ6J7oFqh1AFSN7mmTSK7CQR1DCotgqgEQR0YA3UWqtIAUo3KRxkyqK1RLmFQhyaSQxXRZAqqDSpNHJ4kGaViLqgWqJUuUKBAgbpd3zhf8bGNMDY6AAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">浅谈数据库索引</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2019-09-07</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=浅谈数据库索引&url=https://hexo.ixk.me/talking-about-database-&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=浅谈数据库索引&url=https://hexo.ixk.me/talking-about-database-&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/talking-about-database-" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/talking-about-database-" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/talking-about-database-&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/talking-about-database-" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/talking-about-database-&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB3UlEQVR42u3a0W7DIAyF4bz/S29Xk6IOzjnOMgnMn5uqSlu+Sg5gm+trwesCBQoUqAHqEtfP/V9fvt1P3ifjgOqFGgbdB+r+OkKPBhl9fzYOqH6oZDAbqOIhceOAOgflBvzrAwHqPNTnfQV1izaos1ByoZxs4NxE+m+7BFDLo5LE4Y3X17MZUEuiosJDGNxq8ny96gJqWdRs468mRLVQq0TCJa+g+qCSYJ0FepIkxBtDUC1Qs82eC9DKHyonDqC2RqnFVS3EM0TyW9OmAahWqCSgXQG/snBHySiobVGqWeQKF0mhIy52gGqBUsX7pNivJtD0j4LqiVKTXzo5qgchalSCaoNyG7lkMVXIuNAGqh0qKXCkyYI7iGOL+6C2R7nF+Ol7VWSzkyeorVEuuN0BrspCDao3KilauAQ0LbCVMmRQW6MqTSJ3QMcFddzFAtUC5RbQpEFUxT7qtoPaClVp8rhGdtqAAtUPpQ4IJotvEsxuDFB9UPbwXoBLGpnJRg9UD1Q5GMMHwDUgQfVGqQBXhY3KZ6J7oFqh1AFSN7mmTSK7CQR1DCotgqgEQR0YA3UWqtIAUo3KRxkyqK1RLmFQhyaSQxXRZAqqDSpNHJ4kGaViLqgWqJUuUKBAgbpd3zhf8bGNMDY6AAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#几种常见的索引数据模型"><span class="post-toc-number">1.</span> <span class="post-toc-text">几种常见的索引数据模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#有序表"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">有序表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#哈希表"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">哈希表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#树"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">树</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#InnoDB的索引模型"><span class="post-toc-number">2.</span> <span class="post-toc-text">InnoDB的索引模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#InnoDB索引策略"><span class="post-toc-number">3.</span> <span class="post-toc-text">InnoDB索引策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#覆盖索引"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">覆盖索引</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#联合索引"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">联合索引</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#最左前缀原则"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">最左前缀原则</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#索引下推"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">索引下推</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">4.</span> <span class="post-toc-text">结语</span></a></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <p>提起索引我想你应该不陌生，当我们查阅一本大部头的时候我们应该如何快速的找到想要的内容呢？很简单，先找目录，通过目录我们就可以了解到我们要找的内容在书中的什么地方，而这个目录就担任着索引的功能。相同，数据库为了能快速的寻找到指定的数据必须要建立索引。对于少量的数据，没有合适的索引影响不是很大，但是，当随着数据量的增加，性能会急剧下降。</p>
+<h2 id="几种常见的索引数据模型"><a href="#几种常见的索引数据模型" class="headerlink" title="几种常见的索引数据模型"></a>几种常见的索引数据模型</h2><h3 id="有序表"><a href="#有序表" class="headerlink" title="有序表"></a>有序表</h3><p>最简单的方式就是<strong>有序线性表</strong>的存储方式，而这种方式包含了两种存储类型，分别是<strong>数组和链表</strong>。<strong>有序数组(Array list)</strong>在等值查询和范围查询的情景下性能非常优秀，但是当我们需要在这之中插入数据的时候就需要将后方的数据全部进行移动，成本非常高，所以一般<strong>只适用于静态存储引擎</strong>。而另外一种<strong>有序链表(Linked list)</strong>，在增加删除插入的场景中性能表现优秀，但是在查询的场景中就不太合适，但是我们知道对有序表的查询一般采用二分搜索，而这个二分搜索是通过分区的方式来提高查询效率，如果我们为有序链表建立分区索引，那有序链表的查询效率就能达到O(logN)，这也是Redis的有序集实现方式<strong>跳表(Skip list)</strong>，关于跳表的内容这里就不说了，有兴趣的请自行查阅。</p>
+<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><p>除了有序集的方式还能通过无序集的方式来作为索引，<strong>哈希表(Hash table)</strong>，哈希表是通过计算key的散列值从而定位value在数组中的位置来进行查询的，不可避免地，多个key值经过哈希函数的换算，会出现同一个值的情况。处理这种情况的一种方法是，拉出一个链表。而哈希表由于是无序的所有<strong>只适用于等值查询的场景</strong>， 比如Memcached及其他一些NoSQL引擎。</p>
+<h3 id="树"><a href="#树" class="headerlink" title="树"></a>树</h3><p>除了集合的方式还有二叉搜索树这种方式，二叉树是搜索效率最高的，但是实际上大多数的数据库存储却并不使用二叉树。其原因是，索引<strong>不止存在内存中，还要写到磁盘上</strong>。而磁盘的读取时间并不快，当树高20的时候数据库就有可能读取20个数据块，所以为了尽可能的减小磁盘的读取次数，则不<strong>应该使用二叉树，转而使用N叉树</strong>，N叉树由于在读写上的性能优点，以及适配磁盘的访问模式，已经被广泛应用在数据库引擎中了。如MySQL的InnoDB和MyISAM。</p>
+<p>数据库底层存储的核心就是基于这些数据模型的。每碰到一个新数据库，我们需要先关注它的数据模型，这样才能从理论上分析出这个数据库的适用场景。</p>
+<h2 id="InnoDB的索引模型"><a href="#InnoDB的索引模型" class="headerlink" title="InnoDB的索引模型"></a>InnoDB的索引模型</h2><p>在MySQL中，索引是在存储引擎层实现的，所以有多种不同的索引，即使索引使用同一类型的的索引，工作方式也可能会不一样。而在MySQL中主要是使用InnoDB，所以这里就来分析InnoDB的索引模型</p>
+<p>在InnoDB中，索引使用的是B+树作为索引结构，根据叶子节点的内容，索引类型分为<strong>主键索引（聚集索引 Clustered index）</strong>和<strong>非主键索引（辅助索引 Secondary index）</strong>。主键索引的叶节点中存储的是表中的行数据，非主键索引中的叶节点存储的是<strong>主键的值</strong>而不是地址。当我们使用<strong>主键索引</strong>对表中的数据进行检索时，就可以直接得到行数据，而不用进行二次检索。而使用<strong>非主键索引</strong>进行检索时，我们得到的是主键的值，当我们查询的列不只有主键的时候，就需要通过搜索到的主键值<strong>再到主键索引中搜索一次</strong>，这种过程被称为回表。</p>
+<p>通过上面的说明我们知道非主键索引存储的是主键的值，所以当主键的值占用的空间越小，非主键索引就能越小，需要读取的数据块就有可能越小，所以在创建数据表的时候应该选择一个合适的字段作为主键，或者使用自增主键。</p>
+<h2 id="InnoDB索引策略"><a href="#InnoDB索引策略" class="headerlink" title="InnoDB索引策略"></a>InnoDB索引策略</h2><h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h3><p>举个例子说明比较容易理解，假设有一个people表，表中有id和name两列都是索引，id为主键，当我们执行以下查询<code>SELECT id FROM people WHERE name=otstar;</code>的时候，InnoDB会去name索引中寻找主键即id，而我们要查询的值id已经在name的索引中存储了，所以不需要回表，由于在非主键索引中的查询<strong>覆盖（满足了）了</strong>查询请求，所以称为覆盖索引，<strong>由于覆盖索引可以减少树的搜索次数，显著提升查询性能，所以使用覆盖索引是一个常用的性能优化手段</strong>。</p>
+<h3 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a>联合索引</h3><p>联合索引就是创建一个支持两种或以上字段比较的索引，比如name,age的联合索引，当我们查询<code>SELECT id,name,age FROM people WHERE name=otstar AND age=18;</code>的时候就只需要再name,age中直接查询，而不再需要回表。从而提高查询效率和减少开销。</p>
+<h3 id="最左前缀原则"><a href="#最左前缀原则" class="headerlink" title="最左前缀原则"></a>最左前缀原则</h3><p>从名称中就可以看出，<strong>最左优先</strong>，如当创建了一个name,age的联合索引，就相当于创建了name的单索引和name,age的多索引，这时我们就<strong>没必要再去创建name的单独索引</strong>，但是如果需要age也是索引<strong>则需要另外创建一个age的单索引</strong>。</p>
+<p>那有这种特性的出现有要如何排序联合索引呢？当我们将一个索引放置到左边的时候可以减少创建一个索引的时候我们就应该优先考虑这种情况，还有一种是空间，name字段一般是比age字段大的，如果我们创建age，name的联合索引，当我们需要name的单独索引的时候，就需要创建name的单独索引，而创建一个name的索引对存储的开销比age大。简单的比喻下，如name的索引占用2空间，age占用1空间，则name,age+age的索引占用4空间，而age,name+name则需要占用5空间。</p>
+<h3 id="索引下推"><a href="#索引下推" class="headerlink" title="索引下推"></a>索引下推</h3><p>假设有一个包含id,name,age,nikename的people表，id为主键索引，name,age为联合索引，当我们执行<code>SELECT * FROM people WHERE name LIKE &#39;o%&#39; AND age=18 AND nikename=otstar;</code>，依照最左前缀原则，这句查询只能使用name单索引查询，而不能使用name,age的双索引查询，因为还有一个nikename字段需要匹配，所以当查询到符合name的查询的时候，在MySQL 5.6之前就只能拿id的值去回表看看其他字段是否匹配，而5.6之后引入了索引下推，也就是把age字段也加入索引，当name匹配后就可以一并对age进行判断，而不用连age字段都要回表比较，这时候就可以减少不少的回表次数。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>在满足语句需求的情况下， 尽量少地访问资源是提高数据库性能的一大关键，理解索引的原理，我们才能不浪费性能或资源，提高数据库的效率，从而提高程序的运行效率。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2019-09-08");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-09-07T14:53:01.000Z" itemprop="datePublished">2019-09-07</time>
+
+    , 最后修改于&nbsp;<time datetime="2019-09-08T00:13:27.867Z" itemprop="dateModified">2019-09-08</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+
+<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href="/tags/Mysql/" rel="tag">#&nbsp;Mysql</a>
+
+<a class="post-tags-list-item" href="/tags/数据库/" rel="tag">#&nbsp;数据库</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/mysql-transaction-isolation.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">MySQL事务隔离</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+            
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2017;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+    <!-- Busuanzi -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>
