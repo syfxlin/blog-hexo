@@ -83,8 +83,7 @@ window.oldVersion = [
 <meta name="description" content="
 懒得写开头了(_　_)。゜zｚＺ，继续下一个排序算法
 
-#include &amp;lt;stdio.h&amp;gt;
-#define N 10  //定义要排序...">
+">
 
 <!-- Keywords -->
 <meta name="keywords" content=", 算法, C/C++, Develop">
@@ -227,8 +226,7 @@ window.oldVersion = [
 <meta property="og:description" content="
 懒得写开头了(_　_)。゜zｚＺ，继续下一个排序算法
 
-#include &amp;lt;stdio.h&amp;gt;
-#define N 10  //定义要排序...">
+">
 
 <meta name="twitter:card" content="summary">
 
@@ -279,7 +277,7 @@ window.oldVersion = [
     },
     
     "datePublished": "2018-11-20T02:45:15.000Z",
-    "dateModified": "2019-09-09T00:13:30.686Z",
+    "dateModified": "2019-09-10T00:13:25.611Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -308,8 +306,7 @@ window.oldVersion = [
     "description": "
 懒得写开头了(_　_)。゜zｚＺ，继续下一个排序算法
 
-#include &amp;lt;stdio.h&amp;gt;
-#define N 10  //定义要排序..."
+"
 }
 </script>
 
@@ -531,12 +528,63 @@ window.oldVersion = [
                         <blockquote>
 <p>懒得写开头了(_　_)。゜zｚＺ，继续下一个排序算法</p>
 </blockquote>
-<p>#include &lt;stdio.h&gt;</p>
-<p>#define N 10  //定义要排序的数组长度</p>
-<p>//插入排序控制Demo<br>//插入排序结果和方式<br>//结果：输出排序的数组<br>//方式：类似遍历比较</p>
-<p>//本例排序从低到高</p>
-<p>//插入排序函数<br>int* Ins_Sort(int n, int nums[])<br>{<br>    int i, j, temp;<br>    for(i = 1; i &lt; n; i++) //外层循环控制循环轮数，从一开始代表第一个元素默认已经排序<br>    {<br>        for(j = i - 1; j &gt;= 0; j–) //内层循环控制循环比较的轮数<br>        {<br>            //在下标 i 左边的元素已经排列，所以只要判断当原 i 的元素已经比第 j 个元素小，即完成此轮排列<br>            if(nums[j + 1] &gt;= nums[j])<br>            {<br>                //完成排列时跳出，防止执行无用的步骤<br>                break;<br>            }<br>            else<br>            {<br>                //交换数据<br>                temp = nums[j + 1];<br>                nums[j + 1] = nums[j];<br>                nums[j] = temp;<br>            }<br>        }<br>    }<br>    //返回数组，其实也可以不用返回，因为操作的就是原数组<br>    return nums;<br>}</p>
-<p>int main(int argc, char const <em>argv[])<br>{<br>    //要进行排序的数组，这里就不写循环录入了，直接初始化<br>    int nums[N] = {9, 2, 6, 1, 8, 5, 4, 3, 7, 10};<br>    int i;<br>    //调用函数进行排序<br>    int </em>p = Ins_Sort(N, nums);<br>    //循环输出排序好的数组，由小到大<br>    for(i = 0; i &lt; N; i++)<br>    {<br>        printf(“%d “, p[i]);<br>    }<br>    printf(“\n”);<br>    for(i = N - 1; i &gt;= 0; i–)<br>    {<br>        printf(“%d “, p[i]);<br>    }<br>    return 0;<br>}</p>
+<pre class="line-numbers highlight language-c_cpp"><code class="language-c_cpp">#include <stdio.h>
+#define N 10  //定义要排序的数组长度
+
+//插入排序控制Demo
+//插入排序结果和方式
+//结果：输出排序的数组
+//方式：类似遍历比较
+
+//本例排序从低到高
+
+//插入排序函数
+int* Ins_Sort(int n, int nums[])
+{
+    int i, j, temp;
+    for(i = 1; i < n; i++) //外层循环控制循环轮数，从一开始代表第一个元素默认已经排序
+    {
+        for(j = i - 1; j >= 0; j--) //内层循环控制循环比较的轮数
+        {
+            //在下标 i 左边的元素已经排列，所以只要判断当原 i 的元素已经比第 j 个元素小，即完成此轮排列
+            if(nums[j + 1] >= nums[j])
+            {
+                //完成排列时跳出，防止执行无用的步骤
+                break;
+            }
+            else
+            {
+                //交换数据
+                temp = nums[j + 1];
+                nums[j + 1] = nums[j];
+                nums[j] = temp;
+            }
+        }
+    }
+    //返回数组，其实也可以不用返回，因为操作的就是原数组
+    return nums;
+}
+
+int main(int argc, char const *argv[])
+{
+    //要进行排序的数组，这里就不写循环录入了，直接初始化
+    int nums[N] = {9, 2, 6, 1, 8, 5, 4, 3, 7, 10};
+    int i;
+    //调用函数进行排序
+    int *p = Ins_Sort(N, nums);
+    //循环输出排序好的数组，由小到大
+    for(i = 0; i < N; i++)
+    {
+        printf("%d ", p[i]);
+    }
+    printf("\n");
+    for(i = N - 1; i >= 0; i--)
+    {
+        printf("%d ", p[i]);
+    }
+    return 0;
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></stdio.h></code></pre>
 
                     </article>
                     
@@ -544,7 +592,7 @@ window.oldVersion = [
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-09-09");
+        var dateUpdate = Date.parse("2019-09-10");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -559,7 +607,7 @@ window.oldVersion = [
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2018-11-20T02:45:15.000Z" itemprop="datePublished">2018-11-20</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-09-09T00:13:30.686Z" itemprop="dateModified">2019-09-09</time>
+    , 最后修改于&nbsp;<time datetime="2019-09-10T00:13:25.611Z" itemprop="dateModified">2019-09-10</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
