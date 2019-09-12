@@ -277,7 +277,7 @@ window.oldVersion = [
     },
     
     "datePublished": "2018-11-27T03:24:10.000Z",
-    "dateModified": "2019-09-11T00:13:29.153Z",
+    "dateModified": "2019-09-12T00:14:47.996Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -529,80 +529,81 @@ window.oldVersion = [
 <p>开头和介绍都是不存在的（￣︶￣）↗</p>
 </blockquote>
 <p>[alert-success]这次是真修复了，坑爹呀，LintCode提交了好几次，终于AC了，应该是没问题了≧ ﹏ ≦，另外我这代码只能算还行只打败了51%的提交 （捂脸[/alert-success]</p>
-<pre><code>#include &lt;stdio.h&gt;
-#define N 10 //定义要排序的数组个数
+<pre class="line-numbers highlight language-c"><code class="language-c"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">define</span> N 10 </span><span class="token comment" spellcheck="true">//定义要排序的数组个数</span>
 
-//快速排序控制Demo
+<span class="token comment" spellcheck="true">//快速排序控制Demo</span>
 
-//快速排序函数
-int* Quick_Sort(int left, int right, int nums[])
-{
-    //定义标记，并设置标记为排序数组最末端，即right的后一个数
-    int pivot = right + 1;
-    //存储最左端，为下一轮存储left标记
-    int left_temp = left;
-    //临时交换数
-    int temp;
-    //判断left标记是否已经到达right或right之后，若是则代表此轮排序的判断部分已经完成
-    while(left &lt; right)
-    {
-        //判断left标记的数是否小于标记的数，若是则向右移动left标记
-        while(nums[left] &lt; nums[pivot])
-        {
-            left++;
-            if(left &gt; right) break;
-        }
-        //判断right标记是否大于标记的数，若是则向左移动right标记
-        while(nums[right] &gt; nums[pivot])
-        {
-            right--;
-            if(left &gt; right) break;
-        }
-        //若left标记不小于right则代表此轮已经完成
-        if(left &gt;= right) break;
-        //若不是，则将left和right标记数交换
-        temp = nums[left];
-        nums[left] = nums[right];
-        nums[right] = temp;
-    }
-    //判断标记数是否是最大的，即left标记是否已经到达标记数，若不是则交换left标记数与标记数
-    if(nums[left] &gt;= nums[pivot])
-    {
-        temp = nums[left];
-        nums[left] = nums[pivot];
-        nums[pivot] = temp;
-    }
-    //判断是否要进行下一轮，若是则进行下一轮
-    if(left_temp &lt; left - 1) Quick_Sort(left_temp, left - 2, nums);
-    if(left + 1 &lt; pivot) Quick_Sort(left + 1, pivot - 1, nums);
-    //返回排序好的数组
-    return nums;
-}
+<span class="token comment" spellcheck="true">//快速排序函数</span>
+<span class="token keyword">int</span><span class="token operator">*</span> <span class="token function">Quick_Sort</span><span class="token punctuation">(</span><span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">,</span> <span class="token keyword">int</span> nums<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//定义标记，并设置标记为排序数组最末端，即right的后一个数</span>
+    <span class="token keyword">int</span> pivot <span class="token operator">=</span> right <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//存储最左端，为下一轮存储left标记</span>
+    <span class="token keyword">int</span> left_temp <span class="token operator">=</span> left<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//临时交换数</span>
+    <span class="token keyword">int</span> temp<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//判断left标记是否已经到达right或right之后，若是则代表此轮排序的判断部分已经完成</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>left <span class="token operator">&lt;</span> right<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//判断left标记的数是否小于标记的数，若是则向右移动left标记</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">&lt;</span> nums<span class="token punctuation">[</span>pivot<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            left<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>left <span class="token operator">></span> right<span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//判断right标记是否大于标记的数，若是则向左移动right标记</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span> <span class="token operator">></span> nums<span class="token punctuation">[</span>pivot<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            right<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>left <span class="token operator">></span> right<span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//若left标记不小于right则代表此轮已经完成</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>left <span class="token operator">>=</span> right<span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//若不是，则将left和right标记数交换</span>
+        temp <span class="token operator">=</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span> <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//判断标记数是否是最大的，即left标记是否已经到达标记数，若不是则交换left标记数与标记数</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">>=</span> nums<span class="token punctuation">[</span>pivot<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        temp <span class="token operator">=</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>pivot<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        nums<span class="token punctuation">[</span>pivot<span class="token punctuation">]</span> <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//判断是否要进行下一轮，若是则进行下一轮</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>left_temp <span class="token operator">&lt;</span> left <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token function">Quick_Sort</span><span class="token punctuation">(</span>left_temp<span class="token punctuation">,</span> left <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">,</span> nums<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>left <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;</span> pivot<span class="token punctuation">)</span> <span class="token function">Quick_Sort</span><span class="token punctuation">(</span>left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> pivot <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> nums<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//返回排序好的数组</span>
+    <span class="token keyword">return</span> nums<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-int main(int argc, char const *argv[])
-{
-    //定义要进行排序的数组
-    int nums[N] = {5, 4, 7, 12, 4, 9, 2, 1, 13, 2};
-    //设置数组长度
-    int n = 10;
-    //调用排序函数并将排序好的头指针传给p
-    int *p = Quick_Sort(0, n - 2, nums);
-    int i;
-    //循环输出排序好的数组
-    for(i = 0; i &lt; n; i++)
-    {
-        printf(&quot;%d &quot;,p[i]);
-    }
-    return 0;
-}
-</code></pre>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token keyword">const</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//定义要进行排序的数组</span>
+    <span class="token keyword">int</span> nums<span class="token punctuation">[</span>N<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//设置数组长度</span>
+    <span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//调用排序函数并将排序好的头指针传给p</span>
+    <span class="token keyword">int</span> <span class="token operator">*</span>p <span class="token operator">=</span> <span class="token function">Quick_Sort</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> n <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">,</span> nums<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//循环输出排序好的数组</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d "</span><span class="token punctuation">,</span>p<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
                     </article>
                     
 
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-09-11");
+        var dateUpdate = Date.parse("2019-09-12");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -617,7 +618,7 @@ int main(int argc, char const *argv[])
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2018-11-27T03:24:10.000Z" itemprop="datePublished">2018-11-27</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-09-11T00:13:29.153Z" itemprop="dateModified">2019-09-11</time>
+    , 最后修改于&nbsp;<time datetime="2019-09-12T00:14:47.996Z" itemprop="dateModified">2019-09-12</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">

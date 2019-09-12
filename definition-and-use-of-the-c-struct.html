@@ -277,7 +277,7 @@ window.oldVersion = [
     },
     
     "datePublished": "2018-12-26T08:20:53.000Z",
-    "dateModified": "2019-09-11T00:13:29.153Z",
+    "dateModified": "2019-09-12T00:14:47.996Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -532,14 +532,15 @@ window.oldVersion = [
                         <blockquote>
 <p>应同学请求更新了这篇文章，正好没有水文的借口 （逃</p>
 </blockquote>
-<h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>在C语言中结构体指一种数据结构，是C语言中复合数据类型，结构体可以被声明为变量、指针或数组等，用以实现较复杂的数据结构。结构体同时也是一些元素的集合，这些元素称为结构体的成员，且这些成员可以为不同的类型，成员一般用名字访问。 与Java中的类类似一个结构体看可以看作是一个类别，某类事物的集合体，比如要表示一本书的各种属性（作者，页数，出版时间等），在没有使用结构体的时候，就需要使用各种基本数据类型进行存储，这时会发现在表示数据的时候乱七八糟的，调用的时候也不容易调用，但如果使用了结构体，那结构体名称就可以使用书名表示，书的各种属性就可以放在结构体中，在使用的时候可以很直观的用结构体名称（书名）调用</p>
+<h1 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h1><p>在C语言中结构体指一种数据结构，是C语言中复合数据类型，结构体可以被声明为变量、指针或数组等，用以实现较复杂的数据结构。结构体同时也是一些元素的集合，这些元素称为结构体的成员，且这些成员可以为不同的类型，成员一般用名字访问。</p>
+<p>与Java中的类类似一个结构体看可以看作是一个类别，某类事物的集合体，比如要表示一本书的各种属性（作者，页数，出版时间等），在没有使用结构体的时候，就需要使用各种基本数据类型进行存储，这时会发现在表示数据的时候乱七八糟的，调用的时候也不容易调用，但如果使用了结构体，那结构体名称就可以使用书名表示，书的各种属性就可以放在结构体中，在使用的时候可以很直观的用结构体名称（书名）调用</p>
 <h1 id="2-实践"><a href="#2-实践" class="headerlink" title="2.实践"></a>2.实践</h1><h2 id="定义结构"><a href="#定义结构" class="headerlink" title="定义结构"></a>定义结构</h2><p>在使用结构体的时候需要定义结构体，可以不先定义结构体变量，但必须先定义好结构体的结构</p>
-<pre class="line-numbers highlight language-c"><code class="language-c"><span class="token keyword">struct</span> tag <span class="token punctuation">{</span> 
-    member<span class="token operator">-</span>list
-    member<span class="token operator">-</span>list 
-    member<span class="token operator">-</span>list  
-    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token punctuation">}</span> variable<span class="token operator">-</span>list <span class="token punctuation">;</span>
+<pre class="line-numbers highlight language-c_cpp"><code class="language-c_cpp">struct tag { 
+    member-list
+    member-list 
+    member-list  
+    ...
+} variable-list ;
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <ul>
 <li>tag : 结构体的标志，可以不设置，但是如果不设置就必须在定义时声明variable-list，一般使用全大写表示，建议每个结构体都要有tag</li>
@@ -547,67 +548,67 @@ window.oldVersion = [
 <li>variable-list : 结构体变量列表，若不声明就必须要有tag，可以声明多个，使用逗号隔开，也可声明结构体数组</li>
 </ul>
 <p>定义时也可以使用typedef来创建一个数据类型，下面会针对这两种定义方式进行分析</p>
-<pre class="line-numbers highlight language-c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> SIMPLE
-<span class="token punctuation">{</span>
-    <span class="token keyword">int</span> a<span class="token punctuation">;</span>
-    <span class="token keyword">char</span> b<span class="token punctuation">;</span>
-    <span class="token keyword">double</span> c<span class="token punctuation">;</span> 
-<span class="token punctuation">}</span> Simple， <span class="token operator">*</span>pSimple<span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 我比较喜欢使用这种方式，因为在定义时不需要添加struct，也和Java中的类更加相似</span>
-<span class="token comment" spellcheck="true">// 不同于结构体，上面三个都是必填项，最后一项不再代表结构体变量，而是代表数据类型</span>
+<pre class="line-numbers highlight language-c_cpp"><code class="language-c_cpp">typedef struct SIMPLE
+{
+    int a;
+    char b;
+    double c; 
+} Simple， *pSimple;
+// 我比较喜欢使用这种方式，因为在定义时不需要添加struct，也和Java中的类更加相似
+// 不同于结构体，上面三个都是必填项，最后一项不再代表结构体变量，而是代表数据类型
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>嵌套结构体</p>
-<pre class="line-numbers highlight language-c"><code class="language-c"><span class="token comment" spellcheck="true">// 指针式嵌套，可以嵌套自己也可以嵌套别的结构体，但必须声明</span>
-<span class="token keyword">struct</span> A
-<span class="token punctuation">{</span>
-    <span class="token keyword">struct</span> B <span class="token operator">*</span>partner<span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//other members;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 普通嵌套</span>
-<span class="token keyword">struct</span> A
-<span class="token punctuation">{</span>
-    <span class="token keyword">struct</span> B partner<span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//other members;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 注意：若使用了typedef创建数据类型建议加上struct防止出现不必要的麻烦</span>
+<pre class="line-numbers highlight language-c_cpp"><code class="language-c_cpp">// 指针式嵌套，可以嵌套自己也可以嵌套别的结构体，但必须声明
+struct A
+{
+    struct B *partner;
+    //other members;
+};
+// 普通嵌套
+struct A
+{
+    struct B partner;
+    //other members;
+};
+// 注意：若使用了typedef创建数据类型建议加上struct防止出现不必要的麻烦
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="声明结构体变量"><a href="#声明结构体变量" class="headerlink" title="声明结构体变量"></a>声明结构体变量</h2><p>结构体变量可以紧跟结构体后创建，不过由于结构体在函数外创建，所以紧跟结构体后声明的结构体变量是全局变量</p>
-<pre class="line-numbers highlight language-c"><code class="language-c"><span class="token keyword">struct</span> Books
-<span class="token punctuation">{</span>
-   <span class="token keyword">char</span>  title<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-   <span class="token keyword">char</span>  author<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-   <span class="token keyword">char</span>  subject<span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-   <span class="token keyword">int</span>   book_id<span class="token punctuation">;</span>
-<span class="token punctuation">}</span> book<span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 这时book就是结构体变量了，可以同基本数据类型一样使用了</span>
+<pre class="line-numbers highlight language-c_cpp"><code class="language-c_cpp">struct Books
+{
+   char  title[50];
+   char  author[50];
+   char  subject[100];
+   int   book_id;
+} book;
+// 这时book就是结构体变量了，可以同基本数据类型一样使用了
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>还有一种是在函数中创建</p>
-<pre class="line-numbers highlight language-c"><code class="language-c"><span class="token keyword">struct</span> Books book<span class="token punctuation">;</span>
+<pre class="line-numbers highlight language-c_cpp"><code class="language-c_cpp">struct Books book;
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>使用typedef的创建</p>
-<pre class="line-numbers highlight language-c"><code class="language-c"><span class="token comment" spellcheck="true">// 上面我们定义了SIMPLE这个结构体，在创建结构体变量时同基本数据类型一样</span>
-<span class="token comment" spellcheck="true">// 基本数据类型的定义</span>
-<span class="token comment" spellcheck="true">// int i;</span>
-<span class="token comment" spellcheck="true">// 使用typedef的结构体的定义</span>
-Simple i<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//Simple是在定义结构体的结构时底下的variable-list中的一个</span>
+<pre class="line-numbers highlight language-c_cpp"><code class="language-c_cpp">// 上面我们定义了SIMPLE这个结构体，在创建结构体变量时同基本数据类型一样
+// 基本数据类型的定义
+// int i;
+// 使用typedef的结构体的定义
+Simple i; //Simple是在定义结构体的结构时底下的variable-list中的一个
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>创建结构体指针</p>
-<pre class="line-numbers highlight language-c"><code class="language-c"><span class="token comment" spellcheck="true">// 结构体指针在创建时一般会使用malloc来进行开拓内存</span>
-<span class="token comment" spellcheck="true">// 也可以不开拓，不开拓的话不能访问内部成员</span>
-<span class="token keyword">struct</span> Books <span class="token operator">*</span>book <span class="token operator">=</span> （<span class="token keyword">struct</span> Books <span class="token operator">*</span>）<span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> Books<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// 使用了typedef的结构体创建方式</span>
-pSimple sim <span class="token operator">=</span> <span class="token punctuation">(</span>pSimple<span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>Simple<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 注意定义中pSimple前有一个*，代表结构体指针类型</span>
+<pre class="line-numbers highlight language-c_cpp"><code class="language-c_cpp">// 结构体指针在创建时一般会使用malloc来进行开拓内存
+// 也可以不开拓，不开拓的话不能访问内部成员
+struct Books *book = （struct Books *）malloc(sizeof(struct Books));
+// 使用了typedef的结构体创建方式
+pSimple sim = (pSimple)malloc(sizeof(Simple)); // 注意定义中pSimple前有一个*，代表结构体指针类型
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="访问结构体成员"><a href="#访问结构体成员" class="headerlink" title="访问结构体成员"></a>访问结构体成员</h2><p>创建好了结构体变量后才能进行访问</p>
-<pre class="line-numbers highlight language-c"><code class="language-c"><span class="token comment" spellcheck="true">// 访问普通的结构体</span>
-name<span class="token punctuation">.</span>member1
-name<span class="token punctuation">.</span>member2
-<span class="token comment" spellcheck="true">// 访问结构体指针中的成员，前提是结构体指针有使用malloc进行创建，否则会报错</span>
-name<span class="token operator">-></span>member1
-name<span class="token operator">-></span>member2
-<span class="token comment" spellcheck="true">// 结构体数组</span>
-name<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>member
-name<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">-></span>member
+<pre class="line-numbers highlight language-c_cpp"><code class="language-c_cpp">// 访问普通的结构体
+name.member1
+name.member2
+// 访问结构体指针中的成员，前提是结构体指针有使用malloc进行创建，否则会报错
+name->member1
+name->member2
+// 结构体数组
+name[0].member
+name[0]->member
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="3-结语"><a href="#3-结语" class="headerlink" title="3.结语"></a>3.结语</h2><p>结构体是C语言和多种类C语言中的一种数据结构，在Golang，C#，C++都有结构体，但是除了Golang，其它两种语言都支持面向对象，所以一般很少用到，但是在C中它是非常重要的，。。。。。。。。。编不下去了(￣▽￣)”  （逃</p>
 
@@ -617,7 +618,7 @@ name<span class="token punctuation">[</span><span class="token number">0</span><
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-09-11");
+        var dateUpdate = Date.parse("2019-09-12");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -632,7 +633,7 @@ name<span class="token punctuation">[</span><span class="token number">0</span><
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2018-12-26T08:20:53.000Z" itemprop="datePublished">2018-12-26</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-09-11T00:13:29.153Z" itemprop="dateModified">2019-09-11</time>
+    , 最后修改于&nbsp;<time datetime="2019-09-12T00:14:47.996Z" itemprop="dateModified">2019-09-12</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">

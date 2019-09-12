@@ -273,7 +273,7 @@ window.oldVersion = [
     },
     
     "datePublished": "2019-02-02T12:45:46.000Z",
-    "dateModified": "2019-09-11T00:13:29.153Z",
+    "dateModified": "2019-09-12T00:14:47.996Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -528,13 +528,13 @@ window.oldVersion = [
 </blockquote>
 <p>本文是面向WordPress的教程，不适用于Typecho</p>
 <h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><h2 id="注册Service-Worker"><a href="#注册Service-Worker" class="headerlink" title="注册Service Worker"></a>注册Service Worker</h2><p>在主题的functions.php加入以下代码</p>
-<pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">origami_setting_workbox</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token keyword">function</span> <span class="token function">origami_setting_workbox</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
-    echo "<span class="token operator">&lt;</span>script<span class="token operator">></span><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">'serviceWorker'</span> <span class="token keyword">in</span> navigator<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">echo</span> "<span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span></span><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">'serviceWorker'</span> in navigator<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         window<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'load'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
             navigator<span class="token punctuation">.</span>serviceWorker<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token string">'/sw.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>"<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></span>"<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 <span class="token function">add_action</span><span class="token punctuation">(</span><span class="token string">'wp_footer'</span><span class="token punctuation">,</span> <span class="token string">'origami_setting_workbox'</span><span class="token punctuation">,</span> <span class="token string">'101'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
@@ -549,8 +549,11 @@ workbox<span class="token punctuation">.</span><span class="token function">setC
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Boo! Workbox didn't load ?`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>若成功引入就会在浏览器的控制台中输出<code>Yay! Workbox is loaded ?</code> 同时可以在开发工具中的Application选项卡中的Service Workers中看到激活信息</p>
-<h2 id="写入规则"><a href="#写入规则" class="headerlink" title="写入规则"></a>写入规则</h2><p>由于WordPress是动态博客，所以在写规则的就会遇到一些静态博客不会遇到的问题，比如静态博客的页面是已经渲染好的，只要缓存html等静态文件就可以实现离线访问，而php的页面是实时渲染的，并且有后台，还有评论系统，这些都不能进行缓存 建议安装WP Super Cache 首先定义缓存的版本号和默认最大缓存数目（可以忽略，但后面的代码需要进行修改）</p>
+<p>若成功引入就会在浏览器的控制台中输出<code>Yay! Workbox is loaded ?</code></p>
+<p>同时可以在开发工具中的Application选项卡中的Service Workers中看到激活信息</p>
+<h2 id="写入规则"><a href="#写入规则" class="headerlink" title="写入规则"></a>写入规则</h2><p>由于WordPress是动态博客，所以在写规则的就会遇到一些静态博客不会遇到的问题，比如静态博客的页面是已经渲染好的，只要缓存html等静态文件就可以实现离线访问，而php的页面是实时渲染的，并且有后台，还有评论系统，这些都不能进行缓存</p>
+<p>建议安装WP Super Cache</p>
+<p>首先定义缓存的版本号和默认最大缓存数目（可以忽略，但后面的代码需要进行修改）</p>
 <pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token keyword">let</span> cacheSuffixVersion <span class="token operator">=</span> <span class="token string">'-181111'</span><span class="token punctuation">;</span>
 <span class="token keyword">const</span> maxEntries <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
@@ -603,6 +606,7 @@ workbox<span class="token punctuation">.</span>routing<span class="token punctua
 <span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">// 全站缓存的关键代码</span>
 workbox<span class="token punctuation">.</span>routing<span class="token punctuation">.</span><span class="token function">registerRoute</span><span class="token punctuation">(</span>
+    <span class="token comment" spellcheck="true">// 此处需要更改为站点对应的URL</span>
     <span class="token keyword">new</span> <span class="token class-name">RegExp</span><span class="token punctuation">(</span><span class="token string">'https://dev\.ixk\.me.*'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
     workbox<span class="token punctuation">.</span>strategies<span class="token punctuation">.</span><span class="token function">staleWhileRevalidate</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
         cacheName<span class="token punctuation">:</span> <span class="token string">'blog-cache'</span> <span class="token operator">+</span> cacheSuffixVersion<span class="token punctuation">,</span>
@@ -693,8 +697,10 @@ workbox<span class="token punctuation">.</span>routing<span class="token punctua
         <span class="token punctuation">}</span><span class="token punctuation">]</span>
     <span class="token punctuation">}</span><span class="token punctuation">)</span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>至此站点除了后台，其他的页面应该就可以进行全站离线访问，但是由于使用了缓存，若站点未将评论分离的话，就会导致评论不能实时更新，这时候就可以使用第三方评论系统来代替默认评论，如Disqus（国内处于被墙状态） 我的新主题已经使用了WorkBox，可以去尝试一下 <a href="https://dev.ixk.me/" target="_blank" rel="noopener">Link</a> 从缓存中的加载页面的速度可以达到惊人的219ms <img src="https://blog.ixk.me/wp-content/uploads/2019/02/Snipaste_2019-02-02_20-50-46.png" alt></p>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>至此站点除了后台，其他的页面应该就可以进行全站离线访问，但是由于使用了缓存，若站点未将评论分离的话，就会导致评论不能实时更新，这时候就可以使用第三方评论系统来代替默认评论，如Disqus（国内处于被墙状态）</p>
+<p>我的新主题已经使用了WorkBox，可以去尝试一下 <a href="https://dev.ixk.me/" target="_blank" rel="noopener">Link</a> 从缓存中的加载页面的速度可以达到惊人的219ms</p>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2019/02/Snipaste_2019-02-02_20-50-46.png" alt></p>
 
                     </article>
                     
@@ -702,7 +708,7 @@ workbox<span class="token punctuation">.</span>routing<span class="token punctua
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-09-11");
+        var dateUpdate = Date.parse("2019-09-12");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -717,7 +723,7 @@ workbox<span class="token punctuation">.</span>routing<span class="token punctua
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-02-02T12:45:46.000Z" itemprop="datePublished">2019-02-02</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-09-11T00:13:29.153Z" itemprop="dateModified">2019-09-11</time>
+    , 最后修改于&nbsp;<time datetime="2019-09-12T00:14:47.996Z" itemprop="dateModified">2019-09-12</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
@@ -762,9 +768,9 @@ workbox<span class="token punctuation">.</span>routing<span class="token punctua
     <!-- Next Nav -->
     
         <li class="page-item page-next">
-            <a href="/new-theme-production-decide.html" rel="next">
+            <a href="/my-blog-2018-year-end-summary.html" rel="next">
                 <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
-                <div class="page-item-subtitle">新主题制作决定</div>
+                <div class="page-item-subtitle">[青空之蓝-2018]-年度总结</div>
             </a>
         </li>
     
