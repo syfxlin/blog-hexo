@@ -61,7 +61,7 @@ window.oldVersion = [
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <!-- Title -->
-<title>小米4 RR-OS评测 | 青空之蓝</title>
+<title>浅谈B+树 | 青空之蓝</title>
 
 <!-- favicon -->
 <!-- Favicons -->
@@ -80,11 +80,10 @@ window.oldVersion = [
 <meta name="format-detection" content="telephone=no">
 
 <!-- Description -->
-<meta name="description" content="
-由于我之前用的垃圾z90不常用软件不闪退，常用的软件用没一分钟就闪退，实在是特别不爽，坑比的大神note3又因为wifi信号问题不能胜任常用机，好在同学收购了我的大神note3，使得我有钱可以购入二手的...">
+<meta name="description" content="前言B+树（B Plus Tree）是MySQL数据库索引的底层...">
 
 <!-- Keywords -->
-<meta name="keywords" content=", RR-OS, 小米4">
+<meta name="keywords" content=", 数据库, 数据结构">
 
 <!-- Disable Fucking Bloody Baidu Tranformation -->
 <meta http-equiv="Cache-Control" content="no-transform">
@@ -213,25 +212,24 @@ window.oldVersion = [
 
 
     <!-- ### The Open Graph & Twitter Card Protocol ### -->
-    <meta property="og:title" content="小米4 RR-OS评测 | 青空之蓝">
+    <meta property="og:title" content="浅谈B+树 | 青空之蓝">
 <meta property="og:site_name" content="青空之蓝">
 
 <meta property="og:locale" content="zh-CN">
 
-<meta property="og:url" content="https://hexo.ixk.me/e5-b0-8f-e7-b1-b34-rr-os-e8-af-84-e6-b5-8b.html">
+<meta property="og:url" content="https://hexo.ixk.me/talking-about-bplus-tree.html">
 <meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
 
-<meta property="og:description" content="
-由于我之前用的垃圾z90不常用软件不闪退，常用的软件用没一分钟就闪退，实在是特别不爽，坑比的大神note3又因为wifi信号问题不能胜任常用机，好在同学收购了我的大神note3，使得我有钱可以购入二手的...">
+<meta property="og:description" content="前言B+树（B Plus Tree）是MySQL数据库索引的底层...">
 
 <meta name="twitter:card" content="summary">
 
 
     <meta property="og:type" content="article">
-    <meta property="article:published_time" content="2017-10-01T17:16:29.000Z">
-    <meta property="article:modified_time" content="2017-10-01T17:16:29.000Z">
+    <meta property="article:published_time" content="2019-09-27T13:27:18.000Z">
+    <meta property="article:modified_time" content="2019-09-27T13:27:18.000Z">
     <meta property="article:author" content="Otstar Lin">
-    <meta property="og:article:tag" content=", RR-OS, 小米4"> 
+    <meta property="og:article:tag" content=", 数据库, 数据结构"> 
 
 
 
@@ -248,7 +246,7 @@ window.oldVersion = [
 
 
     <!-- ### Canonical link ### -->
-    <link rel="canonical" href="https://hexo.ixk.me/e5-b0-8f-e7-b1-b34-rr-os-e8-af-84-e6-b5-8b.html">
+    <link rel="canonical" href="https://hexo.ixk.me/talking-about-bplus-tree.html">
 
     <!-- ### Structured Data ### -->
     
@@ -258,22 +256,22 @@ window.oldVersion = [
 <script type="application/ld+json">
 {
     "@context": "http://schema.org",
-    "url": "https://hexo.ixk.me/e5-b0-8f-e7-b1-b34-rr-os-e8-af-84-e6-b5-8b.html",
+    "url": "https://hexo.ixk.me/talking-about-bplus-tree.html",
     "@type": "BlogPosting",
     "logo": "https://hexo.ixk.me/image/favicon.png",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://hexo.ixk.me/e5-b0-8f-e7-b1-b34-rr-os-e8-af-84-e6-b5-8b.html"
+        "@id": "https://hexo.ixk.me/talking-about-bplus-tree.html"
     },
-    "headline": "小米4 RR-OS评测 | 青空之蓝",
+    "headline": "浅谈B+树 | 青空之蓝",
     
     "image": {
         "@type": "ImageObject",
         "url": "https://hexo.ixk.me/image/favicon.png"
     },
     
-    "datePublished": "2017-10-01T17:16:29.000Z",
-    "dateModified": "2019-09-28T00:13:34.220Z",
+    "datePublished": "2019-09-27T13:27:18.000Z",
+    "dateModified": "2019-09-28T00:13:34.224Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -298,9 +296,8 @@ window.oldVersion = [
         "query-input": "required name=search_term_string"
     },
     
-    "keywords": ", RR-OS, 小米4",
-    "description": "
-由于我之前用的垃圾z90不常用软件不闪退，常用的软件用没一分钟就闪退，实在是特别不爽，坑比的大神note3又因为wifi信号问题不能胜任常用机，好在同学收购了我的大神note3，使得我有钱可以购入二手的..."
+    "keywords": ", 数据库, 数据结构",
+    "description": "前言B+树（B Plus Tree）是MySQL数据库索引的底层..."
 }
 </script>
 
@@ -377,28 +374,28 @@ window.oldVersion = [
         <!-- Share LinkedIn -->
         
         <li class="menu-item">
-            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=小米4 RR-OS评测" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=浅谈B+树" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
         </li>
         
 
         <!-- Share QQ -->
         
         <li class="menu-item">
-            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=小米4 RR-OS评测&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=浅谈B+树&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
         </li>
         
 
         <!-- Share Telegram -->
         
         <li class="menu-item">
-            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=小米4 RR-OS评测" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=浅谈B+树" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
         </li>
         
 
         <!-- QRCode -->
         
         <li class="menu-item">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACN0lEQVR42u2b0U7DQAwE8/8/DU9IVch5x0cQJZ68lJT0PJXiy3rtHh//4DiEFFJIId8A8iiObx86vfd6/vX3+bOr9UhcIedCXt60F4GqwK/n9P0YV8jRkOfAq0Sogu0k3SqukEISyCohVsl09SqkkD+F7CTAlYhYXS+kkDsCIwmE9GUqMXybChLycZBVQfSbr7dVi0I+CjKaRlBwrM6rzf42V03IR0FWN3JrwUIwrAqzaJAJORqyEqpJ1BKRsrW+kCMhu7D0fysjqxK+UWAIOQIyFfBps6dJUK2HCzEhx0GmJmYSF0lEVAIEVYtCjoFMhRaBJAYDbYIKORuy2mzpNR1RS5r7QgrZFbdpSIQ0npAIFnIkZLV5E5M/NaDS4EiZhEKOhNw1pCjgbvNTyLmQVKgSI4oMKaVGP+7SCvloSPLQpwHI5o0LNSFHQiZY0mhPX65qipZmrJAjITtN+FjMA4FCBj+FnA2ZBC/Z1FNBRYdSyi6tkKMgCVy6yUkDIBkHsVoUchRkt+mZCq7KZCWJKORcyNQw7y6ckisNpAgpJDLYQzOpkxgt0SLkaEiaIMSkJ5t8FVdIIRNIGhahwY9wRKdXyBGQXZMqmarJQGgN3Qs5EjLdyElUdEzStgARcixkKpJSQpGBOpI4QgpJRGkSp0T0JoGBDCshhWyKhZ2BkmhKCCkk/PEFHQ4horlsLgg5GrLakLsJ0RXJyweBkGMhuw/+TtOTNAKW1wk5EvKdDyGFFFLIPzw+Ad14lNMPbpo6AAAAAElFTkSuQmCC" alr="QRCode">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB20lEQVR42u3awY7DIAyE4bz/S28ve6hQ8IwRlcjkz6Va1IWvEsFgfP0d+FygQIECdYO6imf8zm1H/+2z/2uNAyoGVQ1WtX93On5/bLf6AxWFGife2H7XmWq/m/SzcUC9D1UNNJvo7f5AvRI1G9RdXEG9B6U2byq4VsF5+y4B1PGoakO/83PbaQbU0SiZdJgsks6B82dZF1BHo6qJqL7TWWir/kFlodSGzEmMzRbdu7/LAyuoGFQ3IK8mbeVGEVQESkFUm/uD1OEWVBbKSUg4SXtn8PJCAFQMyln8qjY1uEr0g8pFOYF2tlmrflTVl5zooB6HWr2IdCZy+2UCFY1aSWY4lwPlBROoCJQqxqqCqZsgUYs0qCxUt3hmpRjCDuag4lBWYst4KdwJDioTpRKtzgugirrsglVQMaiq0Kp7ie0kMqYLMqgYVOdiWwG7ibUtt+2gjkS5iXzncFAG3U5ABvVolDO51aSvNoVOwReoDJRbKOgk6p2Ea1nMAyoC5SRfnSItp8hLBmhQMSiV5FDJslYSo3oxQEWh3MSqOqC6l1CyWALUa1Du5aK6jNo60UE9EqUKATsBfHrIABWFchdFp6DQTYKAykW1gqY4DKwWYYDKQZ30gAIFCtTX8wHEGnFAxN3VRQAAAABJRU5ErkJggg==" alr="QRCode">
         </li>
         
 
@@ -423,7 +420,7 @@ window.oldVersion = [
                 <!-- # Post Header Info # -->
                 <div class="card-header">
                     
-    <h1 class="card-title h3 mb-2">小米4 RR-OS评测</h1>
+    <h1 class="card-title h3 mb-2">浅谈B+树</h1>
 
 
 
@@ -431,7 +428,7 @@ window.oldVersion = [
 <div class="post-header-info">
     <p class="post-header-info-left text-gray">
         <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
-        <span>2017-10-02</span>
+        <span>2019-09-27</span>
         
             <span class="suka-devide-dot"></span>
             <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
@@ -455,56 +452,56 @@ window.oldVersion = [
     <!-- Share Weibo -->
     
     <li class="menu-item">
-        <a href="http://service.weibo.com/share/share.php?appkey=&title=小米4 RR-OS评测&url=https://hexo.ixk.me/e5-b0-8f-e7-b1-b34-rr-os-e8-af-84-e6-b5-8b.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=浅谈B+树&url=https://hexo.ixk.me/talking-about-bplus-tree.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
     </li>
     
 
     <!-- Share Twitter -->
     
     <li class="menu-item">
-        <a href="https://twitter.com/intent/tweet?text=小米4 RR-OS评测&url=https://hexo.ixk.me/e5-b0-8f-e7-b1-b34-rr-os-e8-af-84-e6-b5-8b.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        <a href="https://twitter.com/intent/tweet?text=浅谈B+树&url=https://hexo.ixk.me/talking-about-bplus-tree.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
     </li>
     
 
     <!-- Share Facebook -->
     
     <li class="menu-item">
-        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/e5-b0-8f-e7-b1-b34-rr-os-e8-af-84-e6-b5-8b.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/talking-about-bplus-tree.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
     </li>
     
 
     <!-- Share Google+ -->
     
     <li class="menu-item">
-        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/e5-b0-8f-e7-b1-b34-rr-os-e8-af-84-e6-b5-8b.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/talking-about-bplus-tree.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
     </li>
     
 
     <!-- Share LinkedIn -->
     
     <li class="menu-item">
-        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/e5-b0-8f-e7-b1-b34-rr-os-e8-af-84-e6-b5-8b.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/talking-about-bplus-tree.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
     </li>
     
 
     <!-- Share QQ -->
     
     <li class="menu-item">
-        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/e5-b0-8f-e7-b1-b34-rr-os-e8-af-84-e6-b5-8b.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/talking-about-bplus-tree.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
     </li>
     
 
     <!-- Share Telegram -->
     
     <li class="menu-item">
-        <a href="https://t.me/share/url?url=https://hexo.ixk.me/e5-b0-8f-e7-b1-b34-rr-os-e8-af-84-e6-b5-8b.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/talking-about-bplus-tree.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
     </li>
     
 
     <!-- QRCode -->
     
     <li class="menu-item">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACN0lEQVR42u2b0U7DQAwE8/8/DU9IVch5x0cQJZ68lJT0PJXiy3rtHh//4DiEFFJIId8A8iiObx86vfd6/vX3+bOr9UhcIedCXt60F4GqwK/n9P0YV8jRkOfAq0Sogu0k3SqukEISyCohVsl09SqkkD+F7CTAlYhYXS+kkDsCIwmE9GUqMXybChLycZBVQfSbr7dVi0I+CjKaRlBwrM6rzf42V03IR0FWN3JrwUIwrAqzaJAJORqyEqpJ1BKRsrW+kCMhu7D0fysjqxK+UWAIOQIyFfBps6dJUK2HCzEhx0GmJmYSF0lEVAIEVYtCjoFMhRaBJAYDbYIKORuy2mzpNR1RS5r7QgrZFbdpSIQ0npAIFnIkZLV5E5M/NaDS4EiZhEKOhNw1pCjgbvNTyLmQVKgSI4oMKaVGP+7SCvloSPLQpwHI5o0LNSFHQiZY0mhPX65qipZmrJAjITtN+FjMA4FCBj+FnA2ZBC/Z1FNBRYdSyi6tkKMgCVy6yUkDIBkHsVoUchRkt+mZCq7KZCWJKORcyNQw7y6ckisNpAgpJDLYQzOpkxgt0SLkaEiaIMSkJ5t8FVdIIRNIGhahwY9wRKdXyBGQXZMqmarJQGgN3Qs5EjLdyElUdEzStgARcixkKpJSQpGBOpI4QgpJRGkSp0T0JoGBDCshhWyKhZ2BkmhKCCkk/PEFHQ4horlsLgg5GrLakLsJ0RXJyweBkGMhuw/+TtOTNAKW1wk5EvKdDyGFFFLIPzw+Ad14lNMPbpo6AAAAAElFTkSuQmCC" alt="QRCode">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB20lEQVR42u3awY7DIAyE4bz/S28ve6hQ8IwRlcjkz6Va1IWvEsFgfP0d+FygQIECdYO6imf8zm1H/+2z/2uNAyoGVQ1WtX93On5/bLf6AxWFGife2H7XmWq/m/SzcUC9D1UNNJvo7f5AvRI1G9RdXEG9B6U2byq4VsF5+y4B1PGoakO/83PbaQbU0SiZdJgsks6B82dZF1BHo6qJqL7TWWir/kFlodSGzEmMzRbdu7/LAyuoGFQ3IK8mbeVGEVQESkFUm/uD1OEWVBbKSUg4SXtn8PJCAFQMyln8qjY1uEr0g8pFOYF2tlmrflTVl5zooB6HWr2IdCZy+2UCFY1aSWY4lwPlBROoCJQqxqqCqZsgUYs0qCxUt3hmpRjCDuag4lBWYst4KdwJDioTpRKtzgugirrsglVQMaiq0Kp7ie0kMqYLMqgYVOdiWwG7ibUtt+2gjkS5iXzncFAG3U5ABvVolDO51aSvNoVOwReoDJRbKOgk6p2Ea1nMAyoC5SRfnSItp8hLBmhQMSiV5FDJslYSo3oxQEWh3MSqOqC6l1CyWALUa1Du5aK6jNo60UE9EqUKATsBfHrIABWFchdFp6DQTYKAykW1gqY4DKwWYYDKQZ30gAIFCtTX8wHEGnFAxN3VRQAAAABJRU5ErkJggg==" alt="QRCode">
     </li>
     
 
@@ -518,18 +515,32 @@ window.oldVersion = [
                     
                         
                             <div id="post-toc">
-                                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#刷机"><span class="post-toc-number">1.</span> <span class="post-toc-text">刷机</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#问题解决"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题解决</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用体验"><span class="post-toc-number">3.</span> <span class="post-toc-text">使用体验</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">4.</span> <span class="post-toc-text">总结</span></a></li></ol>
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#其他结构的问题"><span class="post-toc-number">2.</span> <span class="post-toc-text">其他结构的问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#B-树"><span class="post-toc-number">3.</span> <span class="post-toc-text">B+树</span></a></li></ol>
                             </div>
                         
                     
                     <article id="post-content">
-                        <blockquote>
-<p>由于我之前用的垃圾z90不常用软件不闪退，常用的软件用没一分钟就闪退，实在是特别不爽，坑比的大神note3又因为wifi信号问题不能胜任常用机，好在同学收购了我的大神note3，使得我有钱可以购入二手的小米4(๑&gt;؂&lt;๑），另外我特别不喜欢使用MIUI系统，所以刷入RR-OS（原本我是打算刷win10 mobile，但考虑到软件硬伤所以还是原因安卓，等有了新的主力机后会刷入win10）</p>
-</blockquote>
-<h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><p>手机经过漫长的等待，其实就两天(｢･ω･)｢，终于到了我的手上，经过一番验机，确认是正品，从MIUI论坛搞到rec，经过不久的刷开发板，刷rec，刷RR-OS后手机终于是进入了全新的世界 <img src="https://static.yecdn.com/syfxlin/rr-os-1.jpg" alt> <img src="https://static.yecdn.com/syfxlin/rr-os-2.jpg" alt> <img src="https://static.yecdn.com/syfxlin/rr-os-3.jpg" alt></p>
-<h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>刷入RR-OS后有发现一个问题任务键和主页键被映射到其他按键上，由于是二手机，我并不知道手机是否换过屏幕所以无法知道是否是硬件问题，但是7.1已经有了xposed，既然有了xposed那还怕什么，改改改。。。 <img src="https://static.yecdn.com/syfxlin/xposed-edge-1.jpg" alt> <img src="https://static.yecdn.com/syfxlin/xposed-edge-2.jpg" alt> 使用xposed edge插件成功改键</p>
-<h2 id="使用体验"><a href="#使用体验" class="headerlink" title="使用体验"></a>使用体验</h2><p>系统没有什么大毛病，就是发热严重，另外cpu调度有点坑，没开游戏系统动态开核，一开游戏立马锁两核→_→，不知是ppsspp的问题还是系统问题（我只测试过ppsspp，之后会测试一些耗性能的游戏） 待机无敌，经过两天的测试待机基本不会掉电，使用时掉电也不快，连续重度使用两小时掉35%电量 充电方面没有测试，因为我没有6pin数据线，没法测试9v快充性能，但是5v 2a充电速度还不错，20分钟冲20%电</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>如果是想要稳定使用的话还是MIUI9会比较好用，但是如果你是一个像我一样没有xposed，没有原生系统，不能个性定义系统就不能好好使用手机的人，那么RR-OS非常适合你，RR有非常多的自定义选项可以自己打造系统界面，优化使用体验。</p>
+                        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>B+树（B Plus Tree）</strong>是MySQL数据库索引的底层数据结构，B+树也是一种平衡树和AVL树以及红黑树有着同样的性能，不用你说，我知道你肯定又个疑问，为什么数据库要使用B+树作为数据库索引而不是其他平衡树呢？为什么需要使用B+树呢？或许看完这篇文章你应该就懂了。</p>
+<h2 id="其他结构的问题"><a href="#其他结构的问题" class="headerlink" title="其他结构的问题"></a>其他结构的问题</h2><p>数据库索引作为数据库中的重要组成部分，同时也是数据库性能的重要指标，数据库是索引必须拥有较好的性能，这包括<strong>执行效率（时间）和内存消耗（空间）</strong>，在执行效率方面，我们希望通过索引，查询数据的效率尽可能的高；在存储空间方面，我们希望索引不要消耗太多的内存空间。</p>
+<p>在以上的需求下，支持快速增删改查的数据结构除了B/B+树大概还有以下几种：</p>
+<ul>
+<li>哈希表（Hash Table）</li>
+<li>跳表（Skip List）</li>
+<li>二叉搜索树（Binary Search Tree）</li>
+<li>红黑树（Red-Black Tree）</li>
+<li>平衡二叉树（AVL Tree）</li>
+</ul>
+<p>首先看下哈希表，哈希表拥有O(1)的增删改查的性能，乍一看似乎是最适合作为数据库索引的数据结构。但是，数据库索引不止能等值索引还需要支持范围索引，而哈希表并不能提供范围索引的功能，所以哈希表不能胜任。</p>
+<p>接着是跳表，跳表之前的文章介绍过了，这里就直接说它的理由吧，跳表的空间复杂度是O(nlogn)相比其他平衡结构差，而数据库需要应对的是大量的数据，需要大量的内存和磁盘空间，所以一般不采用跳表作为数据库索引的数据结构。</p>
+<p>二叉搜索树在极端条件下会退化成链表，造成数据库性能不稳定的情况，而其他平衡树拥有更稳定的性能，所以不会使用二叉搜索树。</p>
+<p>AVL树都是一种极为成熟的平衡树结构，维护AVL树的平衡是非常耗时的，AVL树适合用于插入删除次数比较少，但查找多的情况。而数据库有可能进行频繁的插入删除操作，所以不适合。</p>
+<p>红黑树似乎是和B/B+树一样适合作为数据库索引的，但是为什么MySQL不使用红黑树而是采用B+树呢？首先红黑树并不太适合范围查找，还有其他的就在下面说明吧。</p>
+<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><p>首先为了支持范围查找，二叉树需要进行一些小改造：把数据都移到叶节点中，上层树结构只存储下层的索引。思路类似于跳表，但是上层索引使用的是树结构而不是链表结构。</p>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-13-1024x357.png" alt></p>
+<p>除了执行效率和内存消耗的考虑，数据库索引还需要考虑其他一些东西：在海量的数据中索引应该存在哪？有些同学可能会说内存啊，但是内存真的能存下海量的数据索引吗？假如我们要存储10亿个字段，每个索引12B则叶节点大概需要11G，整个索引树内存占用不大于20G。20G对于一台服务器已经是不小的压力了，所以，为了节省内存，如果把树存储在硬盘中，那么每个节点的读取（或者访问），都对应一次磁盘IO操作。树的高度就等于每次查询数据时磁盘IO操作的次数。而磁盘IO操作又极为耗时，所以为了减少磁盘IO操作则二叉树需要进行改造，将层高减少，即使用N叉树。</p>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-14.png" alt></p>
+<p>这样的结构就可以减少对磁盘IO的操作次数，同时又保留了高效的增删改查效率，而这种结构就是B+树，数据由叶节点的指向，索引中在保留key，节省内存。</p>
+<p>还有一些B+树的操作没有写，等有空再接着写吧（逃</p>
 
                     </article>
                     
@@ -550,9 +561,9 @@ window.oldVersion = [
     </script>
 
 
-<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2017-10-01T17:16:29.000Z" itemprop="datePublished">2017-10-02</time>
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-09-27T13:27:18.000Z" itemprop="datePublished">2019-09-27</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-09-28T00:13:34.220Z" itemprop="dateModified">2019-09-28</time>
+    , 最后修改于&nbsp;<time datetime="2019-09-28T00:13:34.224Z" itemprop="dateModified">2019-09-28</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
@@ -569,9 +580,9 @@ window.oldVersion = [
 <span class="post-tags-list mt-2">
 
 
-<a class="post-tags-list-item" href="/tags/RR-OS/" rel="tag">#&nbsp;RR-OS</a>
+<a class="post-tags-list-item" href="/tags/数据库/" rel="tag">#&nbsp;数据库</a>
 
-<a class="post-tags-list-item" href="/tags/小米4/" rel="tag">#&nbsp;小米4</a>
+<a class="post-tags-list-item" href="/tags/数据结构/" rel="tag">#&nbsp;数据结构</a>
 
 </span>
 
@@ -584,20 +595,13 @@ window.oldVersion = [
 <ul class="pagination">
     <!-- Prev Nav -->
     
-        <li class="page-item page-prev">
-            <a href="/hermit-x-e6-92-ad-e6-94-be-e5-99-a8.html" rel="prev">
-                <div class="page-item-title"><i class="icon icon-back" aria-hidden="true"></i></div>
-                <div class="page-item-subtitle">Hermit X播放器</div>
-            </a>
-        </li>
-    
 
     <!-- Next Nav -->
     
         <li class="page-item page-next">
-            <a href="/e7-a7-81-e6-9c-89-e4-ba-91-e6-90-ad-e5-bb-ba-e5-b0-8f-e8-ae-b0.html" rel="next">
+            <a href="/vscode-java-output-chinese-garbled-problem-solving.html" rel="next">
                 <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
-                <div class="page-item-subtitle">私有云搭建小记</div>
+                <div class="page-item-subtitle">VSCode Java输出中文乱码问题解决</div>
             </a>
         </li>
     
