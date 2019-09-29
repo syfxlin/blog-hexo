@@ -226,8 +226,8 @@ window.oldVersion = [
 
 
     <meta property="og:type" content="article">
-    <meta property="article:published_time" content="2019-09-27T13:27:18.000Z">
-    <meta property="article:modified_time" content="2019-09-27T13:27:18.000Z">
+    <meta property="article:published_time" content="2019-09-28T17:15:40.000Z">
+    <meta property="article:modified_time" content="2019-09-28T17:15:40.000Z">
     <meta property="article:author" content="Otstar Lin">
     <meta property="og:article:tag" content=", 数据库, 数据结构"> 
 
@@ -270,8 +270,8 @@ window.oldVersion = [
         "url": "https://hexo.ixk.me/image/favicon.png"
     },
     
-    "datePublished": "2019-09-27T13:27:18.000Z",
-    "dateModified": "2019-09-28T00:13:34.224Z",
+    "datePublished": "2019-09-28T17:15:40.000Z",
+    "dateModified": "2019-09-29T00:13:44.112Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -428,7 +428,7 @@ window.oldVersion = [
 <div class="post-header-info">
     <p class="post-header-info-left text-gray">
         <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
-        <span>2019-09-27</span>
+        <span>2019-09-29</span>
         
             <span class="suka-devide-dot"></span>
             <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
@@ -536,7 +536,7 @@ window.oldVersion = [
 <p>AVL树都是一种极为成熟的平衡树结构，维护AVL树的平衡是非常耗时的，AVL树适合用于插入删除次数比较少，但查找多的情况。而数据库有可能进行频繁的插入删除操作，所以不适合。</p>
 <p>红黑树似乎是和B/B+树一样适合作为数据库索引的，但是为什么MySQL不使用红黑树而是采用B+树呢？首先红黑树并不太适合范围查找，还有其他的就在下面说明吧。</p>
 <h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><p>首先为了支持范围查找，二叉树需要进行一些小改造：把数据都移到叶节点中，上层树结构只存储下层的索引。思路类似于跳表，但是上层索引使用的是树结构而不是链表结构。</p>
-<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-13-1024x357.png" alt></p>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-13-1024x357-1024x357.png" alt></p>
 <p>除了执行效率和内存消耗的考虑，数据库索引还需要考虑其他一些东西：在海量的数据中索引应该存在哪？有些同学可能会说内存啊，但是内存真的能存下海量的数据索引吗？假如我们要存储10亿个字段，每个索引12B则叶节点大概需要11G，整个索引树内存占用不大于20G。20G对于一台服务器已经是不小的压力了，所以，为了节省内存，如果把树存储在硬盘中，那么每个节点的读取（或者访问），都对应一次磁盘IO操作。树的高度就等于每次查询数据时磁盘IO操作的次数。而磁盘IO操作又极为耗时，所以为了减少磁盘IO操作则二叉树需要进行改造，将层高减少，即使用N叉树。</p>
 <p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-14.png" alt></p>
 <p>这样的结构就可以减少对磁盘IO的操作次数，同时又保留了高效的增删改查效率，而这种结构就是B+树，数据由叶节点的指向，索引中在保留key，节省内存。</p>
@@ -548,7 +548,7 @@ window.oldVersion = [
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-09-28");
+        var dateUpdate = Date.parse("2019-09-29");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -561,9 +561,7 @@ window.oldVersion = [
     </script>
 
 
-<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-09-27T13:27:18.000Z" itemprop="datePublished">2019-09-27</time>
-
-    , 最后修改于&nbsp;<time datetime="2019-09-28T00:13:34.224Z" itemprop="dateModified">2019-09-28</time>
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-09-28T17:15:40.000Z" itemprop="datePublished">2019-09-29</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">

@@ -80,9 +80,10 @@ window.oldVersion = [
 <meta name="format-detection" content="telephone=no">
 
 <!-- Description -->
-<meta name="description" content="本文适用于Windows，Linux中应该不会出现这种问题。
+<meta name="description" content="由于服务器崩溃，导致图片丢失，博主将会在不久后恢复这些图片。
+本文适用于Windows，Linux中应该不会出现这种问题。
 
-前几天由于要写OJ题我又打开了尘封已久的VSCode Java工作区，使用过程中遇到了中文乱码的问题，照理说应该是不会出现这种...">
+前几天由于要写OJ题我又打开了尘封已久的VSCod...">
 
 <!-- Keywords -->
 <meta name="keywords" content=", Java, VSCode">
@@ -222,16 +223,17 @@ window.oldVersion = [
 <meta property="og:url" content="https://hexo.ixk.me/vscode-java-output-chinese-garbled-problem-solving.html">
 <meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
 
-<meta property="og:description" content="本文适用于Windows，Linux中应该不会出现这种问题。
+<meta property="og:description" content="由于服务器崩溃，导致图片丢失，博主将会在不久后恢复这些图片。
+本文适用于Windows，Linux中应该不会出现这种问题。
 
-前几天由于要写OJ题我又打开了尘封已久的VSCode Java工作区，使用过程中遇到了中文乱码的问题，照理说应该是不会出现这种...">
+前几天由于要写OJ题我又打开了尘封已久的VSCod...">
 
 <meta name="twitter:card" content="summary">
 
 
     <meta property="og:type" content="article">
-    <meta property="article:published_time" content="2019-09-25T08:51:55.000Z">
-    <meta property="article:modified_time" content="2019-09-25T08:51:55.000Z">
+    <meta property="article:published_time" content="2019-09-28T17:12:55.000Z">
+    <meta property="article:modified_time" content="2019-09-28T17:12:55.000Z">
     <meta property="article:author" content="Otstar Lin">
     <meta property="og:article:tag" content=", Java, VSCode"> 
 
@@ -274,8 +276,8 @@ window.oldVersion = [
         "url": "https://hexo.ixk.me/image/favicon.png"
     },
     
-    "datePublished": "2019-09-25T08:51:55.000Z",
-    "dateModified": "2019-09-28T00:13:34.224Z",
+    "datePublished": "2019-09-28T17:12:55.000Z",
+    "dateModified": "2019-09-29T00:13:44.112Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -301,9 +303,10 @@ window.oldVersion = [
     },
     
     "keywords": ", Java, VSCode",
-    "description": "本文适用于Windows，Linux中应该不会出现这种问题。
+    "description": "由于服务器崩溃，导致图片丢失，博主将会在不久后恢复这些图片。
+本文适用于Windows，Linux中应该不会出现这种问题。
 
-前几天由于要写OJ题我又打开了尘封已久的VSCode Java工作区，使用过程中遇到了中文乱码的问题，照理说应该是不会出现这种..."
+前几天由于要写OJ题我又打开了尘封已久的VSCod..."
 }
 </script>
 
@@ -434,7 +437,7 @@ window.oldVersion = [
 <div class="post-header-info">
     <p class="post-header-info-left text-gray">
         <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
-        <span>2019-09-25</span>
+        <span>2019-09-29</span>
         
             <span class="suka-devide-dot"></span>
             <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
@@ -522,33 +525,34 @@ window.oldVersion = [
                         
                     
                     <article id="post-content">
-                        <p>本文适用于Windows，Linux中应该不会出现这种问题。</p>
+                        <p>由于服务器崩溃，导致图片丢失，博主将会在不久后恢复这些图片。</p>
+<p>本文适用于Windows，Linux中应该不会出现这种问题。</p>
 <blockquote>
 <p>前几天由于要写OJ题我又打开了尘封已久的VSCode Java工作区，使用过程中遇到了中文乱码的问题，照理说应该是不会出现这种问题的，因为我当初在配置Java环境的时候就已经解决了中文乱码的问题。然后一直懒得修，直到今天有空。</p>
 </blockquote>
 <p>博主我原先是将JDK的编码和Java文件的编码都设置为GBK，这样在运行的时候就不会出现中文乱码的问题，不知从那个版本开始这种方式就不可行了，于是只能重新的测试。</p>
 <p>测试用的代码如下：</p>
-<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token comment" spellcheck="true">// encoding: GBK</span>
-<span class="token keyword">package</span> Test<span class="token punctuation">;</span>
+<pre class="line-numbers highlight language-json"><code class="language-json">// encoding<span class="token operator">:</span> GBK
+package Test<span class="token punctuation">;</span>
 
-<span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>ByteArrayOutputStream<span class="token punctuation">;</span>
-<span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>OutputStreamWriter<span class="token punctuation">;</span>
-<span class="token keyword">import</span> java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>UnsupportedEncodingException<span class="token punctuation">;</span>
-<span class="token keyword">import</span> java<span class="token punctuation">.</span>nio<span class="token punctuation">.</span>charset<span class="token punctuation">.</span>Charset<span class="token punctuation">;</span>
+import java.io.ByteArrayOutputStream<span class="token punctuation">;</span>
+import java.io.OutputStreamWriter<span class="token punctuation">;</span>
+import java.io.UnsupportedEncodingException<span class="token punctuation">;</span>
+import java.nio.charset.Charset<span class="token punctuation">;</span>
 
-<span class="token keyword">class</span> <span class="token class-name">Test</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> UnsupportedEncodingException <span class="token punctuation">{</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Default Charset="</span> <span class="token operator">+</span> Charset<span class="token punctuation">.</span><span class="token function">defaultCharset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"file.encoding="</span> <span class="token operator">+</span> System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"file.encoding"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Default Charset="</span> <span class="token operator">+</span> Charset<span class="token punctuation">.</span><span class="token function">defaultCharset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Default Charset in Use="</span> <span class="token operator">+</span> <span class="token function">getDefaultCharSet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"你好世界"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+class Test <span class="token punctuation">{</span>
+    public static void main(String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> throws UnsupportedEncodingException <span class="token punctuation">{</span>
+        System.out.println(<span class="token string">"Default Charset="</span> + Charset.defaultCharset(<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System.out.println(<span class="token string">"file.encoding="</span> + System.getProperty(<span class="token string">"file.encoding"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System.out.println(<span class="token string">"Default Charset="</span> + Charset.defaultCharset(<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System.out.println(<span class="token string">"Default Charset in Use="</span> + getDefaultCharSet(<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System.out.println(<span class="token string">"你好世界"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
-    <span class="token keyword">private</span> <span class="token keyword">static</span> String <span class="token function">getDefaultCharSet</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        OutputStreamWriter writer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">OutputStreamWriter</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ByteArrayOutputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        String enc <span class="token operator">=</span> writer<span class="token punctuation">.</span><span class="token function">getEncoding</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> enc<span class="token punctuation">;</span>
+    private static String getDefaultCharSet(<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        OutputStreamWriter writer = new OutputStreamWriter(new ByteArrayOutputStream(<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        String enc = writer.getEncoding(<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        return enc<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
 <span class="token punctuation">}</span>
@@ -585,7 +589,7 @@ window.oldVersion = [
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-09-28");
+        var dateUpdate = Date.parse("2019-09-29");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -598,9 +602,7 @@ window.oldVersion = [
     </script>
 
 
-<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-09-25T08:51:55.000Z" itemprop="datePublished">2019-09-25</time>
-
-    , 最后修改于&nbsp;<time datetime="2019-09-28T00:13:34.224Z" itemprop="dateModified">2019-09-28</time>
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-09-28T17:12:55.000Z" itemprop="datePublished">2019-09-29</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
