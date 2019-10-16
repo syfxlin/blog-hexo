@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <!--
+        © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+        Version: 1.3.2
+    -->
+    <script>
+window.lsVersion = "1.3.2",
+window.oldVersion = [
+    
+        
+            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
+        
+    
+]
+</script>
+
+    <!-- ### DNS Prefetch ### -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+
+    <!-- ### Preload ### -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- Title -->
+<title>浅谈浏览器Event Loop | 青空之蓝</title>
+
+<!-- favicon -->
+<!-- Favicons -->
+
+    <link rel="icon" type="image/ico" href="/image/favicon.png">
+
+
+
+
+
+
+<!-- Android Chrome Color -->
+
+
+
+<meta name="format-detection" content="telephone=no">
+
+<!-- Description -->
+<meta name="description" content="什么是 Event Loop？">
+
+<!-- Keywords -->
+<meta name="keywords" content=", JavaScript, 前端">
+
+<!-- Disable Fucking Bloody Baidu Tranformation -->
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- ### Import File ### -->
+    
+        <!-- spectre.css -->
+
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style>
+
+<!-- style.css -->
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+
+    <!-- prism.css -->
+    
+    <!-- prism.line_number -->
+    
+        
+            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
+        
+    
+    <!-- prism.theme -->
+    
+        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
+    
+
+
+
+
+
+
+
+    
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <!-- ### RSS ### -->
+    
+
+    <!-- ### WebApp ### -->
+    <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="青空之蓝">
+<meta name="msapplication-starturl" content="https://hexo.ixk.me">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="青空之蓝">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Manifest Import -->
+
+<!-- Open Search -->
+
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="浅谈浏览器Event Loop | 青空之蓝">
+<meta property="og:site_name" content="青空之蓝">
+
+<meta property="og:locale" content="zh-CN">
+
+<meta property="og:url" content="https://hexo.ixk.me/talking-about-browser-event-loop.html">
+<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+
+<meta property="og:description" content="什么是 Event Loop？">
+
+<meta name="twitter:card" content="summary">
+
+
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2019-10-15T14:50:42.000Z">
+    <meta property="article:modified_time" content="2019-10-15T14:50:42.000Z">
+    <meta property="article:author" content="Otstar Lin">
+    <meta property="og:article:tag" content=", JavaScript, 前端"> 
+
+
+
+
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/talking-about-browser-event-loop.html">
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/talking-about-browser-event-loop.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/talking-about-browser-event-loop.html"
+    },
+    "headline": "浅谈浏览器Event Loop | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2019-10-15T14:50:42.000Z",
+    "dateModified": "2019-10-16T00:13:45.511Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": ", JavaScript, 前端",
+    "description": "什么是 Event Loop？"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+
+
+</head>
+
+    <body>
+        
+
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=浅谈浏览器Event Loop" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=浅谈浏览器Event Loop&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=浅谈浏览器Event Loop" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB30lEQVR42u3a0W7EIAxE0fz/T7evqwh7xqu0gsnNS6vdBE4kFozx9bPhdYECBQrUAnU11/2eZUPNs6s22n5AxaCqzu7/3+9dNXx/ierZZT+golDVIFWgrh31Paj3oqrJsxvEbnug3o2qFthq0f6XgQ5qW5QaxKsOFODPogRQ26Oc4P+Jv4/tZkBtjZJJh2ZBdhfjx7MuoLZGdQPRRXaT5aR9UBkotRGoGu8mXxUEyiAPVBRKBXfThXu0gQUVgeomwmqAd4N3ch+ofJQK8h2snCCLz0HloLpDRmcydYAqgQYqD/XN5tM5gKxernwWVARKDU6V0K8CQHVgOVqQQR2Fmh5MO4fg7oQqN6OgjkSpg0N1ODTdyLYvDioGpRIVKlGmiiTsQQ8qBqUSrZOD627xlRtcUFEot9hmWgihkKAyUW6CwzkschIZ5Q8IVAyqGpwq8e8MXncSBpWHmhSRfpPksAJEUHGoySToLMxWcaBbZQ3qGJRTKNh9pjpUh5eg8lDTwSiLaAYFOtbGAdSRKCco6yZIN0iUPwxQUSi3IGu6KVDFhaDeiaoCfufgUgWMoN6JshJeg4OjMqAEFYVSG4ZJ8UPXuV3QDOpolFo0VcJ1WphqJWJBHYva6QIFChSoj+sXaJYwj2YuTzQAAAAASUVORK5CYII=" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    
+    
+
+
+<div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">浅谈浏览器Event Loop</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2019-10-15</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=浅谈浏览器Event Loop&url=https://hexo.ixk.me/talking-about-browser-event-loop.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=浅谈浏览器Event Loop&url=https://hexo.ixk.me/talking-about-browser-event-loop.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/talking-about-browser-event-loop.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/talking-about-browser-event-loop.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/talking-about-browser-event-loop.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/talking-about-browser-event-loop.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/talking-about-browser-event-loop.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB30lEQVR42u3a0W7EIAxE0fz/T7evqwh7xqu0gsnNS6vdBE4kFozx9bPhdYECBQrUAnU11/2eZUPNs6s22n5AxaCqzu7/3+9dNXx/ierZZT+golDVIFWgrh31Paj3oqrJsxvEbnug3o2qFthq0f6XgQ5qW5QaxKsOFODPogRQ26Oc4P+Jv4/tZkBtjZJJh2ZBdhfjx7MuoLZGdQPRRXaT5aR9UBkotRGoGu8mXxUEyiAPVBRKBXfThXu0gQUVgeomwmqAd4N3ch+ofJQK8h2snCCLz0HloLpDRmcydYAqgQYqD/XN5tM5gKxernwWVARKDU6V0K8CQHVgOVqQQR2Fmh5MO4fg7oQqN6OgjkSpg0N1ODTdyLYvDioGpRIVKlGmiiTsQQ8qBqUSrZOD627xlRtcUFEot9hmWgihkKAyUW6CwzkschIZ5Q8IVAyqGpwq8e8MXncSBpWHmhSRfpPksAJEUHGoySToLMxWcaBbZQ3qGJRTKNh9pjpUh5eg8lDTwSiLaAYFOtbGAdSRKCco6yZIN0iUPwxQUSi3IGu6KVDFhaDeiaoCfufgUgWMoN6JshJeg4OjMqAEFYVSG4ZJ8UPXuV3QDOpolFo0VcJ1WphqJWJBHYva6QIFChSoj+sXaJYwj2YuTzQAAAAASUVORK5CYII=" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                            <div id="post-toc">
+                                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是-Event-Loop？"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是 Event Loop？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MacroTask和MicroTask"><span class="post-toc-number">2.</span> <span class="post-toc-text">MacroTask和MicroTask</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Promise"><span class="post-toc-number">3.</span> <span class="post-toc-text">Promise</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#async-await"><span class="post-toc-number">4.</span> <span class="post-toc-text">async/await</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一个有用的🌰"><span class="post-toc-number">5.</span> <span class="post-toc-text">一个有用的🌰</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">6.</span> <span class="post-toc-text">结语</span></a></li></ol>
+                            </div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="什么是-Event-Loop？"><a href="#什么是-Event-Loop？" class="headerlink" title="什么是 Event Loop？"></a>什么是 Event Loop？</h2><p>若你了解过JavaScript，你一定知道JavaScript是一种单线程语言，为什么JavaScript是单线程呢？为什么不使用多线程呢？JavaScript作为浏览器脚本语言（虽然现在也在后端挺流行的），JavaScript的主要用途是与用户互动，以及操作DOM。若使用多线程就会导致一些问题，比如更新丢失等问题，当一个线程要删除DOM的时候另一个线程要更改它，那浏览器该如何操作呢。所以JavaScript为了避免多线程带来的一系列问题采用了单线程的运行机制。</p>
+<p>而若只是单纯的同步单线程的执行便会导致JS运行到某个需要等待的位置时就会造成假死状态，比如当JS要从网络中获取一张巨大的图片，发起了HTTP请求，在等待HTTP请求中若是不采用某种机制来处理的话就会导致卡住的假死状态，我们可以用Java来模拟一下:</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Date<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Demo01</span> <span class="token punctuation">{</span>
+   <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// 打印该句执行的时间</span>
+      System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"begin: "</span> <span class="token operator">+</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">try</span> <span class="token punctuation">{</span>
+         <span class="token comment" spellcheck="true">// 利用sleep模拟请求时的状态</span>
+         Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">5000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment" spellcheck="true">// 打印该句执行的时间</span>
+      System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"end: "</span> <span class="token operator">+</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2019/10/image.png" alt></p>
+<p>从上面的运行结果可以看到，同步运行的时候Java在begin和end中间隔了非常久的时间，程序也在那时候<strong>被阻塞住了</strong>，而UI是不能被阻塞的否则会严重影响用户体验，所以JS采用<strong>异步</strong>来防止这种情况发生。</p>
+<p>当JS线程执行到需要<strong>异步</strong>的操作的时候就会把该任务发到<strong>任务队列</strong>，然后继续向下执行，当所有的<strong>同步代码都执行完毕</strong>的时候，JS线程就会从任务队列读取任务并执行，若遇到异步操作就继续<strong>入队</strong>。。。如此往复，这就是<strong>Event Loop(事件循环)</strong>。</p>
+<h2 id="MacroTask和MicroTask"><a href="#MacroTask和MicroTask" class="headerlink" title="MacroTask和MicroTask"></a>MacroTask和MicroTask</h2><p><strong>MacroTask（宏任务）</strong>和<strong>MicroTask（微任务），</strong>宏任务是一个大任务，在一个宏任务包含着许多个微任务，我们可以这样认为宏任务队列就代表着事件循环，而宏任务中的Promise还会产生异步代码，JavaScript必须保证这些异步代码在一个宏观任务中完成，所以每个宏任务中包含了一个微任务队列。在宏任务中产生的异步操作会添加在微任务队列的尾部，在本tick中完成。举个🌰吧：</p>
+<ul>
+<li>执行html中引用的js代码，碰到宏任务的时候就把宏任务添加到宏任务队列，遇到微任务就在这个tick中执行完毕，全局的js执行完毕后调用栈会清空</li>
+<li>从宏任务队列中取出队首任务，执行，遇到微任务就添加到该宏任务中的微任务队列中，在本tick中完成，遇到宏任务就添加到宏任务队列尾部。</li>
+<li>取出该宏任务中的微任务，逐个执行，如果遇到宏任务就添加到宏任务队列，遇到微任务就添加到微任务队列，直到该宏任务中微任务队列清空，则代表该宏任务完成</li>
+<li>取出下一个宏任务，执行。。。重复2-3步</li>
+<li>取出下一个宏任务，执行。。。重复2-3步</li>
+</ul>
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><p>Promise是ES6新增的一种异步解决方案，它的运行方式是当需要进行I/O，等待等异步操作的时候，不返回结果而是返回一个promise（”承诺”），当这个承诺完成的时候，即状态变为<code>fulfilled</code>或者<code>rejected</code>，这个promise就定格了，也可以认为返回值是一样的了，你可以在任何位置任何时间利用then得到这个结果（返回值），或许这有点难以理解，那就举个🌰吧：</p>
+<pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token keyword">var</span> re <span class="token operator">=</span> <span class="token string">"foo"</span>
+
+<span class="token keyword">var</span> promise1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">resolve</span><span class="token punctuation">(</span>re<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+promise1<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"one call value: "</span> <span class="token operator">+</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"one vall re prev: "</span> <span class="token operator">+</span> re<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    re<span class="token operator">=</span><span class="token string">"foo2"</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"one call re: "</span> <span class="token operator">+</span> re<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+promise1<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"two call value: "</span> <span class="token operator">+</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"two call re: "</span> <span class="token operator">+</span> re<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>promise1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// > [object Promise]</span>
+<span class="token comment" spellcheck="true">// > "one call value: foo"</span>
+<span class="token comment" spellcheck="true">// > "one vall re prev: foo"</span>
+<span class="token comment" spellcheck="true">// > "one call re: foo2"</span>
+<span class="token comment" spellcheck="true">// > "two call value: foo"</span>
+<span class="token comment" spellcheck="true">// > "two call re: foo2"</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>从上面的运行结果可以看到re确实在第一次调用promise1的时候被修改为foo2，但是当第二次调用promise时的value并没有跟着改变，也就是说promise不会再调用第二次，而是直接返回结果。</p>
+<h2 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h2><p>ES7中添加了async和await的关键字，async返回的必定时Promise，可以理解为就是异步函数，await是等待Promise。</p>
+<p>async可以使一个函数成为异步函数，返回Promise，我们可以把async认为使new Promise的语法糖，所以当函数return值的时候return的不是值而是Promise，若要得到async中return的值就需要使用then。</p>
+<pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token keyword">var</span> fun <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> re <span class="token operator">=</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>re<span class="token punctuation">)</span><span class="token punctuation">;</span>
+re<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>value <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// > [object Promise]</span>
+<span class="token comment" spellcheck="true">// > "hello"</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>await是等待后面东西，可以是Promise，可以是值，可以是表达式，当可以直接得到值的时候await会立即返回值，但若是Promise，await就会将js阻塞住，直到Promise兑现，有了await，我们可以把异步的js写成同步的js，可以有效的解决回调地狱。</p>
+<h2 id="一个有用的🌰"><a href="#一个有用的🌰" class="headerlink" title="一个有用的🌰"></a>一个有用的🌰</h2><pre class="line-numbers highlight language-javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'sync1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//1</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'sync_timeout1'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> promise <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//2</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'pro_new_timeout'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'pro_new'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+promise<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'pro_then'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//3</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'pro_timeout'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//4</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'sync_timeout2'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'sync2'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>看到这个代码，是不是很晕，先不要放到JS中运行，让我们一起来看看这个的输出，你可以先不看以下的步骤自己思考一下，或许能得到不小收获。</p>
+<p>首先，sync1的console.log肯定是第一个输出的，调用栈先进了console，然后出栈，控制台输出<code>sync1</code></p>
+<p>然后程序来到了第一个setTimeout，这是一个异步宏任务，所以放到宏任务队列中，然后跳过该setTimeout。MacroTask Queue:[setTimeout-1]</p>
+<p>接下来程序来到了new promise，new promise是同步的，所以会进入到function中，遇到第二个setTimeout，此时将这个setTimeout放到宏任务队列中，然后跳过setTimeout，执行到console.log，输出<code>pro_new</code>，接着遇到resolve，是微任务将其放到微任务队列中，然后退出function。MacroTask Queue:[setTimeout-1,setTimeout-2]，MicroTask Queue:[resolve]</p>
+<p>接着遇到了promise的then，这是属于resolve的回调，当resolve状态改变的时候才执行，所以跳过该部分。MacroTask Queue:[setTimeout-1,setTimeout-2]，MicroTask Queue:[resolve]</p>
+<p>然后又遇到了一个setTimeout，同样将其放到宏任务队列中。MacroTask Queue:[setTimeout-1,setTimeout-2,setTimeout-4]，MicroTask Queue:[resolve]</p>
+<p>接着遇到了最后一个console.log，输出<code>sync2</code>，此时同步代码已经执行完毕。</p>
+<p>微任务列表不为空，所以需要在这个tick中执行，不能先取宏任务，调用resolve的then，输出<code>pro_then</code>，同时将setTimeout放入宏任务队列。MacroTask Queue:[setTimeout-1,setTimeout-2,setTimeout-4,setTimeout-3]，MicroTask Queue:[]</p>
+<p>微任务队列空了，从宏任务中取出队首的任务，即setTimeout-1，执行后输出<code>sync_timeout1</code></p>
+<p>取出队首任务，setTimeout-2，输出<code>pro_new_timeout</code></p>
+<p>取出队首任务，setTimeout-4，输出<code>sync_timeout2</code></p>
+<p>取出队首任务，setTimeout-3，输出<code>pro_timeout</code>，此时宏任务列表和微任务队列为空，js引擎进入等待状态。</p>
+<ul>
+<li>sync1</li>
+<li>pro_new</li>
+<li>sync2</li>
+<li>pro_then</li>
+<li>sync_timeout1</li>
+<li>pro_new_timeout</li>
+<li>sync_timeout2</li>
+<li>pro_timeout</li>
+</ul>
+<p>你们猜对了吗？反正我第一次是没猜对（逃</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>学了好久的前端，之前对异步只处于会用的状态，前几天刚了解了一下JS的异步，刚好好久没写过文章了，便自己整理了写成一篇文章，输出才是最好的学习，其实是为了水文章（逃。(￣y▽,￣)╭</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+        var dateUpdate = Date.parse("2019-10-16");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-10-15T14:50:42.000Z" itemprop="datePublished">2019-10-15</time>
+
+    , 最后修改于&nbsp;<time datetime="2019-10-16T00:13:45.511Z" itemprop="dateModified">2019-10-16</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+
+<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+
+<a class="post-tags-list-item" href="/tags/JavaScript/" rel="tag">#&nbsp;JavaScript</a>
+
+<a class="post-tags-list-item" href="/tags/前端/" rel="tag">#&nbsp;前端</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                
+<div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/talking-about-bplus-tree.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">浅谈B+树</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
+        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+    </p>
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    
+        
+            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
+        
+    
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+            
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+        
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+        
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+
+
+    /* Copyright */
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.querySelector('span[data-year]')
+    
+        copyrightSince = 2017;
+        if (copyrightSince === copyrightNow) {
+            copyrightContent.textContent = copyrightNow
+        } else {
+            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
+        }
+    
+
+
+
+/* Cnosole Log */
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+</script>
+
+<!-- vanilla-lazyload -->
+
+    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+
+
+
+    <!-- Busuanzi -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+
+
+
+<!-- gallery.js -->
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+
+    </body>
+
+</html>
