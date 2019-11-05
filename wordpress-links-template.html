@@ -1,26 +1,18 @@
 <!DOCTYPE html>
 
 <html lang="zh-CN">
-    <head><meta name="generator" content="Hexo 3.8.0">
+    <head>
     <meta charset="utf-8">
     <!--
-        © SukkaW
+        hexo-theme-suka © SukkaW
         GitHub: https://github.com/SukkaW/hexo-theme-suka
-        Version: 1.3.2
     -->
-    <script>
-window.lsVersion = "1.3.2",
-window.oldVersion = [
-    
-        
-            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
-        
-    
-]
-</script>
 
-    <!-- ### DNS Prefetch ### -->
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
     <meta http-equiv="x-dns-prefetch-control" content="on">
+
 <!-- busuanzi -->
 
     <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
@@ -42,8 +34,7 @@ window.oldVersion = [
 
 
 
-
-    <!-- ### Preload ### -->
+    <!-- ## Preload ## -->
     
     <!-- Busuanzi -->
     
@@ -56,49 +47,18 @@ window.oldVersion = [
 
 
     <!-- ### Meta & Title & Info ### -->
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
-<meta name="renderer" content="webkit">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
 
-<!-- Title -->
-<title>WordPress友情链接模板 | 青空之蓝</title>
+    <!-- Title -->
+    <title>WordPress友情链接模板 | 青空之蓝</title>
 
-<!-- favicon -->
-<!-- Favicons -->
-
-    <link rel="icon" type="image/ico" href="/image/favicon.png">
-
-
-
-
-
-
-<!-- Android Chrome Color -->
-
-
-
-<meta name="format-detection" content="telephone=no">
-
-<!-- Description -->
-<meta name="description" content="
-没错又是一篇水文 （逃 使用此模板需要安装Link Manager插件，模板文件已上传至Github，可以直接取用。
-">
-
-<!-- Keywords -->
-<meta name="keywords" content=", PHP, Wordpress, Mysql, Web">
-
-<!-- Disable Fucking Bloody Baidu Tranformation -->
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
 
     <!-- ### Import File ### -->
-    
-        <!-- spectre.css -->
-
-    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
-
-
-<style>
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
     body {
         background-color: #f8f9fa;
     }
@@ -119,6 +79,8 @@ window.oldVersion = [
         color: #005eb9;
         opacity: 1;
     }
+
+    
 
     .post-entry .card-body a {
         color: #0070ff;
@@ -161,28 +123,14 @@ window.oldVersion = [
         background: #f8f9fa;
         opacity: .85;
     }
-</style>
-
-<!-- style.css -->
-
-    <link rel="stylesheet" href="/css/style.min.css">
-
+</style><link rel="stylesheet" href="/css/style.min.css">
 
 
 
 
     <!-- prism.css -->
     
-    <!-- prism.line_number -->
-    
-        
-            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
-        
-    
-    <!-- prism.theme -->
-    
-        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
-    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
 
 
 
@@ -190,54 +138,28 @@ window.oldVersion = [
 
 
 
-    
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
 
     <!-- ### Site Verification ### -->
     
 
 
-    <!-- ### RSS ### -->
-    
-
-    <!-- ### WebApp ### -->
-    <meta name="mobile-web-app-capable" content="yes">
-<meta name="application-name" content="青空之蓝">
-<meta name="msapplication-starturl" content="https://hexo.ixk.me">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="青空之蓝">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<!-- Manifest Import -->
-
-<!-- Open Search -->
-
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- ### The Open Graph & Twitter Card Protocol ### -->
-    <meta property="og:title" content="WordPress友情链接模板 | 青空之蓝">
-<meta property="og:site_name" content="青空之蓝">
+    <meta property="og:title" content="WordPress友情链接模板 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https:&#x2F;&#x2F;hexo.ixk.me&#x2F;wordpress-links-template.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="没错又是一篇水文 （逃 使用此模板需要安装Link Manager插件，模板文件已上传至Github，可以直接取用。  最终效果请自行查看本站友情链接页面代码部分&amp;lt;?php&#x2F;* * Template Name: 友情链接 *&#x2F;get_header(); ?&amp;gt;             &amp;lt;?php if (have_posts()): ?&amp;gt;            &amp;lt;?ph - Otstar Lin - 青空之蓝"><meta name="keywords" content="PHP, Wordpress, Mysql, Web"><meta property="article:published_time" content="2018-08-28T05:28:51.000Z"><meta property="article:modified_time" content="2019-11-05T02:25:55.012Z"><meta property="og:updated_time" content="2019-11-05T02:25:55.012Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="PHP, Wordpress, Mysql, Web"><meta name="twitter:card" content="summary">
 
-<meta property="og:locale" content="zh-CN">
+    
 
-<meta property="og:url" content="https://hexo.ixk.me/wordpress-links-template.html">
-<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/wordpress-links-template.html">
 
-<meta property="og:description" content="
-没错又是一篇水文 （逃 使用此模板需要安装Link Manager插件，模板文件已上传至Github，可以直接取用。
-">
-
-<meta name="twitter:card" content="summary">
-
-
-    <meta property="og:type" content="article">
-    <meta property="article:published_time" content="2018-08-28T05:28:51.000Z">
-    <meta property="article:modified_time" content="2018-08-28T05:28:51.000Z">
-    <meta property="article:author" content="Otstar Lin">
-    <meta property="og:article:tag" content=", PHP, Wordpress, Mysql, Web"> 
-
-
-
-
+    <meta name="generator" content="Hexo 4.0.0">
 
     <!-- ### Analytics ### -->
     
@@ -247,10 +169,6 @@ window.oldVersion = [
 
 
 
-
-
-    <!-- ### Canonical link ### -->
-    <link rel="canonical" href="https://hexo.ixk.me/wordpress-links-template.html">
 
     <!-- ### Structured Data ### -->
     
@@ -275,7 +193,7 @@ window.oldVersion = [
     },
     
     "datePublished": "2018-08-28T05:28:51.000Z",
-    "dateModified": "2019-10-31T00:19:45.590Z",
+    "dateModified": "2019-11-05T02:25:55.012Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -300,10 +218,8 @@ window.oldVersion = [
         "query-input": "required name=search_term_string"
     },
     
-    "keywords": ", PHP, Wordpress, Mysql, Web",
-    "description": "
-没错又是一篇水文 （逃 使用此模板需要安装Link Manager插件，模板文件已上传至Github，可以直接取用。
-"
+    "keywords": "PHP, Wordpress, Mysql, Web",
+    "description": "没错又是一篇水文 （逃 使用此模板需要安装Link Manager插件，模板文件已上传至Github，可以直接取用。  最终效果请自行查看本站友情链接页面代码部分&amp;amp;lt;?php/* * Template Name: 友情链接 */get_header(); ?&amp;amp;gt;             &amp;amp;lt;?php if (have_posts()): ?&amp;amp;gt;            &amp;amp;lt;?ph - Otstar Lin - 青空之蓝"
 }
 </script>
 
@@ -311,13 +227,9 @@ window.oldVersion = [
 
     <!-- ### Custom Head ### -->
     
-
-
 </head>
 
     <body>
-        
-
             
 
             <!-- ### Main content ### -->
@@ -414,11 +326,7 @@ window.oldVersion = [
 
             
     <!-- ## Post ## -->
-    
-    
-
-
-<div class="post-container">
+    <div class="post-container">
     <div id="post-card" class="card">
         
         <div class="card-item-container">
@@ -437,7 +345,7 @@ window.oldVersion = [
         <span>2018-08-28</span>
         
             <span class="suka-devide-dot"></span>
-            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
         
         
             <!-- Busuanzi Post Views -->
@@ -520,9 +428,8 @@ window.oldVersion = [
                 <div class="card-body">
                     
                         
-                            <div id="post-toc">
-                                <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#最终效果请自行查看本站友情链接页面"><span class="post-toc-number">1.</span> <span class="post-toc-text">最终效果请自行查看本站友情链接页面</span></a></li></ol><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码部分"><span class="post-toc-number"></span> <span class="post-toc-text">代码部分</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#undefined"><span class="post-toc-number"></span> <span class="post-toc-text">                    &lt;?php the_title(); ?&gt;                </span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用方法"><span class="post-toc-number"></span> <span class="post-toc-text">使用方法</span></a>
-                            </li></ol></li></div>
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#最终效果请自行查看本站友情链接页面"><span class="post-toc-number">1.</span> <span class="post-toc-text">最终效果请自行查看本站友情链接页面</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码部分"><span class="post-toc-number"></span> <span class="post-toc-text">代码部分</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#null"><span class="post-toc-number"></span> <span class="post-toc-text">                    &lt;?php the_title(); ?&gt;                </span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用方法"><span class="post-toc-number"></span> <span class="post-toc-text">使用方法</span></a></div>
                         
                     
                     <article id="post-content">
@@ -530,7 +437,7 @@ window.oldVersion = [
 <p>没错又是一篇水文 （逃 使用此模板需要安装<code>Link Manager</code>插件，模板文件已上传至<code>Github</code>，可以直接取用。</p>
 </blockquote>
 <h3 id="最终效果请自行查看本站友情链接页面"><a href="#最终效果请自行查看本站友情链接页面" class="headerlink" title="最终效果请自行查看本站友情链接页面"></a>最终效果请自行查看本站<code>友情链接</code>页面</h3><h2 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h2><p>&lt;?php<br>/*<br> * Template Name: 友情链接<br> */<br>get_header(); ?&gt;</p>
-<main class="container"><br>    <div class="page-friends page-common row"><br>        &lt;?php if (have_posts()): ?&gt;<br>            &lt;?php while (have_posts()) : the_post(); ?&gt;<br>                <h1 class="page-title" style="margin-top:100px;text-align:center;font-size:37px;font-style:italic"><br>                    &lt;?php the_title(); ?&gt;<br>                </h1><br>                <article class="page-content" style="text-align:center;"><br>                    &lt;?php the_content(); ?&gt;<br>                </article><br>            &lt;?php endwhile;  ?&gt;<br>        &lt;?php endif; ?&gt;<br><style><br>    .clearfix {<br>        zoom:1;<br>    }<br><br>    .clearfix:after {<br>        content:”.”;<br>        display:block;<br>        visibility:hidden;<br>        height:0;<br>        clear:both;<br>    }<br><br>    .readers-list {<br>        list-style:none;<br>    }<br><br>    .readers-list *{<br>        margin:0;<br>        padding:0;<br>    }<br><br>    .readers-list li{<br>        position:relative;<br>        float:left;<br>        margin:6px 6px;<br>        height:205px;!important;<br>    }<br><br>    .readers-list li &gt; a {<br>        border: 1px solid #eee;<br>        display: block;<br>        width: 100%;<br>        height: 100%;<br>        text-align: center;<br>        transition:all .5s;<br>        -webkit-box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);<br>            box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);<br>    }<br><br>    .readers-list li&gt;a {<br>        -webkit-transition: -webkit-box-shadow .25s cubic-bezier(.4, 0, .2, 1);<br>            transition: -webkit-box-shadow .25s cubic-bezier(.4, 0, .2, 1);<br>            transition:         box-shadow .25s cubic-bezier(.4, 0, .2, 1);<br>            transition:         box-shadow .25s cubic-bezier(.4, 0, .2, 1), -webkit-box-shadow .25s cubic-bezier(.4, 0, .2, 1);<br>        will-change: box-shadow;<br>    }<br><br>    .readers-list li&gt;a:hover,<br>    .readers-list li&gt;a:focus {<br>        -webkit-box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);<br>            box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);<br>    }<br><br>    #links_info {<br>        position: absolute;<br>        bottom: 0px;<br>        padding-bottom: 10px;<br>        background: #000;<br>        width: 100%;<br>        height: 200px;<br>        -webkit-mask : -webkit-gradient(linear, center top, center bottom, from(rgba(0,0,0,0)), to(rgba(0,0,0,0.7)));<br>    }<br><br>    #links_icon {<br>        width: 70px;<br>        height: 70px;<br>        position: absolute;<br>        border-radius: 50%;<br>        top: 15px;<br>        right: 15px;<br>    }<br><br>    .readers-list em{<br>        position: absolute;<br>        top: 110px;<br>        left: 15px;<br>        font-size: 25px;<br>        color: #fff;<br>    }<br><br>    .readers-list span {<br>        position: absolute;<br>        top:155px;<br>        font-size: 18px;<br>        left: 15px;<br>        width: auto;<br>        color: #fff;<br>        font-style: italic;<br>    }<br><br>    @media(min-width:750px){<br>        .readers-list {margin: 0px auto;width:750px;}<br>        .readers-list li{width:355px;}<br>    }<br><br>    @media(max-width:749px){<br>        .readers-list {margin: 0px auto;width:375px;}<br>        .readers-list li{width:355px;}<br>    }<br></style><br>        <div><br>            &lt;?php<br>                global $wpdb;<br>                $qlink=”select link_url,link_name,link_image,link_notes,link_description,link_rss from wp_links where link_visible=’Y’ order by link_id”;<br>                $links = $wpdb-&gt;get_results($qlink);<br>                if(empty($links)) {<br>                    echo ‘<p>暂无友链数据！</p>‘;<br>                }<br>                foreach ($links as $comment){<br>                    $tmp = “<li><a rel="\\" nofollow\\"" title=".$comment->link\_url." target="\\" \_blank\\"" href="\\" $comment-">link\_url\\" style=\\"background-image:url($comment->link\_image);background-size: cover;\\"><div id="\\" links\_info\\""></div><em>“.$comment-&gt;link_name.”</em><span>“.$comment-&gt;link_notes.”</span><img id="\\" links\_icon\\"" src="\\" $comment-">link_rss\\"></a></li>“;<br>                    $output1 .= $tmp;<br>                }<br>                $output1 = “<ul class="\\" readers-list" clearfix\\">“.$output1.”</ul>“;<br>                echo $output1;<br>            ?&gt;<br>        </div><br>        <div style="text-align:center;font-size:18px;margin:10px 0px;">此页模板由<a href="https://www.ixk.me" target="_blank" rel="noopener">Otstar-Lin</a>于2018制作,源码已上传至<a href="https://github.com/syfxlin/wp-links-template" target="_blank" rel="noopener">Github</a></div><br>    </div><br></main>
+<main class="container"><br>    <div class="page-friends page-common row"><br>        &lt;?php if (have_posts()): ?&gt;<br>            &lt;?php while (have_posts()) : the_post(); ?&gt;<br>                <h1 class="page-title" style="margin-top:100px;text-align:center;font-size:37px;font-style:italic"><br>                    &lt;?php the_title(); ?&gt;<br>                </h1><br>                <article class="page-content" style="text-align:center;"><br>                    &lt;?php the_content(); ?&gt;<br>                </article><br>            &lt;?php endwhile;  ?&gt;<br>        &lt;?php endif; ?&gt;<br><style><br>    .clearfix {<br>        zoom:1;<br>    }<br><br>    .clearfix:after {<br>        content:”.”;<br>        display:block;<br>        visibility:hidden;<br>        height:0;<br>        clear:both;<br>    }<br><br>    .readers-list {<br>        list-style:none;<br>    }<br><br>    .readers-list *{<br>        margin:0;<br>        padding:0;<br>    }<br><br>    .readers-list li{<br>        position:relative;<br>        float:left;<br>        margin:6px 6px;<br>        height:205px;!important;<br>    }<br><br>    .readers-list li &gt; a {<br>        border: 1px solid #eee;<br>        display: block;<br>        width: 100%;<br>        height: 100%;<br>        text-align: center;<br>        transition:all .5s;<br>        -webkit-box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);<br>            box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);<br>    }<br><br>    .readers-list li&gt;a {<br>        -webkit-transition: -webkit-box-shadow .25s cubic-bezier(.4, 0, .2, 1);<br>            transition: -webkit-box-shadow .25s cubic-bezier(.4, 0, .2, 1);<br>            transition:         box-shadow .25s cubic-bezier(.4, 0, .2, 1);<br>            transition:         box-shadow .25s cubic-bezier(.4, 0, .2, 1), -webkit-box-shadow .25s cubic-bezier(.4, 0, .2, 1);<br>        will-change: box-shadow;<br>    }<br><br>    .readers-list li&gt;a:hover,<br>    .readers-list li&gt;a:focus {<br>        -webkit-box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);<br>            box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2), 0 8px 10px 1px rgba(0, 0, 0, .14), 0 3px 14px 2px rgba(0, 0, 0, .12);<br>    }<br><br>    #links_info {<br>        position: absolute;<br>        bottom: 0px;<br>        padding-bottom: 10px;<br>        background: #000;<br>        width: 100%;<br>        height: 200px;<br>        -webkit-mask : -webkit-gradient(linear, center top, center bottom, from(rgba(0,0,0,0)), to(rgba(0,0,0,0.7)));<br>    }<br><br>    #links_icon {<br>        width: 70px;<br>        height: 70px;<br>        position: absolute;<br>        border-radius: 50%;<br>        top: 15px;<br>        right: 15px;<br>    }<br><br>    .readers-list em{<br>        position: absolute;<br>        top: 110px;<br>        left: 15px;<br>        font-size: 25px;<br>        color: #fff;<br>    }<br><br>    .readers-list span {<br>        position: absolute;<br>        top:155px;<br>        font-size: 18px;<br>        left: 15px;<br>        width: auto;<br>        color: #fff;<br>        font-style: italic;<br>    }<br><br>    @media(min-width:750px){<br>        .readers-list {margin: 0px auto;width:750px;}<br>        .readers-list li{width:355px;}<br>    }<br><br>    @media(max-width:749px){<br>        .readers-list {margin: 0px auto;width:375px;}<br>        .readers-list li{width:355px;}<br>    }<br></style><br>        <div><br>            &lt;?php<br>                global $wpdb;<br>                $qlink=”select link_url,link_name,link_image,link_notes,link_description,link_rss from wp_links where link_visible=’Y’ order by link_id”;<br>                $links = $wpdb-&gt;get_results($qlink);<br>                if(empty($links)) {<br>                    echo ‘<p>暂无友链数据！</p>‘;<br>                }<br>                foreach ($links as $comment){<br>                    $tmp = “<li><a rel=\\"nofollow\\" title=".$comment->link\_url." target=\\"\_blank\\" href=\\"$comment->link\_url\\" style=\\"background-image:url($comment->link\_image);background-size: cover;\\"><div id=\\"links\_info\\"></div><em>“.$comment-&gt;link_name.”</em><span>“.$comment-&gt;link_notes.”</span><img id=\\"links\_icon\\" src=\\"$comment->link_rss\\"></img></a></li>“;<br>                    $output1 .= $tmp;<br>                }<br>                $output1 = “<ul class=\\"readers-list clearfix\\">“.$output1.”</ul>“;<br>                echo $output1;<br>            ?&gt;<br>        </div><br>        <div style="text-align:center;font-size:18px;margin:10px 0px;">此页模板由<a href="https://www.ixk.me">Otstar-Lin</a>于2018制作,源码已上传至<a href="https://github.com/syfxlin/wp-links-template" target="_blank" rel="noopener">Github</a></div><br>    </div><br></main>
 
 <p>&lt;?php get_footer(); ?&gt;</p>
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>安装<code>Link Manager</code>插件并激活，在主题模板的文件夹新建一个PHP文件，将上面的代码复制进去并保存，或者去<code>Github</code>下载已经弄好的文件，并确定文件权限无误，进入WordPress后台，添加一个页面，选择友情链接模板进行创建，之后就可以在链接菜单进行添加了。 <code>图像地址</code>对应<code>背景图</code> <code>RSS地址</code>对应<code>友人头像</code> <code>备注</code>对应<code>友链简介</code> 保留<code>the_content()</code>函数，可以在编辑器中添加内容。</p>
@@ -541,7 +448,8 @@ window.oldVersion = [
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-10-31");
+    (function() {
+        var dateUpdate = Date.parse("2019-11-05");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -551,27 +459,26 @@ window.oldVersion = [
         } else {
             document.getElementById('date-expire-notification').style.display = 'none';
         }
+    })();
     </script>
 
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2018-08-28T05:28:51.000Z" itemprop="datePublished">2018-08-28</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-10-31T00:19:45.590Z" itemprop="dateModified">2019-10-31</time>
+    , 最后修改于&nbsp;<time datetime="2019-11-05T02:25:55.012Z" itemprop="dateModified">2019-11-05</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
 
 <span class="post-categories-list mt-2">
 
-
-<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
 
 </span>
 
 
 
 <span class="post-tags-list mt-2">
-
 
 <a class="post-tags-list-item" href="/tags/PHP/" rel="tag">#&nbsp;PHP</a>
 
@@ -587,8 +494,7 @@ window.oldVersion = [
 </p>
 
                 </div>
-                
-<div class="post-nav px-2 bg-gray">
+                <div class="post-nav px-2 bg-gray">
 <ul class="pagination">
     <!-- Prev Nav -->
     
@@ -624,21 +530,18 @@ window.oldVersion = [
             <!-- ### Footer ### -->
             <footer class="text-center">
     <!-- footer copyright -->
-    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
-        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
-    </p>
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
     <!-- footer custom text -->
     <p class="footer-text mb-0">
-    
-        
-            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
-        
-    
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
     </p>
     <!-- footer develop info -->
     <p class="footer-develop mb-0">
         
-            
     <!-- Busuanzi User Views -->
     <span id="busuanzi_container_site_uv" hidden>
         <span></span>
@@ -651,7 +554,7 @@ window.oldVersion = [
 
 
 
-        
+
         
         Powered by&nbsp;<!--
          --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
@@ -659,45 +562,33 @@ window.oldVersion = [
     </p>
 </footer>
 
-        
 
         <!-- ### Import File ### -->
         <!-- ### Footer JS Import ### -->
 
 <script>
+
+    
 window.lazyLoadOptions = {
     elements_selector: ".lazyload",
     threshold: 50
 };
 
-
-
-    /* Copyright */
+(function() {
     var copyrightNow = new Date().getFullYear();
-    var copyrightContent = document.querySelector('span[data-year]')
-    
-        copyrightSince = 2017;
-        if (copyrightSince === copyrightNow) {
-            copyrightContent.textContent = copyrightNow
-        } else {
-            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
-        }
-    
-
-
-
-/* Cnosole Log */
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
 console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
 </script>
 
-<!-- vanilla-lazyload -->
-
-    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
-
-
-
-    <!-- Busuanzi -->
-    
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
     <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
 
 
@@ -706,17 +597,10 @@ console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c 
 
 
 
-
-
-
-<!-- gallery.js -->
-
-
 <!-- Comment -->
 
 
 <!-- ### Custom Footer ### -->
-
 
     </body>
 

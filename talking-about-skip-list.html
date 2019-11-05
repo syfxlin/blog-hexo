@@ -1,26 +1,18 @@
 <!DOCTYPE html>
 
 <html lang="zh-CN">
-    <head><meta name="generator" content="Hexo 3.8.0">
+    <head>
     <meta charset="utf-8">
     <!--
-        © SukkaW
+        hexo-theme-suka © SukkaW
         GitHub: https://github.com/SukkaW/hexo-theme-suka
-        Version: 1.3.2
     -->
-    <script>
-window.lsVersion = "1.3.2",
-window.oldVersion = [
-    
-        
-            "0.2.0","0.0.1","0.1.0","1.0.0","1.0.1","1.1.0","1.1.1","1.2.0","1.3.0"
-        
-    
-]
-</script>
 
-    <!-- ### DNS Prefetch ### -->
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
     <meta http-equiv="x-dns-prefetch-control" content="on">
+
 <!-- busuanzi -->
 
     <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
@@ -42,8 +34,7 @@ window.oldVersion = [
 
 
 
-
-    <!-- ### Preload ### -->
+    <!-- ## Preload ## -->
     
     <!-- Busuanzi -->
     
@@ -56,47 +47,18 @@ window.oldVersion = [
 
 
     <!-- ### Meta & Title & Info ### -->
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
-<meta name="renderer" content="webkit">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
 
-<!-- Title -->
-<title>浅谈跳表 | 青空之蓝</title>
+    <!-- Title -->
+    <title>浅谈跳表 | 青空之蓝</title>
 
-<!-- favicon -->
-<!-- Favicons -->
-
-    <link rel="icon" type="image/ico" href="/image/favicon.png">
-
-
-
-
-
-
-<!-- Android Chrome Color -->
-
-
-
-<meta name="format-detection" content="telephone=no">
-
-<!-- Description -->
-<meta name="description" content="为什么使用跳表跳表是（skip list）">
-
-<!-- Keywords -->
-<meta name="keywords" content=", 数据结构">
-
-<!-- Disable Fucking Bloody Baidu Tranformation -->
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
 
     <!-- ### Import File ### -->
-    
-        <!-- spectre.css -->
-
-    <link rel="stylesheet" href="/lib/spectre/spectre.min.css">
-
-
-<style>
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
     body {
         background-color: #f8f9fa;
     }
@@ -117,6 +79,8 @@ window.oldVersion = [
         color: #005eb9;
         opacity: 1;
     }
+
+    
 
     .post-entry .card-body a {
         color: #0070ff;
@@ -159,28 +123,14 @@ window.oldVersion = [
         background: #f8f9fa;
         opacity: .85;
     }
-</style>
-
-<!-- style.css -->
-
-    <link rel="stylesheet" href="/css/style.min.css">
-
+</style><link rel="stylesheet" href="/css/style.min.css">
 
 
 
 
     <!-- prism.css -->
     
-    <!-- prism.line_number -->
-    
-        
-            <link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css">
-        
-    
-    <!-- prism.theme -->
-    
-        <link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css">
-    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
 
 
 
@@ -188,52 +138,28 @@ window.oldVersion = [
 
 
 
-    
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
 
     <!-- ### Site Verification ### -->
     
 
 
-    <!-- ### RSS ### -->
-    
-
-    <!-- ### WebApp ### -->
-    <meta name="mobile-web-app-capable" content="yes">
-<meta name="application-name" content="青空之蓝">
-<meta name="msapplication-starturl" content="https://hexo.ixk.me">
-
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="青空之蓝">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<!-- Manifest Import -->
-
-<!-- Open Search -->
-
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- ### The Open Graph & Twitter Card Protocol ### -->
-    <meta property="og:title" content="浅谈跳表 | 青空之蓝">
-<meta property="og:site_name" content="青空之蓝">
+    <meta property="og:title" content="浅谈跳表 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https:&#x2F;&#x2F;hexo.ixk.me&#x2F;talking-about-skip-list.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="为什么使用跳表跳表是（skip list）Redis实现sorted set使用的数据结构，是一种平衡数据结构，其中常用的数据结构有：B树，AVL树，红黑树等，如果你了解过这些平衡结构，你或许会有个疑问，为什么要使用跳表？想象一下，给你一支笔，一张纸，一个编辑器或者IDE，你能在短时间内写出一个红黑树或者AVL树？这很难吧。而跳表，我们只需要对链表稍加改造就可以支持快速增删改查，使用类似于二分搜索 - Otstar Lin - 青空之蓝"><meta name="keywords" content="数据结构"><meta property="og:image" content="https:&#x2F;&#x2F;blog.ixk.me&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;09&#x2F;image-1024x150.png"><meta property="og:image" content="https:&#x2F;&#x2F;blog.ixk.me&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;09&#x2F;image-1-1024x214.png"><meta property="og:image" content="https:&#x2F;&#x2F;blog.ixk.me&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;09&#x2F;image-3-1024x235.png"><meta property="og:image" content="https:&#x2F;&#x2F;blog.ixk.me&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;09&#x2F;image-4-1024x218.png"><meta property="og:image" content="https:&#x2F;&#x2F;blog.ixk.me&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;09&#x2F;image-5-1024x288.png"><meta property="og:image" content="https:&#x2F;&#x2F;blog.ixk.me&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;09&#x2F;image-7-1024x199.png"><meta property="article:published_time" content="2019-09-14T14:51:29.000Z"><meta property="article:modified_time" content="2019-11-05T02:25:55.016Z"><meta property="og:updated_time" content="2019-11-05T02:25:55.016Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="数据结构"><meta name="twitter:card" content="summary">
 
-<meta property="og:locale" content="zh-CN">
+    
 
-<meta property="og:url" content="https://hexo.ixk.me/talking-about-skip-list.html">
-<meta property="og:image" content="https://hexo.ixk.me/image/favicon.png">
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/talking-about-skip-list.html">
 
-<meta property="og:description" content="为什么使用跳表跳表是（skip list）">
-
-<meta name="twitter:card" content="summary">
-
-
-    <meta property="og:type" content="article">
-    <meta property="article:published_time" content="2019-09-14T14:51:29.000Z">
-    <meta property="article:modified_time" content="2019-09-14T14:51:29.000Z">
-    <meta property="article:author" content="Otstar Lin">
-    <meta property="og:article:tag" content=", 数据结构"> 
-
-
-
-
+    <meta name="generator" content="Hexo 4.0.0">
 
     <!-- ### Analytics ### -->
     
@@ -243,10 +169,6 @@ window.oldVersion = [
 
 
 
-
-
-    <!-- ### Canonical link ### -->
-    <link rel="canonical" href="https://hexo.ixk.me/talking-about-skip-list.html">
 
     <!-- ### Structured Data ### -->
     
@@ -271,7 +193,7 @@ window.oldVersion = [
     },
     
     "datePublished": "2019-09-14T14:51:29.000Z",
-    "dateModified": "2019-10-31T00:19:45.594Z",
+    "dateModified": "2019-11-05T02:25:55.016Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -296,8 +218,8 @@ window.oldVersion = [
         "query-input": "required name=search_term_string"
     },
     
-    "keywords": ", 数据结构",
-    "description": "为什么使用跳表跳表是（skip list）"
+    "keywords": "数据结构",
+    "description": "为什么使用跳表跳表是（skip list）Redis实现sorted set使用的数据结构，是一种平衡数据结构，其中常用的数据结构有：B树，AVL树，红黑树等，如果你了解过这些平衡结构，你或许会有个疑问，为什么要使用跳表？想象一下，给你一支笔，一张纸，一个编辑器或者IDE，你能在短时间内写出一个红黑树或者AVL树？这很难吧。而跳表，我们只需要对链表稍加改造就可以支持快速增删改查，使用类似于二分搜索 - Otstar Lin - 青空之蓝"
 }
 </script>
 
@@ -305,13 +227,9 @@ window.oldVersion = [
 
     <!-- ### Custom Head ### -->
     
-
-
 </head>
 
     <body>
-        
-
             
 
             <!-- ### Main content ### -->
@@ -408,11 +326,7 @@ window.oldVersion = [
 
             
     <!-- ## Post ## -->
-    
-    
-
-
-<div class="post-container">
+    <div class="post-container">
     <div id="post-card" class="card">
         
         <div class="card-item-container">
@@ -431,7 +345,7 @@ window.oldVersion = [
         <span>2019-09-14</span>
         
             <span class="suka-devide-dot"></span>
-            <a class="category-link" href="/categories/折腾记录/">折腾记录</a>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
         
         
             <!-- Busuanzi Post Views -->
@@ -514,24 +428,23 @@ window.oldVersion = [
                 <div class="card-body">
                     
                         
-                            <div id="post-toc">
-                                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么使用跳表"><span class="post-toc-number">1.</span> <span class="post-toc-text">为什么使用跳表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是跳表"><span class="post-toc-number">2.</span> <span class="post-toc-text">什么是跳表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#简单分析跳表效率"><span class="post-toc-number">3.</span> <span class="post-toc-text">简单分析跳表效率</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现代码"><span class="post-toc-number">4.</span> <span class="post-toc-text">实现代码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">5.</span> <span class="post-toc-text">结语</span></a></li></ol>
-                            </div>
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么使用跳表"><span class="post-toc-number">1.</span> <span class="post-toc-text">为什么使用跳表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是跳表"><span class="post-toc-number">2.</span> <span class="post-toc-text">什么是跳表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#简单分析跳表效率"><span class="post-toc-number">3.</span> <span class="post-toc-text">简单分析跳表效率</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现代码"><span class="post-toc-number">4.</span> <span class="post-toc-text">实现代码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">5.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
                         
                     
                     <article id="post-content">
                         <h2 id="为什么使用跳表"><a href="#为什么使用跳表" class="headerlink" title="为什么使用跳表"></a>为什么使用跳表</h2><p><strong>跳表是（skip list）</strong>Redis实现sorted set使用的数据结构，是一种平衡数据结构，其中常用的数据结构有：B树，AVL树，红黑树等，如果你了解过这些平衡结构，你或许会有个疑问，为什么要使用跳表？想象一下，给你一支笔，一张纸，一个编辑器或者IDE，你能在短时间内写出一个红黑树或者AVL树？这很难吧。而跳表，我们只需要对链表稍加改造就可以支持快速增删改查，使用类似于二分搜索的查找算法，而这种数据结构就是跳表。它的效率和红黑树以及AVL树不相上下。</p>
 <h2 id="什么是跳表"><a href="#什么是跳表" class="headerlink" title="什么是跳表"></a>什么是跳表</h2><p>首先我们先来看一个链表：</p>
-<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-1024x150.png" alt></p>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-1024x150.png" alt=""></p>
 <p>对于这种链表来说，即使链表之中是有序的，如果我们要从中查找某个值，也只能从头逐个查找，运气好的话查找一次就能找到，运气差的话或许要查找n次。在使用数组存储的方式中我们可以通过二分搜索来快速的查找某个值，而链表由于不支持随机查询，所以就不能使用二分搜索的方式来查找。</p>
 <p>那么如何能提高查找效率呢？在O(n)的时间复杂度下如果要提高运行效率，二分是必不可少的，树结构可以通过左右子树来分区，那链表又如何分区呢？建立索引，我们对这个链表加上一层索引。</p>
-<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-1-1024x214.png" alt></p>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-1-1024x214.png" alt=""></p>
 <p>假如我们要查找6，只需要走1-&gt;3-&gt;5-&gt;6，减少了2步，那如果我们再加几层索引呢？</p>
-<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-3-1024x235.png" alt></p>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-3-1024x235.png" alt=""></p>
 <p>这时的查找其实就是二分查找了，查找效率已经有质的提升。而这种的原理其实很简单就是通过分区来跳过大量的节点。</p>
 <hr>
 <p>上面所说的结构是静态的，当我们向上方的跳表中不断加入数据，如果不更新索引就有可能出现某节点之间出现大量节点的情况，在极端的情况下还会退化成链表。而如果在插入的时候重建索引那势必会导致跳表的插入效率大幅下降。那要如何解决动态插入的问题呢？在红黑树和AVL树中是使用左右旋来平衡二叉树，而跳表同样也有一种机制来平衡：通过随机函数来是插入的节点的层高是随机的，不强制要求1：2的分区。如，我们要在以下的跳表中添加一个值为18的节点：</p>
-<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-4-1024x218.png" alt></p>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-4-1024x218.png" alt=""></p>
 <p>首先我们需要通过一个随机函数来得出新节点的层高。假设在这次插入中得到的层高是3</p>
 <pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">randomLevel</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">int</span> level <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
@@ -544,9 +457,9 @@ window.oldVersion = [
 <span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>然后搜索到插入的位置。</p>
-<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-5-1024x288.png" alt></p>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-5-1024x288.png" alt=""></p>
 <p>最后将节点插入并重新设置指针，从上一张图中我们可以看到游标走了所有的层，而游标在游走的时候就可以记录层信息，就可以重设指针了。</p>
-<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-7-1024x199.png" alt></p>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2019/09/image-7-1024x199.png" alt=""></p>
 <h2 id="简单分析跳表效率"><a href="#简单分析跳表效率" class="headerlink" title="简单分析跳表效率"></a>简单分析跳表效率</h2><p>从上面图中我们可以知道，大致每两个结点会抽出一个结点作为上一级索引的结点，那第一级索引的结点个数大约就是n/2，第二级索引的结点个数大约就是n/4，也就是说，<strong>第k级索引的结点个数是第k-1级索引的结点个数的1/2，</strong>那<strong>第k</strong>级<strong>索引结点的个数就是n/(2k)</strong>。那么假设层数足够高，即最高层只有两个节点，那么可知n/(2k)=2，即k=log2n-1，若把原始链表计算在内那k=logn，若每次查找都要下降m层的时候，那在跳表中查询一个数据的时间复杂度就是O(m*logn)。而m可以认为是参数，所以跳表查询一个数据的时间复杂度就为O(logn)。</p>
 <p>说完时间，那么我们来说说空间，比起链表和二叉树，跳表需要多个指针域，肯定需要比链表和二叉树多许多空间。若我们两个节点就提升一层，那需要的索引数量就为n/2+n/4+n/8+…+2，即n-2，所以可以知道跳表所用的空间复杂度为O(n)，看起来似乎很大？但是我们需要考虑原始链表中数据存储的大小，若数据的大小很大，那么索引使用的空间就微不足道了。</p>
 <h2 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h2><blockquote>
@@ -748,7 +661,8 @@ window.oldVersion = [
 
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
-        var dateUpdate = Date.parse("2019-10-31");
+    (function() {
+        var dateUpdate = Date.parse("2019-11-05");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -758,20 +672,20 @@ window.oldVersion = [
         } else {
             document.getElementById('date-expire-notification').style.display = 'none';
         }
+    })();
     </script>
 
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-09-14T14:51:29.000Z" itemprop="datePublished">2019-09-14</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-10-31T00:19:45.594Z" itemprop="dateModified">2019-10-31</time>
+    , 最后修改于&nbsp;<time datetime="2019-11-05T02:25:55.016Z" itemprop="dateModified">2019-11-05</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
 
 <span class="post-categories-list mt-2">
 
-
-<a class="post-categories-list-item" href="/categories/折腾记录/">折腾记录</a>
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
 
 </span>
 
@@ -779,8 +693,7 @@ window.oldVersion = [
 
 <span class="post-tags-list mt-2">
 
-
-<a class="post-tags-list-item" href="/tags/数据结构/" rel="tag">#&nbsp;数据结构</a>
+<a class="post-tags-list-item" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">#&nbsp;数据结构</a>
 
 </span>
 
@@ -788,8 +701,7 @@ window.oldVersion = [
 </p>
 
                 </div>
-                
-<div class="post-nav px-2 bg-gray">
+                <div class="post-nav px-2 bg-gray">
 <ul class="pagination">
     <!-- Prev Nav -->
     
@@ -825,21 +737,18 @@ window.oldVersion = [
             <!-- ### Footer ### -->
             <footer class="text-center">
     <!-- footer copyright -->
-    <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span data-year></span>
-        <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
-    </p>
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
     <!-- footer custom text -->
     <p class="footer-text mb-0">
-    
-        
-            源站：<a href="https://blog.ixk.me" style="color:#0070ff">https://blog.ixk.me</a>
-        
-    
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
     </p>
     <!-- footer develop info -->
     <p class="footer-develop mb-0">
         
-            
     <!-- Busuanzi User Views -->
     <span id="busuanzi_container_site_uv" hidden>
         <span></span>
@@ -852,7 +761,7 @@ window.oldVersion = [
 
 
 
-        
+
         
         Powered by&nbsp;<!--
          --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
@@ -860,45 +769,33 @@ window.oldVersion = [
     </p>
 </footer>
 
-        
 
         <!-- ### Import File ### -->
         <!-- ### Footer JS Import ### -->
 
 <script>
+
+    
 window.lazyLoadOptions = {
     elements_selector: ".lazyload",
     threshold: 50
 };
 
-
-
-    /* Copyright */
+(function() {
     var copyrightNow = new Date().getFullYear();
-    var copyrightContent = document.querySelector('span[data-year]')
-    
-        copyrightSince = 2017;
-        if (copyrightSince === copyrightNow) {
-            copyrightContent.textContent = copyrightNow
-        } else {
-            copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow
-        }
-    
-
-
-
-/* Cnosole Log */
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
 console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
 </script>
 
-<!-- vanilla-lazyload -->
-
-    <script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
-
-
-
-    <!-- Busuanzi -->
-    
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
     <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
 
 
@@ -907,17 +804,10 @@ console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c 
 
 
 
-
-
-
-<!-- gallery.js -->
-
-
 <!-- Comment -->
 
 
 <!-- ### Custom Footer ### -->
-
 
     </body>
 
