@@ -152,7 +152,7 @@
     <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- ### The Open Graph & Twitter Card Protocol ### -->
-    <meta property="og:title" content="浅谈浏览器Event Loop | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https:&#x2F;&#x2F;hexo.ixk.me&#x2F;talking-about-browser-event-loop.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="什么是 Event Loop？若你了解过JavaScript，你一定知道JavaScript是一种单线程语言，为什么JavaScript是单线程呢？为什么不使用多线程呢？JavaScript作为浏览器脚本语言（虽然现在也在后端挺流行的），JavaScript的主要用途是与用户互动，以及操作DOM。若使用多线程就会导致一些问题，比如更新丢失等问题，当一个线程要删除DOM的时候另一个线程要更改它，那浏 - Otstar Lin - 青空之蓝"><meta name="keywords" content="JavaScript, 前端"><meta property="og:image" content="https:&#x2F;&#x2F;blog.ixk.me&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;10&#x2F;image.png"><meta property="article:published_time" content="2019-10-15T14:50:42.000Z"><meta property="article:modified_time" content="2019-11-17T00:13:16.593Z"><meta property="og:updated_time" content="2019-11-17T00:13:16.593Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="JavaScript, 前端"><meta name="twitter:card" content="summary">
+    <meta property="og:title" content="浅谈浏览器Event Loop | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https:&#x2F;&#x2F;hexo.ixk.me&#x2F;talking-about-browser-event-loop.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="什么是 Event Loop？若你了解过JavaScript，你一定知道JavaScript是一种单线程语言，为什么JavaScript是单线程呢？为什么不使用多线程呢？JavaScript作为浏览器脚本语言（虽然现在也在后端挺流行的），JavaScript的主要用途是与用户互动，以及操作DOM。若使用多线程就会导致一些问题，比如更新丢失等问题，当一个线程要删除DOM的时候另一个线程要更改它，那浏 - Otstar Lin - 青空之蓝"><meta name="keywords" content="JavaScript, 前端"><meta property="og:image" content="https:&#x2F;&#x2F;blog.ixk.me&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;10&#x2F;image.png"><meta property="article:published_time" content="2019-10-15T14:50:42.000Z"><meta property="article:modified_time" content="2019-11-18T00:13:19.428Z"><meta property="og:updated_time" content="2019-11-18T00:13:19.428Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="JavaScript, 前端"><meta name="twitter:card" content="summary">
 
     
 
@@ -193,7 +193,7 @@
     },
     
     "datePublished": "2019-10-15T14:50:42.000Z",
-    "dateModified": "2019-11-17T00:13:16.593Z",
+    "dateModified": "2019-11-18T00:13:19.428Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -429,7 +429,7 @@
                     
                         
                         
-                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是-Event-Loop？"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是 Event Loop？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MacroTask和MicroTask"><span class="post-toc-number">2.</span> <span class="post-toc-text">MacroTask和MicroTask</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Promise"><span class="post-toc-number">3.</span> <span class="post-toc-text">Promise</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#async-await"><span class="post-toc-number">4.</span> <span class="post-toc-text">async/await</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一个有用的"><span class="post-toc-number">5.</span> <span class="post-toc-text">一个有用的?</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">6.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是-Event-Loop？"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是 Event Loop？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MacroTask和MicroTask"><span class="post-toc-number">2.</span> <span class="post-toc-text">MacroTask和MicroTask</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Promise"><span class="post-toc-number">3.</span> <span class="post-toc-text">Promise</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#async-await"><span class="post-toc-number">4.</span> <span class="post-toc-text">async/await</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一个有用的🌰"><span class="post-toc-number">5.</span> <span class="post-toc-text">一个有用的🌰</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">6.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
                         
                     
                     <article id="post-content">
@@ -455,7 +455,7 @@
 <p><img src="https://blog.ixk.me/wp-content/uploads/2019/10/image.png" alt=""></p>
 <p>从上面的运行结果可以看到，同步运行的时候Java在begin和end中间隔了非常久的时间，程序也在那时候<strong>被阻塞住了</strong>，而UI是不能被阻塞的否则会严重影响用户体验，所以JS采用<strong>异步</strong>来防止这种情况发生。</p>
 <p>当JS线程执行到需要<strong>异步</strong>的操作的时候就会把该任务发到<strong>任务队列</strong>，然后继续向下执行，当所有的<strong>同步代码都执行完毕</strong>的时候，JS线程就会从任务队列读取任务并执行，若遇到异步操作就继续<strong>入队</strong>。。。如此往复，这就是<strong>Event Loop(事件循环)</strong>。</p>
-<h2 id="MacroTask和MicroTask"><a href="#MacroTask和MicroTask" class="headerlink" title="MacroTask和MicroTask"></a>MacroTask和MicroTask</h2><p><strong>MacroTask（宏任务）</strong>和<strong>MicroTask（微任务），</strong>宏任务是一个大任务，在一个宏任务包含着许多个微任务，我们可以这样认为宏任务队列就代表着事件循环，而宏任务中的Promise还会产生异步代码，JavaScript必须保证这些异步代码在一个宏观任务中完成，所以每个宏任务中包含了一个微任务队列。在宏任务中产生的异步操作会添加在微任务队列的尾部，在本tick中完成。举个?吧：</p>
+<h2 id="MacroTask和MicroTask"><a href="#MacroTask和MicroTask" class="headerlink" title="MacroTask和MicroTask"></a>MacroTask和MicroTask</h2><p><strong>MacroTask（宏任务）</strong>和<strong>MicroTask（微任务），</strong>宏任务是一个大任务，在一个宏任务包含着许多个微任务，我们可以这样认为宏任务队列就代表着事件循环，而宏任务中的Promise还会产生异步代码，JavaScript必须保证这些异步代码在一个宏观任务中完成，所以每个宏任务中包含了一个微任务队列。在宏任务中产生的异步操作会添加在微任务队列的尾部，在本tick中完成。举个🌰吧：</p>
 <ul>
 <li>执行html中引用的js代码，碰到宏任务的时候就把宏任务添加到宏任务队列，遇到微任务就在这个tick中执行完毕，全局的js执行完毕后调用栈会清空</li>
 <li>从宏任务队列中取出队首任务，执行，遇到微任务就添加到该宏任务中的微任务队列中，在本tick中完成，遇到宏任务就添加到宏任务队列尾部。</li>
@@ -463,7 +463,7 @@
 <li>取出下一个宏任务，执行。。。重复2-3步</li>
 <li>取出下一个宏任务，执行。。。重复2-3步</li>
 </ul>
-<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><p>Promise是ES6新增的一种异步解决方案，它的运行方式是当需要进行I/O，等待等异步操作的时候，不返回结果而是返回一个promise（”承诺”），当这个承诺完成的时候，即状态变为<code>fulfilled</code>或者<code>rejected</code>，这个promise就定格了，也可以认为返回值是一样的了，你可以在任何位置任何时间利用then得到这个结果（返回值），或许这有点难以理解，那就举个?吧：</p>
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><p>Promise是ES6新增的一种异步解决方案，它的运行方式是当需要进行I/O，等待等异步操作的时候，不返回结果而是返回一个promise（”承诺”），当这个承诺完成的时候，即状态变为<code>fulfilled</code>或者<code>rejected</code>，这个promise就定格了，也可以认为返回值是一样的了，你可以在任何位置任何时间利用then得到这个结果（返回值），或许这有点难以理解，那就举个🌰吧：</p>
 <pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token keyword">var</span> re <span class="token operator">=</span> <span class="token string">"foo"</span>
 
 <span class="token keyword">var</span> promise1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -508,7 +508,7 @@ re<span class="token punctuation">.</span><span class="token function">then</spa
 <span class="token comment" spellcheck="true">// > "hello"</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>await是等待后面东西，可以是Promise，可以是值，可以是表达式，当可以直接得到值的时候await会立即返回值，但若是Promise，await就会将js阻塞住，直到Promise兑现，有了await，我们可以把异步的js写成同步的js，可以有效的解决回调地狱。</p>
-<h2 id="一个有用的"><a href="#一个有用的" class="headerlink" title="一个有用的?"></a>一个有用的?</h2><pre class="line-numbers highlight language-javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'sync1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<h2 id="一个有用的🌰"><a href="#一个有用的🌰" class="headerlink" title="一个有用的🌰"></a>一个有用的🌰</h2><pre class="line-numbers highlight language-javascript"><code class="language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'sync1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//1</span>
     console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'sync_timeout1'</span><span class="token punctuation">)</span>
@@ -567,7 +567,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
     (function() {
-        var dateUpdate = Date.parse("2019-11-17");
+        var dateUpdate = Date.parse("2019-11-18");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -583,7 +583,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-10-15T14:50:42.000Z" itemprop="datePublished">2019-10-15</time>
 
-    , 最后修改于&nbsp;<time datetime="2019-11-17T00:13:16.593Z" itemprop="dateModified">2019-11-17</time>
+    , 最后修改于&nbsp;<time datetime="2019-11-18T00:13:19.428Z" itemprop="dateModified">2019-11-18</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
