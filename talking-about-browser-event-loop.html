@@ -152,7 +152,7 @@
     <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- ### The Open Graph & Twitter Card Protocol ### -->
-    <meta property="og:title" content="浅谈浏览器Event Loop | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talking-about-browser-event-loop.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="什么是 Event Loop？若你了解过JavaScript，你一定知道JavaScript是一种单线程语言，为什么JavaScript是单线程呢？为什么不使用多线程呢？JavaScript作为浏览器脚本语言（虽然现在也在后端挺流行的），JavaScript的主要用途是与用户互动，以及操作DOM。若使用多线程就会导致一些问题，比如更新丢失等问题，当一个线程要删除DOM的时候另一个线程要更改它，那浏 - Otstar Lin - 青空之蓝"><meta name="keywords" content="JavaScript, 前端"><meta property="og:image" content="https://blog.ixk.me/wp-content/uploads/2019/10/image.png"><meta property="article:published_time" content="2019-10-15T14:50:42.000Z"><meta property="article:modified_time" content="2020-01-17T00:19:06.141Z"><meta property="og:updated_time" content="2020-01-17T00:19:06.141Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="JavaScript, 前端"><meta name="twitter:card" content="summary">
+    <meta property="og:title" content="浅谈浏览器Event Loop | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talking-about-browser-event-loop.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="什么是 Event Loop？若你了解过JavaScript，你一定知道JavaScript是一种单线程语言，为什么JavaScript是单线程呢？为什么不使用多线程呢？JavaScript作为浏览器脚本语言（虽然现在也在后端挺流行的），JavaScript的主要用途是与用户互动，以及操作DOM。若使用多线程就会导致一些问题，比如更新丢失等问题，当一个线程要删除DOM的时候另一个线程要更改它，那浏 - Otstar Lin - 青空之蓝"><meta name="keywords" content="JavaScript, 前端"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200117215718.png"><meta property="article:published_time" content="2019-10-15T14:50:42.000Z"><meta property="article:modified_time" content="2020-01-18T00:19:02.136Z"><meta property="og:updated_time" content="2020-01-18T00:19:02.136Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="JavaScript, 前端"><meta name="twitter:card" content="summary">
 
     
 
@@ -193,7 +193,7 @@
     },
     
     "datePublished": "2019-10-15T14:50:42.000Z",
-    "dateModified": "2020-01-17T00:19:06.141Z",
+    "dateModified": "2020-01-18T00:19:02.136Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -452,7 +452,7 @@
    <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://blog.ixk.me/wp-content/uploads/2019/10/image.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200117215718.png" alt=""></p>
 <p>从上面的运行结果可以看到，同步运行的时候Java在begin和end中间隔了非常久的时间，程序也在那时候<strong>被阻塞住了</strong>，而UI是不能被阻塞的否则会严重影响用户体验，所以JS采用<strong>异步</strong>来防止这种情况发生。</p>
 <p>当JS线程执行到需要<strong>异步</strong>的操作的时候就会把该任务发到<strong>任务队列</strong>，然后继续向下执行，当所有的<strong>同步代码都执行完毕</strong>的时候，JS线程就会从任务队列读取任务并执行，若遇到异步操作就继续<strong>入队</strong>。。。如此往复，这就是<strong>Event Loop(事件循环)</strong>。</p>
 <h2 id="MacroTask和MicroTask"><a href="#MacroTask和MicroTask" class="headerlink" title="MacroTask和MicroTask"></a>MacroTask和MicroTask</h2><p><strong>MacroTask（宏任务）</strong>和<strong>MicroTask（微任务），</strong>宏任务是一个大任务，在一个宏任务包含着许多个微任务，我们可以这样认为宏任务队列就代表着事件循环，而宏任务中的Promise还会产生异步代码，JavaScript必须保证这些异步代码在一个宏观任务中完成，所以每个宏任务中包含了一个微任务队列。在宏任务中产生的异步操作会添加在微任务队列的尾部，在本tick中完成。举个?吧：</p>
@@ -567,7 +567,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
     (function() {
-        var dateUpdate = Date.parse("2020-01-17");
+        var dateUpdate = Date.parse("2020-01-18");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -583,7 +583,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2019-10-15T14:50:42.000Z" itemprop="datePublished">2019-10-15</time>
 
-    , 最后修改于&nbsp;<time datetime="2020-01-17T00:19:06.141Z" itemprop="dateModified">2020-01-17</time>
+    , 最后修改于&nbsp;<time datetime="2020-01-18T00:19:02.136Z" itemprop="dateModified">2020-01-18</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
