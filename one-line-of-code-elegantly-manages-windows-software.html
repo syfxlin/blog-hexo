@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>「一行代码」优雅管理Windows软件 | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="「一行代码」优雅管理Windows软件 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="想必小伙伴们苦恼Windows下没有和Ubuntu等Linux下方便的包管理吧，不过经过较长时间的体验我觉得 Scoop 可能是 Windows 上体验最好的「包管理器」。 那么如何安装Scoop呢？首先你需要打开PowerShell，然后输入以下命令允许执行本地脚本。 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Current - Otstar Lin - 青空之蓝"><meta name="keywords" content="Develop, Windows, Scoop, 包管理器"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163007.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163801.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122164748.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122165118.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122170708.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122172809.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122173220.png"><meta property="article:published_time" content="2020-01-22T10:02:38.000Z"><meta property="article:modified_time" content="2020-01-23T00:19:32.658Z"><meta property="og:updated_time" content="2020-01-23T00:19:32.658Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Develop, Windows, Scoop, 包管理器"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html"
+    },
+    "headline": "「一行代码」优雅管理Windows软件 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-01-22T10:02:38.000Z",
+    "dateModified": "2020-01-23T00:19:32.658Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "Develop, Windows, Scoop, 包管理器",
+    "description": "想必小伙伴们苦恼Windows下没有和Ubuntu等Linux下方便的包管理吧，不过经过较长时间的体验我觉得 Scoop 可能是 Windows 上体验最好的「包管理器」。 那么如何安装Scoop呢？首先你需要打开PowerShell，然后输入以下命令允许执行本地脚本。 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Current - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=「一行代码」优雅管理Windows软件" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=「一行代码」优雅管理Windows软件&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=「一行代码」优雅管理Windows软件" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACNUlEQVR42u2aQW7DMAwE8/9Pt9fWsLlD2UFTcXxp6iTSGBAZcrmvr39wvYQUUkghPwDyVVzHzxxfH7//a4PDd37ex/sKORby9NCGhY/3K8AKttxXyNGQCeAqcM42OXs/rXf6IEIKGSBJgr5at4IWUsguJEnMZ0UCDSAhhewUGGfFAy1GqiT/aBUk5HaQVUP0zr+PdYtCbgUZRaPiwFcJOQXYo6qakFtBVgc5JfeqKUvQaT8hZ0Omhp82XldBlgLv8kGEHAtJhKWUwKvkXw0MKiFByLmQacNOQJAfhNuNmJAjICuwqwK2CrJUECfhSsi5kFWztTo0KjcGwSPkbMjKAFIJ/OQeEcVKE4qQoyGp8ET+p2amWIQIORaSJGQiGJACIwELKWQycHaHmt1hfhlsQo6GTMPIdsEKhfwy+IQcD1k1XdQ4smqCx6qakNtDkmK3e+ATTBIQhBSya6pL4j8VX6MJT8iRkMTo1hnE04dYVtWE3B6ya0Ki4minwFiaPgi5NSRptLoiaAoOtJaQIyHpAkSQ6gQOERuEnAtJzUdJdKWNGQlOIYXsiKepQeskcWyoE3IcZPqxT8YlKga0BglCjoRM18pQnQ5MYxMo5EhIcoiTmYQYQ0jwLU1phdwSkor6BJS8R4toIWdDJiEpGo3AEIkIrkIK2RGrotkoGPI6+wgpJB14dgrljqBwO5kLuR0kGTx1hvRJRCUGPSHnQtLB+mrSJma8W92ikFtBfvIlpJBCCvmH1zdLF7aVkveySQAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">「一行代码」优雅管理Windows软件</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-01-22</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=「一行代码」优雅管理Windows软件&url=https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=「一行代码」优雅管理Windows软件&url=https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACNUlEQVR42u2aQW7DMAwE8/9Pt9fWsLlD2UFTcXxp6iTSGBAZcrmvr39wvYQUUkghPwDyVVzHzxxfH7//a4PDd37ex/sKORby9NCGhY/3K8AKttxXyNGQCeAqcM42OXs/rXf6IEIKGSBJgr5at4IWUsguJEnMZ0UCDSAhhewUGGfFAy1GqiT/aBUk5HaQVUP0zr+PdYtCbgUZRaPiwFcJOQXYo6qakFtBVgc5JfeqKUvQaT8hZ0Omhp82XldBlgLv8kGEHAtJhKWUwKvkXw0MKiFByLmQacNOQJAfhNuNmJAjICuwqwK2CrJUECfhSsi5kFWztTo0KjcGwSPkbMjKAFIJ/OQeEcVKE4qQoyGp8ET+p2amWIQIORaSJGQiGJACIwELKWQycHaHmt1hfhlsQo6GTMPIdsEKhfwy+IQcD1k1XdQ4smqCx6qakNtDkmK3e+ATTBIQhBSya6pL4j8VX6MJT8iRkMTo1hnE04dYVtWE3B6ya0Ki4minwFiaPgi5NSRptLoiaAoOtJaQIyHpAkSQ6gQOERuEnAtJzUdJdKWNGQlOIYXsiKepQeskcWyoE3IcZPqxT8YlKga0BglCjoRM18pQnQ5MYxMo5EhIcoiTmYQYQ0jwLU1phdwSkor6BJS8R4toIWdDJiEpGo3AEIkIrkIK2RGrotkoGPI6+wgpJB14dgrljqBwO5kLuR0kGTx1hvRJRCUGPSHnQtLB+mrSJma8W92ikFtBfvIlpJBCCvmH1zdLF7aVkveySQAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#那么如何安装Scoop呢？"><span class="post-toc-number">1.</span> <span class="post-toc-text">那么如何安装Scoop呢？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Scoop常用操作"><span class="post-toc-number">2.</span> <span class="post-toc-text">Scoop常用操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">3.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <p>想必小伙伴们苦恼Windows下没有和Ubuntu等Linux下方便的包管理吧，不过经过较长时间的体验<strong>我觉得 Scoop 可能是 Windows 上体验最好的「包管理器」</strong>。</p>
+<h2 id="那么如何安装Scoop呢？"><a href="#那么如何安装Scoop呢？" class="headerlink" title="那么如何安装Scoop呢？"></a>那么如何安装Scoop呢？</h2><p>首先你需要打开PowerShell，然后输入以下命令允许执行本地脚本。</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token function">Set</span><span class="token operator">-</span>ExecutionPolicy <span class="token operator">-</span>ExecutionPolicy RemoteSigned <span class="token operator">-</span>Scope CurrentUser
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>然后运行以下命令安装Scoop</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token function">Invoke-Expression</span> <span class="token punctuation">(</span><span class="token function">New-Object</span> System<span class="token punctuation">.</span>Net<span class="token punctuation">.</span>WebClient<span class="token punctuation">)</span><span class="token punctuation">.</span>DownloadString<span class="token punctuation">(</span><span class="token string">'https://get.scoop.sh'</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># 或者使用短命令</span>
+<span class="token function">iwr</span> <span class="token operator">-</span>useb get<span class="token punctuation">.</span>scoop<span class="token punctuation">.</span>sh <span class="token punctuation">|</span> <span class="token function">iex</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>静待脚本执行完成就可以了，安装成功后，让我们尝试一下：</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 显示帮助</span>
+scoop help
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163007.png" alt=""></p>
+<p>这说明了Scoop安装成功了，通过Scoop安装的软件默认会位于<code>C:\Users\&lt;user&gt;\scoop</code>如果是安装到<code>global</code>环境的是<code>C:\ProgramData\scoop</code>。</p>
+<p>Scoop安装成功后我们就可以利用它来安装其他软件了，Scoop的命令和Linux下的包管理器非常类似都是「<code>scoop</code> + 动作 + 对象」的语法，比较常用的动作主要是以下几种操作。</p>
+<h2 id="Scoop常用操作"><a href="#Scoop常用操作" class="headerlink" title="Scoop常用操作"></a>Scoop常用操作</h2><p>🌰 <strong>搜索</strong>，比如我们不清楚Scoop中是否有我们想要的软件或者不清楚Scoop中软件的名称，就可以使用<code>scoop search &lt;app&gt;</code>来查找软件。</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 搜索软件</span>
+scoop search aria2
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163801.png" alt=""></p>
+<p>🌰 <strong>查看软件相关信息</strong>，当我们通过搜索找到软件的名称，但是不确定是否是该软件的时候，我们就可以通过<code>scoop [info|home] &lt;app&gt;</code>进一步确认软件</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 查看软件信息</span>
+scoop info firefox
+
+<span class="token comment" spellcheck="true"># 打开软件主页</span>
+scoop home firefox
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122164748.png" alt=""></p>
+<p>🌰 <strong>安装</strong>，确认软件了，我们就可以开始安装了<code>scoop install &lt;app&gt;</code>，<strong>注意</strong>：Scoop 偶尔 可能会因为网络错误安装失败，但是Scoop会显示已安装，这时可以用<code>scoop uninstall &lt;app&gt;</code>卸载，然后再次安装</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 安装软件</span>
+scoop install aria2
+
+<span class="token comment" spellcheck="true"># 先安装sudo用以提权</span>
+scoop install sudo
+<span class="token comment" spellcheck="true"># 全局安装</span>
+sudo scoop install <span class="token operator">-</span>g aria2
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122165118.png" alt=""></p>
+<p>🌰 <strong>卸载</strong>，安装后如果不喜欢这个软件怎么办？当然是卸载呀，那么Scoop如何卸载呢，很简单<code>scoop uninstall &lt;app&gt;</code>即可完成卸载，不过作为Debian Apt党怎么可能喜欢<code>uninstall</code>，<code>remove</code>走起(。・∀・)ノ</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 卸载软件</span>
+scoop uninstall aria2
+
+<span class="token comment" spellcheck="true"># 或者可以执行以下命令将remove添加到alias，这样就可以用remove了</span>
+scoop alias add remove <span class="token string">'scoop uninstall $args'</span> <span class="token string">'Uninstalls app'</span>
+<span class="token comment" spellcheck="true"># 如果提示重复就删除掉再重新添加</span>
+scoop alias <span class="token function">rm</span> remove
+<span class="token comment" spellcheck="true"># 这时就可以用remove来卸载软件了</span>
+scoop remove aria2
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122170708.png" alt=""></p>
+<p>🌰 <strong>升级</strong>，那么软件有新版了如何升级呢？用<code>scoop update &lt;app&gt;</code>就可以了，那我要一键升级所有的软件呢？用<code>scoop update *</code>，或者可以添加upgrade的别名，那我的一个软件不想升级怎么办？可以利用<code>scoop hold &lt;app&gt;</code>放置某个软件更新</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 升级一个软件</span>
+scoop update aria2
+
+<span class="token comment" spellcheck="true"># 升级所有软件</span>
+scoop update <span class="token operator">*</span>
+
+<span class="token comment" spellcheck="true"># 添加upgrade别名</span>
+scoop alias add upgrade <span class="token string">'scoop update *'</span> <span class="token string">'Update all app'</span>
+<span class="token comment" spellcheck="true"># 添加后就可以用scoop upgrade升级所有软件了</span>
+scoop upgrade
+
+<span class="token comment" spellcheck="true"># 禁止软件更新</span>
+scoop hold aria2
+<span class="token comment" spellcheck="true"># 允许软件更新</span>
+scoop unhold aria2
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>🌰 <strong>清除旧版本</strong>，升级后Scoop并不会自动删除旧版本，而只是将当前版本切换到新版，当我们需要删除的时候就可以使用<code>scoop cleanup [&lt;app&gt;]</code>清除旧版本</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 清除单个软件的旧版本</span>
+scoop cleanup aria2
+
+<span class="token comment" spellcheck="true"># 清楚所有安装软件的旧版本</span>
+scoop cleanup
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>🌰 <strong>切换版本</strong>，有时候我们需要使用到旧版的软件怎么办？比如Python3和Python2的切换，这时我们可以用<code>scoop reset &lt;app&gt;@&lt;version&gt;</code></p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 我个人比较推荐的方式</span>
+scoop reset php@7<span class="token punctuation">.</span>4<span class="token punctuation">.</span>1
+
+<span class="token comment" spellcheck="true"># 或者</span>
+scoop reset python27
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122172809.png" alt=""></p>
+<p>🌰 <strong>检查状态</strong>，有时候我们不想直接升级，而是想看看是否有新版本，或者有的应用安装失败需要重新安装的我们没注意到怎么办？用<code>scoop status</code>就行啦</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 检查状态</span>
+scoop status
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122173220.png" alt=""></p>
+<p>🌰 <strong>列出已安装软件列表</strong></p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 列出已安装软件列表</span>
+scoop list
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>🌰 <strong>添加软件源</strong>，当我们需要的软件不在列表中怎么办？这时我们就可以看看有没有软件源中包含了我们需要的软件，Scoop的软件源称之为桶<code>bucket</code>，在<a href="https://github.com/rasa/scoop-directory" target="_blank" rel="noopener">rasa/scoop-directory</a>上可以找到所有的Scoop桶，添加桶<code>scoop bucket add &lt;bucket_name&gt; &lt;bucket_url&gt;</code>，删除桶<code>scoop bucket rm &lt;bucket_name&gt;</code></p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 添加桶</span>
+scoop bucket add extras https:<span class="token operator">/</span><span class="token operator">/</span>github<span class="token punctuation">.</span>com<span class="token operator">/</span>lukesampson<span class="token operator">/</span>scoop<span class="token operator">-</span>extras<span class="token punctuation">.</span>git
+
+<span class="token comment" spellcheck="true"># 删除桶</span>
+scoop bucket <span class="token function">rm</span> extras
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>🌰 <strong>清除缓存</strong></p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 查看缓存</span>
+scoop cache
+scoop cache show aria2
+
+<span class="token comment" spellcheck="true"># 删除缓存</span>
+scoop cache <span class="token function">rm</span> <span class="token operator">*</span>
+scoop cache <span class="token function">rm</span> aria2
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>至此你应该能很好的使用Scoop来管理你的Windows软件了。</p>
+<p>Windows下还有一个Chocolatey这个包管理器，为什么不使用Chocolatey呢？毕竟它毕竟全，若你用过了Chocolatey，你一定会苦恼Chocolatey乱放软件，一会儿<code>C:/tools</code>一会儿<code>C:/Program Files</code>，这是因为它是使用传统软件安装的方式来安装软件了，只是将找软件，下软件，删软件的步骤省掉了而已，并没有解决放置软件的问题。Scoop的Wiki有<a href="https://github.com/lukesampson/scoop/wiki/Chocolatey-Comparison" target="_blank" rel="noopener">完整的对比</a></p>
+<p>对了，若你也是Laragon的使用者的话我后续会发布将Laragon的和Scoop集成的文章，如果等不及也可以直接上手<a href="https://github.com/star2000/scoop-ext-laragon" target="_blank" rel="noopener">star2000/scoop-ext-laragon</a></p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-01-23");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-01-22T10:02:38.000Z" itemprop="datePublished">2020-01-22</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-01-23T00:19:32.658Z" itemprop="dateModified">2020-01-23</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Develop/" rel="tag">#&nbsp;Develop</a>
+
+<a class="post-tags-list-item" href="/tags/Windows/" rel="tag">#&nbsp;Windows</a>
+
+<a class="post-tags-list-item" href="/tags/Scoop/" rel="tag">#&nbsp;Scoop</a>
+
+<a class="post-tags-list-item" href="/tags/%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8/" rel="tag">#&nbsp;包管理器</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/my-blog-2019-year-end-summary.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">[青空之蓝-2019]-年度总结</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
