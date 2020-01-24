@@ -152,7 +152,7 @@
     <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- ### The Open Graph & Twitter Card Protocol ### -->
-    <meta property="og:title" content="「一行代码」优雅管理Windows软件 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="想必小伙伴们苦恼Windows下没有和Ubuntu等Linux下方便的包管理吧，不过经过较长时间的体验我觉得 Scoop 可能是 Windows 上体验最好的「包管理器」。 那么如何安装Scoop呢？首先你需要打开PowerShell，然后输入以下命令允许执行本地脚本。 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Current - Otstar Lin - 青空之蓝"><meta name="keywords" content="Develop, Windows, Scoop, 包管理器"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163007.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163801.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122164748.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122165118.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122170708.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122172809.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122173220.png"><meta property="article:published_time" content="2020-01-22T10:02:38.000Z"><meta property="article:modified_time" content="2020-01-23T00:19:32.658Z"><meta property="og:updated_time" content="2020-01-23T00:19:32.658Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Develop, Windows, Scoop, 包管理器"><meta name="twitter:card" content="summary">
+    <meta property="og:title" content="「一行代码」优雅管理Windows软件 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="想必小伙伴们苦恼Windows下没有和Ubuntu等Linux下方便的包管理吧，不过经过较长时间的体验我觉得 Scoop 可能是 Windows 上体验最好的「包管理器」。 那么如何安装Scoop呢？首先你需要打开PowerShell，然后输入以下命令允许执行本地脚本。 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Current - Otstar Lin - 青空之蓝"><meta name="keywords" content="Develop, Windows, Scoop, 包管理器"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163007.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163801.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122164748.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122165118.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122170708.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122172809.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122173220.png"><meta property="article:published_time" content="2020-01-22T10:02:38.000Z"><meta property="article:modified_time" content="2020-01-24T00:19:25.662Z"><meta property="og:updated_time" content="2020-01-24T00:19:25.662Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Develop, Windows, Scoop, 包管理器"><meta name="twitter:card" content="summary">
 
     
 
@@ -193,7 +193,7 @@
     },
     
     "datePublished": "2020-01-22T10:02:38.000Z",
-    "dateModified": "2020-01-23T00:19:32.658Z",
+    "dateModified": "2020-01-24T00:19:25.662Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -542,6 +542,13 @@ scoop cache show aria2
 scoop cache <span class="token function">rm</span> <span class="token operator">*</span>
 scoop cache <span class="token function">rm</span> aria2
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>🌰 <strong>别名</strong>，有的时候，我们不喜欢Scoop的某些命令，比如<code>scoop uninstall &lt;app&gt;</code>怎么办？可以添加别名来解决<code>scoop alias add &lt;name&gt; &lt;command&gt; &lt;description&gt;</code></p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 添加</span>
+scoop alias add remove <span class="token string">'scoop uninstall $args'</span> <span class="token string">'Uninstall apps'</span>
+
+<span class="token comment" spellcheck="true"># 删除</span>
+scoop alias <span class="token function">rm</span> remove
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>至此你应该能很好的使用Scoop来管理你的Windows软件了。</p>
 <p>Windows下还有一个Chocolatey这个包管理器，为什么不使用Chocolatey呢？毕竟它毕竟全，若你用过了Chocolatey，你一定会苦恼Chocolatey乱放软件，一会儿<code>C:/tools</code>一会儿<code>C:/Program Files</code>，这是因为它是使用传统软件安装的方式来安装软件了，只是将找软件，下软件，删软件的步骤省掉了而已，并没有解决放置软件的问题。Scoop的Wiki有<a href="https://github.com/lukesampson/scoop/wiki/Chocolatey-Comparison" target="_blank" rel="noopener">完整的对比</a></p>
 <p>对了，若你也是Laragon的使用者的话我后续会发布将Laragon的和Scoop集成的文章，如果等不及也可以直接上手<a href="https://github.com/star2000/scoop-ext-laragon" target="_blank" rel="noopener">star2000/scoop-ext-laragon</a></p>
@@ -553,7 +560,7 @@ scoop cache <span class="token function">rm</span> aria2
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
     (function() {
-        var dateUpdate = Date.parse("2020-01-23");
+        var dateUpdate = Date.parse("2020-01-24");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -569,7 +576,7 @@ scoop cache <span class="token function">rm</span> aria2
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-01-22T10:02:38.000Z" itemprop="datePublished">2020-01-22</time>
 
-    , 最后修改于&nbsp;<time datetime="2020-01-23T00:19:32.658Z" itemprop="dateModified">2020-01-23</time>
+    , 最后修改于&nbsp;<time datetime="2020-01-24T00:19:25.662Z" itemprop="dateModified">2020-01-24</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
