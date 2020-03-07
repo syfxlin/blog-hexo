@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>浅谈浏览器渲染 | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="浅谈浏览器渲染 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talking-about-browser-render.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="好久没写理论性较强的文章了。最近刚好正在了解浏览器的工作原理，于是打算写一篇文章来加强下，输出才是最好的输入嘛 hhhh。  什么是渲染？在计算机图形学的领域 渲染 是 render 的翻译，看到这个词，写过 React 的开发者应该很熟悉，在 React 中 render 函数做的是将 数据 变成 HTML 代码 的工作。而在图形学中 render 指的是由 模型 生成 图像 的过程，同理在浏览 - Otstar Lin - 青空之蓝"><meta name="keywords" content="Web"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200302214031.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306110006.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306112308.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306113541.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306120039.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306141735.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306142621.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306144814.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306211827.png"><meta property="article:published_time" content="2020-03-06T13:36:11.000Z"><meta property="article:modified_time" content="2020-03-07T00:19:50.967Z"><meta property="og:updated_time" content="2020-03-07T00:19:50.967Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Web"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/talking-about-browser-render.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/talking-about-browser-render.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/talking-about-browser-render.html"
+    },
+    "headline": "浅谈浏览器渲染 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-03-06T13:36:11.000Z",
+    "dateModified": "2020-03-07T00:19:50.967Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "Web",
+    "description": "好久没写理论性较强的文章了。最近刚好正在了解浏览器的工作原理，于是打算写一篇文章来加强下，输出才是最好的输入嘛 hhhh。  什么是渲染？在计算机图形学的领域 渲染 是 render 的翻译，看到这个词，写过 React 的开发者应该很熟悉，在 React 中 render 函数做的是将 数据 变成 HTML 代码 的工作。而在图形学中 render 指的是由 模型 生成 图像 的过程，同理在浏览 - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=浅谈浏览器渲染" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=浅谈浏览器渲染&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=浅谈浏览器渲染" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5klEQVR42u2aQW7DMAwE/f9Pp5ceUtfijtwUkOjRJYljS2NAELlLHq8FxyGUUEIJdQF1FOPHA9+/r66Pnjt/T+sI1QfqctMVE56vV8+PXuZyHaFaQZ0XTZOONvXVHGQdoZ4LVR2Oo0NVKKHSBh/dnwKyUM+CSgF1tHB1eI4C75+zBKGWh6oS+k9+fkzNCLU0VDQdBocnDcT/4roItTRUtRFHQmFGNND5heoFRTZmJTLTqF4qnuhCbQ+VRCcxX2fMNLTRhdoKigrFJEBTgliJVqF6QVETn4rVmYLAr5cWqgUUMSFIMYiaZpUZIlQvKJrwV0WjtOHjfEK1gCLBMx2gJPiSgrhQPaCqBVPBhwBXxshQjAq1NVS8sTAqkgFSJXeo4iDUllAzgfluMwTe9EK1gKKik/xPoXCSJ9S2UMlInRGbpGEQuS5CbQ+VAvNssKbJHergEGo7KFJMTKKCFDFjIUqoVlCpoF2J0yRkyXxC9YW6sxgRF8QYEaoHFCkOpUZm0nSTiuhC9YFCjcagAaJKApOwEKofVErKiHk/IxiQOyzU9lB3jFVqqtHDVajnQBGBSRtRcUAWqjUUbXynJv/wJYVqBUWba2YKk0mICNUXasaEmGmOiELhrpoRammolYZQQgkl1Nv4Atcn78+jb1OqAAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">浅谈浏览器渲染</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-03-06</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=浅谈浏览器渲染&url=https://hexo.ixk.me/talking-about-browser-render.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=浅谈浏览器渲染&url=https://hexo.ixk.me/talking-about-browser-render.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/talking-about-browser-render.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/talking-about-browser-render.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/talking-about-browser-render.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/talking-about-browser-render.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/talking-about-browser-render.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5klEQVR42u2aQW7DMAwE/f9Pp5ceUtfijtwUkOjRJYljS2NAELlLHq8FxyGUUEIJdQF1FOPHA9+/r66Pnjt/T+sI1QfqctMVE56vV8+PXuZyHaFaQZ0XTZOONvXVHGQdoZ4LVR2Oo0NVKKHSBh/dnwKyUM+CSgF1tHB1eI4C75+zBKGWh6oS+k9+fkzNCLU0VDQdBocnDcT/4roItTRUtRFHQmFGNND5heoFRTZmJTLTqF4qnuhCbQ+VRCcxX2fMNLTRhdoKigrFJEBTgliJVqF6QVETn4rVmYLAr5cWqgUUMSFIMYiaZpUZIlQvKJrwV0WjtOHjfEK1gCLBMx2gJPiSgrhQPaCqBVPBhwBXxshQjAq1NVS8sTAqkgFSJXeo4iDUllAzgfluMwTe9EK1gKKik/xPoXCSJ9S2UMlInRGbpGEQuS5CbQ+VAvNssKbJHergEGo7KFJMTKKCFDFjIUqoVlCpoF2J0yRkyXxC9YW6sxgRF8QYEaoHFCkOpUZm0nSTiuhC9YFCjcagAaJKApOwEKofVErKiHk/IxiQOyzU9lB3jFVqqtHDVajnQBGBSRtRcUAWqjUUbXynJv/wJYVqBUWba2YKk0mICNUXasaEmGmOiELhrpoRammolYZQQgkl1Nv4Atcn78+jb1OqAAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是渲染？"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是渲染？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#加载"><span class="post-toc-number">2.</span> <span class="post-toc-text">加载</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解析"><span class="post-toc-number">3.</span> <span class="post-toc-text">解析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DOM"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">DOM</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CSSOM"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">CSSOM</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#布局树"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">布局树</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#布局计算-amp-分层"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">布局计算 &amp; 分层</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#绘制"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">绘制</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#重排-amp-重绘-amp-合成"><span class="post-toc-number">4.</span> <span class="post-toc-text">重排 &amp; 重绘 &amp; 合成</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#阻塞渲染"><span class="post-toc-number">5.</span> <span class="post-toc-text">阻塞渲染</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">6.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200302214031.png" alt="">  </p>
+<blockquote>
+<p>好久没写理论性较强的文章了。最近刚好正在了解浏览器的工作原理，于是打算写一篇文章来加强下，输出才是最好的输入嘛 hhhh。</p>
+</blockquote>
+<h2 id="什么是渲染？"><a href="#什么是渲染？" class="headerlink" title="什么是渲染？"></a>什么是渲染？</h2><p>在计算机图形学的领域 <code>渲染</code> 是 <code>render</code> 的翻译，看到这个词，写过 React 的开发者应该很熟悉，在 React 中 render 函数做的是将 <code>数据</code> 变成 <code>HTML 代码</code> 的工作。而在图形学中 render 指的是由 <code>模型</code> 生成 <code>图像</code> 的过程，同理在浏览器中 render 做的就是将 DOM 绘制成我们可以看到的 网页。</p>
+<p>在谈真正的 <code>渲染</code> 之前，我们需要先了解 <code>布局树</code> 是如何生成的，有助于更好的了解后续的渲染过程。</p>
+<h2 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h2><p>当用户开始访问一个页面的时候，浏览器就会向服务器请求资源，当网络进程从服务器获取到数据的时候，就会将数据发给渲染进程的 HTML 解析器进行解析，这个过程是实时的，也就是说<strong>网络进程收到多少数据，HTML 解析器就解析多少数据，而不会等网络进程收到所有数据后才解析 HTML</strong>。</p>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><h3 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h3><p>当渲染进程收到 <code>HTML 字节流</code> 的时候，就会调用 <code>HTMLParser</code> 把 HTML 解析成 DOM 树，具体流程见下图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306110006.png" alt=""></p>
+<p>渲染进程收到字节流时会根据指定编码（UTF-8 等）把字节流转换成字符串，也就是我们写的代码。而渲染引擎是<strong>无法直接理解和使用代码的</strong>，所以需要将 HTML <strong>转换为浏览器能理解的结构，即 DOM 树</strong>。</p>
+<p>要将 HTML 转换成 DOM 树还要经过词法分析，将 HTML 转换为 <code>Tag Token</code> 和 <code>文本 Token</code>，例子如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306112308.png" alt=""></p>
+<p>分词完成后，就需要将 Token 解析成 DOM 节点，并将其添加到 DOM 树中，解析的过程这里就不写了，最终生成的 DOM 树如下所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306113541.png" alt=""></p>
+<h3 id="CSSOM"><a href="#CSSOM" class="headerlink" title="CSSOM"></a>CSSOM</h3><p>和 HTML 一样，渲染引擎也是<strong>无法直接理解和使用 CSS 的所以需要将其解析成渲染引擎能够理解的结构，这个结构就是 CSSOM</strong>。浏览器解析 CSS 文件并生成 CSS 规则树，每个 CSS 文件都被分析成一个 <code>StyleSheet 对象</code>，每个对象都包含 CSS 规则。CSS 规则对象包含对应于 CSS 语法的选择器和声明对象以及其他对象。</p>
+<p>当 CSS 转换成浏览器可以理解的结构的时候，那么接下来就要对其属性值进行标准化操作。CSS 中一般都有各种各样的单位，如 <code>rem em blue bold</code> 等，这些类型数值不容易被渲染引擎理解，所以需要<strong>将所有值转换为渲染引擎容易理解的、标准化的计算值，这个过程就是属性值标准化</strong>。具体样例见下图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306120039.png" alt=""></p>
+<p>样式已经标准化了，下一步就是计算 DOM 树各个节点的样式和属性了。</p>
+<p>首先是<strong>继承</strong>，CSS 中部分样式是可以被子元素继承的，这些可以继承的属性应该同时添加到子元素的样式中。然后是<strong>层叠</strong>，层叠是 CSS 的一个基本特征，它是定义了如何合并多个不同来源的样式的算法。CSS 的全称即层叠样式表即说明了层叠这个特性在 CSS 中的重要地位。</p>
+<p>最终生成的 CSSOM 如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306141735.png" alt=""></p>
+<h3 id="布局树"><a href="#布局树" class="headerlink" title="布局树"></a>布局树</h3><p>有了渲染引擎可以理解的 <code>DOM 树</code> 和 <code>CSSOM 树</code>，就可构造成最终要绘制的布局树了。</p>
+<p>为了构建布局树，浏览器大体上完成了下面这些工作：</p>
+<ul>
+<li>遍历DOM树中的所有可见节点，并把这些节点加到布局中；</li>
+<li><strong>而不可见的节点会被布局树忽略掉</strong>，如head标签下面的全部内容，再比如属性包含 dispaly:none 的元素等等。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306142621.png" alt=""></p>
+<h3 id="布局计算-amp-分层"><a href="#布局计算-amp-分层" class="headerlink" title="布局计算 &amp; 分层"></a>布局计算 &amp; 分层</h3><p>此时，渲染引擎就可以根据这个布局树来绘制网页了，但是在绘制之前，还需要进行节点的<strong>布局计算</strong>，布局计算首先需要计算出各个节点的位置坐标，但是只有坐标还不够，因为页面中还有复杂的变化、滚动、层叠和 z-index 排序等等的情况，浏览器为了实现这些就需要<strong>创建图层</strong>，就像用 PhotoShop 绘图一样，最终这些图层才构成了我们所看到的页面图像。Chrome给我们提供了很好的开发者工具，我们可以通过Chrome的开发者工具来查看网页的图层信息，如下（博主使用的是 New Edge）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306144814.png" alt=""></p>
+<p>从工具中我们可以清晰的看到图层是如何放置并最终形成了我们所看到的页面。具体的分层这里就不说了，有兴趣的可以自行查阅。（￣︶￣）↗　</p>
+<h3 id="绘制"><a href="#绘制" class="headerlink" title="绘制"></a>绘制</h3><p>完成上面的步骤后，渲染引擎就可以绘制每个图层。渲染引擎绘制页面的方式其实和写 SVG 矢量图一样，都是从基本图形开始绘制的，<strong>渲染引擎会把图层拆分成很多小的步骤，然后提交到合成线程逐一进行绘制</strong>，剩下的步骤就是<strong>光栅化、合成和显示</strong>，最终就形成了我们所见到的页面，这里就不写了（因为我也不太懂这些计算机图形学的东西 2333</p>
+<h2 id="重排-amp-重绘-amp-合成"><a href="#重排-amp-重绘-amp-合成" class="headerlink" title="重排 &amp; 重绘 &amp; 合成"></a>重排 &amp; 重绘 &amp; 合成</h2><p><strong>重排</strong>，顾名思义，即重新排列，我们经常能在各种文章中看到重排的开销很大，重排的开销很大是因为它会改变页面的布局，改变页面布局就需要重新计算布局，分层以及绘制，经过了很多子阶段。所以我们在写代码中应尽量避免重排，<strong>任何会改变元素的位置或尺寸大小的操作都会触发重排。</strong></p>
+<p><strong>重绘</strong>，即重新绘制，不同于重排，重绘并没有改变布局，所以重绘的可以跳过计算布局和分层的步骤，而是直接进入绘制，所以执行效率会高上一点。<strong>任何改变元素颜色，显示效果的操作都会触发重绘。</strong></p>
+<p><strong>合成</strong>，合成是跳过主线程的布局计算，分层和生成绘制列表的部分，直接发由合成线程进行合成操作，相比重排和重绘，合成效率是最高的。<strong>使用 CSS 的 transform 来实现的效果触发的是合成。</strong></p>
+<h2 id="阻塞渲染"><a href="#阻塞渲染" class="headerlink" title="阻塞渲染"></a>阻塞渲染</h2><p>在进行分析阻塞渲染之前我们需要知道以下几点：</p>
+<ul>
+<li>布局树依赖于 DOM 和 CSSOM，当 CSSOM 未加载完成的时候浏览器不会构建布局树和绘制页面</li>
+<li>JavaScript 有操作 DOM 和 CSSOM 的能力</li>
+</ul>
+<p>当 HTML 解析器解析到 script 标签的时候，<strong>此时 HTML 解析器会暂停对 DOM 的解析和构建</strong>，因为 JavaScript <strong>有可能会更改 DOM 的结构</strong>，如果不暂停 DOM 解析就有可能导致更新丢失的情况出现。HTML 解析器需要等到 script 标签中的 <strong>JavaScript 代码执行完毕才会恢复解析</strong>，但是通常我们会通过引入 JavaScript 文件，在执行这个 JavaScript 之前需要先下载 这个 JavaScript 文件，<strong>而在下载的过程中 DOM 的解析和构建就被阻塞住了</strong>，一般情况下，下载是非常耗时的。所以我们就应该要尽量将 script 文件放置于 HTML 文档的末尾，防止造成过长的白屏。</p>
+<p>说完了 JavaScript 的情况我们来说说 CSS，由于 CSSOM 和 DOM 的构建是<strong>独立的</strong>，所以在只有 HTML 和 CSS 的页面中，CSS 并不会阻塞 DOM 的构建。但是，如果在页面中包含了 JavaScript 那就有所不同了，当解析到了 JavaScript 脚本的时候，DOM 的解析和构建会暂停，此时 JavaScript 引擎会开始执行 JavaScript 代码，但是<strong>由于 JavaScript 拥有修改 CSSOM 的能力</strong>，那么在执行 JavaScript 代码之前，<strong>就需要将 CSS 解析成 CSSOM</strong>，也就是所 CSS 在部分情况下也会阻塞 DOM 的解析和构建。</p>
+<p>不过，现代浏览器都提供了<strong>预解析</strong>的功能，在 DOM 的解析和构建被阻塞的时候，解析器会停止构建 DOM，<strong>但是仍然会继续解析后面的资源</strong>，当解析到需要从网络中获取的资源，浏览器就会<strong>预加载</strong>这些资源。</p>
+<p>下图可以大概体现执行的顺序，不过图画的不太准确，请不要认为这就是真正的执行流程。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200306211827.png" alt=""></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>至此文章就讲完了浏览器渲染的流程，希望大家能有所收获，写出更好的代码，本文是博主通过阅读一些网络文章结合自己的理解写成的，所以可能会有一些错误之处，如果您发现了文章的错误欢迎留言纠正。[]~(￣▽￣)~*</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-03-07");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-03-06T13:36:11.000Z" itemprop="datePublished">2020-03-06</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-03-07T00:19:50.967Z" itemprop="dateModified">2020-03-07</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Web/" rel="tag">#&nbsp;Web</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/vue-cli2-project-migration-log.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">Vue-Cli@2 项目迁移日志</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
