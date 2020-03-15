@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>告别 Windows 终端的难看难用，打造好用的  PowerShell | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="告别 Windows 终端的难看难用，打造好用的  PowerShell | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/say-goodbye-to-the-ugly-and-hard-to-use-windows-terminal-and-build-a-good-powershell.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="🚨超长文和多图警告，流量少的同学和时间紧张的同学请注意 2333。 不知你有没有使用过 Linux 上的 oh-my-zsh？用过后你一定会惊叹，黑乎乎的终端也能变得这么好看，还有各式各样的的插件提升着终端的使用效率。不过，我们平常编程的时候一般是使用 Windows，那么 Windows 也能把 PowerShell 打造成 oh-my-zsh 的样子吗？是的，这是可行的，本文将会讲述如何打造 - Otstar Lin - 青空之蓝"><meta name="keywords" content="Windows, PowerShell"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314175258.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200312155940.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200312162741.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314162500.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314164306.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314170651.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314171954.gif"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314173447.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314173625.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314173916.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314174205.png"><meta property="article:published_time" content="2020-03-14T10:00:32.000Z"><meta property="article:modified_time" content="2020-03-15T00:19:45.625Z"><meta property="og:updated_time" content="2020-03-15T00:19:45.625Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Windows, PowerShell"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/say-goodbye-to-the-ugly-and-hard-to-use-windows-terminal-and-build-a-good-powershell.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/say-goodbye-to-the-ugly-and-hard-to-use-windows-terminal-and-build-a-good-powershell.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/say-goodbye-to-the-ugly-and-hard-to-use-windows-terminal-and-build-a-good-powershell.html"
+    },
+    "headline": "告别 Windows 终端的难看难用，打造好用的  PowerShell | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-03-14T10:00:32.000Z",
+    "dateModified": "2020-03-15T00:19:45.625Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "Windows, PowerShell",
+    "description": "🚨超长文和多图警告，流量少的同学和时间紧张的同学请注意 2333。 不知你有没有使用过 Linux 上的 oh-my-zsh？用过后你一定会惊叹，黑乎乎的终端也能变得这么好看，还有各式各样的的插件提升着终端的使用效率。不过，我们平常编程的时候一般是使用 Windows，那么 Windows 也能把 PowerShell 打造成 oh-my-zsh 的样子吗？是的，这是可行的，本文将会讲述如何打造 - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=告别 Windows 终端的难看难用，打造好用的  PowerShell" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=告别 Windows 终端的难看难用，打造好用的  PowerShell&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=告别 Windows 终端的难看难用，打造好用的  PowerShell" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAADECAAAAADlzdG3AAADKUlEQVR42u3d227rMAxEUf//T7evQWBxNmPRToudl17iRl4BFFFDHZzj5x88DhEiRIgQMY44isfrNa9f378/HaC49n2M1VjxvkSIGEKkm+gMlG50dR19k0SIuAtRDVpNzuraMyB5jtyXCBFPItJkXP28mqhnz1dvjAgR34boFG+0oKSvK0LEU4hVoVVhOtetxjoDba9iRYhoIqqJ+OTXbWmHCBENRAxtFwsN2dhUN5OKwa2puAgRzf4EDcKqgcmETKFZKiZFiLgDURVptJFSDtT4PQkPloudCBEbEavJW212SINkNfjqdaoi9BQoQsQAotrYd3+mxRwJ36pwWoSISURqmnQaK6nJQkLlzmEXESImENUNdYDkedp4THgRIiYRVXFHNy+p6U6ajSmEiwmgCBGbEJ2Fi1xHUSSwjiGECBGDCNI4oQgCoAtsuWiKEDGMSIdQUliQBl+9AZ2QuaxiRYgYQFSBFW1S4sYheB0cKIsQsQnR3RilG0/BF9lQpcVXhIhpBDkYkhD0YAp54/CEFyFiAEEWuLSg0cbJlQLw9HoRIm5EVDf66eEU+oGAD8iIEDGAIKEAbbB/coCl06TEVawIERcRtIC7MlnRxh+OL0LE3Yh0CJEGavQAGMWhk2ciRFxEkMWFNAVpY6ZqPqZGTZmKixCxCYEOghSblVikgb+lAbYIEXchyOA0OOiGYVXAEA+5iBAxjKiCKrop6jZQSKHZrmJFiLiAqCZUZ7KniU7CubQQxipWhIhNCDqpO0FYghN0KgJFiJhAVAEYbUySxS0thCRwECHibkS1GJFwLRWI6UBkGyVCxBCiEwiTIrEbKHeCiDIBFCFiE4IUdykQ6B72TYeG02IrQsQUogqpqgOKJCAoD5cc+R9BxQNeIkQMIGjhlcJechCLBs44XBMhYgBBDx6SkJcGyGlsHHCLEDGEIE3GVLClTVI6pEUP/IoQcReisylJE7+7AH48lggRDyKqTRDB0ElMN2ciRDyJwI3Ag//nx90PApR2iBCxEUEPElbFX5qc3Q+N2OwXIWIIkTbs5OBVp2mfAAQnQsQU4i8/RIgQIULE2OMXgK4AnWDhzssAAAAASUVORK5CYII=" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">告别 Windows 终端的难看难用，打造好用的  PowerShell</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-03-14</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=告别 Windows 终端的难看难用，打造好用的  PowerShell&url=https://hexo.ixk.me/say-goodbye-to-the-ugly-and-hard-to-use-windows-terminal-and-build-a-good-powershell.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=告别 Windows 终端的难看难用，打造好用的  PowerShell&url=https://hexo.ixk.me/say-goodbye-to-the-ugly-and-hard-to-use-windows-terminal-and-build-a-good-powershell.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/say-goodbye-to-the-ugly-and-hard-to-use-windows-terminal-and-build-a-good-powershell.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/say-goodbye-to-the-ugly-and-hard-to-use-windows-terminal-and-build-a-good-powershell.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/say-goodbye-to-the-ugly-and-hard-to-use-windows-terminal-and-build-a-good-powershell.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/say-goodbye-to-the-ugly-and-hard-to-use-windows-terminal-and-build-a-good-powershell.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/say-goodbye-to-the-ugly-and-hard-to-use-windows-terminal-and-build-a-good-powershell.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAADECAAAAADlzdG3AAADKUlEQVR42u3d227rMAxEUf//T7evQWBxNmPRToudl17iRl4BFFFDHZzj5x88DhEiRIgQMY44isfrNa9f378/HaC49n2M1VjxvkSIGEKkm+gMlG50dR19k0SIuAtRDVpNzuraMyB5jtyXCBFPItJkXP28mqhnz1dvjAgR34boFG+0oKSvK0LEU4hVoVVhOtetxjoDba9iRYhoIqqJ+OTXbWmHCBENRAxtFwsN2dhUN5OKwa2puAgRzf4EDcKqgcmETKFZKiZFiLgDURVptJFSDtT4PQkPloudCBEbEavJW212SINkNfjqdaoi9BQoQsQAotrYd3+mxRwJ36pwWoSISURqmnQaK6nJQkLlzmEXESImENUNdYDkedp4THgRIiYRVXFHNy+p6U6ajSmEiwmgCBGbEJ2Fi1xHUSSwjiGECBGDCNI4oQgCoAtsuWiKEDGMSIdQUliQBl+9AZ2QuaxiRYgYQFSBFW1S4sYheB0cKIsQsQnR3RilG0/BF9lQpcVXhIhpBDkYkhD0YAp54/CEFyFiAEEWuLSg0cbJlQLw9HoRIm5EVDf66eEU+oGAD8iIEDGAIKEAbbB/coCl06TEVawIERcRtIC7MlnRxh+OL0LE3Yh0CJEGavQAGMWhk2ciRFxEkMWFNAVpY6ZqPqZGTZmKixCxCYEOghSblVikgb+lAbYIEXchyOA0OOiGYVXAEA+5iBAxjKiCKrop6jZQSKHZrmJFiLiAqCZUZ7KniU7CubQQxipWhIhNCDqpO0FYghN0KgJFiJhAVAEYbUySxS0thCRwECHibkS1GJFwLRWI6UBkGyVCxBCiEwiTIrEbKHeCiDIBFCFiE4IUdykQ6B72TYeG02IrQsQUogqpqgOKJCAoD5cc+R9BxQNeIkQMIGjhlcJechCLBs44XBMhYgBBDx6SkJcGyGlsHHCLEDGEIE3GVLClTVI6pEUP/IoQcReisylJE7+7AH48lggRDyKqTRDB0ElMN2ciRDyJwI3Ag//nx90PApR2iBCxEUEPElbFX5qc3Q+N2OwXIWIIkTbs5OBVp2mfAAQnQsQU4i8/RIgQIULE2OMXgK4AnWDhzssAAAAASUVORK5CYII=" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#美化"><span class="post-toc-number">1.</span> <span class="post-toc-text">美化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#更换默认的-PowerShell-终端"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">更换默认的 PowerShell 终端</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置-Windows-Terminal"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">配置 Windows Terminal</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#全局配置"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">全局配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Profiles-配置"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">Profiles 配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#配色方案"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">配色方案</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#按键绑定"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">按键绑定</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#右键菜单启动"><span class="post-toc-number">1.2.5.</span> <span class="post-toc-text">右键菜单启动</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#WT-部分小结"><span class="post-toc-number">1.2.6.</span> <span class="post-toc-text">WT 部分小结</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#oh-my-posh"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">oh-my-posh</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#功能"><span class="post-toc-number">2.</span> <span class="post-toc-text">功能</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PSReadLine"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">PSReadLine</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#配置"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用介绍"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">使用介绍</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Git-Bash-工具包"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">Git Bash 工具包</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">3.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314175258.png" alt="">  </p>
+<p>🚨超长文和多图警告，流量少的同学和时间紧张的同学请注意 2333。</p>
+<p>不知你有没有使用过 Linux 上的 oh-my-zsh？用过后你一定会惊叹，黑乎乎的终端也能变得这么好看，还有各式各样的的插件提升着终端的使用效率。不过，我们平常编程的时候一般是使用 Windows，那么 Windows 也能把 PowerShell 打造成 oh-my-zsh 的样子吗？是的，这是可行的，本文将会讲述如何打造好用好看的 PowerShell。(下图为 oh-my-zsh，使用 ys 主题</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200312155940.png" alt=""></p>
+<h2 id="美化"><a href="#美化" class="headerlink" title="美化"></a>美化</h2><p>有好的界面才能开心的使用命令行，正所谓颜值才是第一生产力（不是 (/▽＼)。</p>
+<h3 id="更换默认的-PowerShell-终端"><a href="#更换默认的-PowerShell-终端" class="headerlink" title="更换默认的 PowerShell 终端"></a>更换默认的 PowerShell 终端</h3><p>首先，我们要把默认的 PowerShell 终端换掉，默认的终端又丑又伤眼，而且调整的空间较小，为了得到更好的效果，我们需要把默认的终端换掉。</p>
+<p>博主推荐使用巨硬（微软）最新推出的 <a href="https://github.com/microsoft/terminal" target="_blank" rel="noopener">Windows Terminal</a>，虽然说设置相对麻烦（没有 UI），但是启动速度快，功能较为完整。当然你也可以使用其他终端，比如 <a href="https://github.com/felixse/FluentTerminal" target="_blank" rel="noopener">Fluent Terminal</a>，<a href="https://eugeny.github.io/terminus/" target="_blank" rel="noopener">Terminus</a> 或者 <a href="https://hyper.is/" target="_blank" rel="noopener">Hyper</a>。</p>
+<p>安装 Windows Terminal 的方法很简单，直接到 <a href="https://www.microsoft.com/en-us/p/windows-terminal-preview/9n0dx20hk701" target="_blank" rel="noopener">Microsoft Store</a> 安装即可，本文采用 <a href="https://scoop.sh/" target="_blank" rel="noopener">Scoop</a> 来安装。</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell">scoop install windows<span class="token operator">-</span>terminal
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>打开 Windows Terminal 我们可以看到其默认的样子：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200312162741.png" alt=""></p>
+<p>是不是依旧很丑？别怕让我们来改造改造它。</p>
+<h3 id="配置-Windows-Terminal"><a href="#配置-Windows-Terminal" class="headerlink" title="配置 Windows Terminal"></a>配置 Windows Terminal</h3><p>点击标签栏的下三角，我们可以看到 Settings 的选项，按住 Alt 然后点击它，就可以打开 Windows Terminal（以下简称 WT）的默认配置，然后松开 Alt 再次点击它，就可以打开我们需要修改的配置文件，注意不要改动 WT 的默认配置文件，如需覆盖默认配置只需要在个人配置文件中新增或修改即可。</p>
+<p>下面我只会举例部分字段的使用，如需完整的设置项可以到官方文档查看：</p>
+<ul>
+<li><a href="https://github.com/microsoft/terminal/blob/master/doc/cascadia/SettingsSchema.md" target="_blank" rel="noopener">Profiles.json Documentation</a></li>
+<li><a href="https://github.com/microsoft/terminal/blob/master/doc/user-docs/UsingJsonSettings.md" target="_blank" rel="noopener">Editing Windows Terminal JSON Settings</a></li>
+</ul>
+<h4 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h4><pre class="line-numbers highlight language-json"><code class="language-json"><span class="token punctuation">{</span>
+    // 如果 showTabsInTitlebar 与本值同为 <span class="token boolean">false</span> 时，自动隐藏标签栏
+    <span class="token property">"alwaysShowTabs"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    // 默认开启的终端 GUID
+    <span class="token property">"defaultProfile"</span><span class="token operator">:</span> <span class="token string">"{61c54bbd-c2c6-5271-96e7-009a87ff44bf}"</span><span class="token punctuation">,</span>
+    // 开启时的大小设置
+    <span class="token property">"initialCols"</span><span class="token operator">:</span> <span class="token number">120</span><span class="token punctuation">,</span>
+    <span class="token property">"initialRows"</span><span class="token operator">:</span> <span class="token number">30</span><span class="token punctuation">,</span>
+    // 开启时的坐标，<span class="token string">"x,y"</span>
+    <span class="token property">"initialPosition"</span><span class="token operator">:</span> <span class="token string">"500,250"</span><span class="token punctuation">,</span>
+    // 主题风格，<span class="token string">"light"</span><span class="token punctuation">,</span> <span class="token string">"dark"</span><span class="token punctuation">,</span> <span class="token string">"system"</span>
+    <span class="token property">"requestedTheme"</span><span class="token operator">:</span> <span class="token string">"system"</span><span class="token punctuation">,</span>
+    // 合并标题栏和标签栏
+    <span class="token property">"showTabsInTitlebar"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    // 在标题栏上显示当前活动标签页的标题
+    <span class="token property">"showTerminalTitleInTitlebar"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    // 标签栏长度，<span class="token string">"equal"</span><span class="token punctuation">,</span> <span class="token string">"titleLength"</span>
+    <span class="token property">"tabWidthMode"</span><span class="token operator">:</span> <span class="token string">"equal"</span><span class="token punctuation">,</span>
+    // 双击鼠标左键分词符
+    <span class="token property">"wordDelimiters"</span><span class="token operator">:</span> <span class="token string">" /\\()\"</span>'-.<span class="token punctuation">,</span><span class="token operator">:</span><span class="token punctuation">;</span>&lt;>~!@#$%^&amp;*|+=<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span><span class="token punctuation">}</span>~?\u2502"<span class="token punctuation">,</span>
+    // 在关闭多个标签时是否弹出确认框
+    <span class="token property">"confirmCloseAllTabs"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    // 启动时最大化或窗口模式，<span class="token string">"default"</span><span class="token punctuation">,</span> <span class="token string">"maximized"</span>
+    <span class="token property">"launchMode"</span><span class="token operator">:</span> <span class="token string">"default"</span>
+    // ...
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="Profiles-配置"><a href="#Profiles-配置" class="headerlink" title="Profiles 配置"></a>Profiles 配置</h4><p>在新版 WT 中已经可以为所有的 Profile 设置默认配置，不需要再为每个 Profile 设置重复的配置了。</p>
+<pre class="line-numbers highlight language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"profiles"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"defaults"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            // ... 通用的默认配置，可以被 list 中个别的配置覆盖
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">"list"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            // ... 不同的配置
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>下面以 PowerShell 为例：</p>
+<pre class="line-numbers highlight language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"profiles"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">"defaults"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            // Acrylic 效果
+            <span class="token property">"useAcrylic"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+            <span class="token property">"acrylicOpacity"</span><span class="token operator">:</span> <span class="token number">0.6</span><span class="token punctuation">,</span>
+
+            // 背景图片
+            // <span class="token property">"backgroundImage"</span> <span class="token operator">:</span> <span class="token string">"..."</span><span class="token punctuation">,</span>
+            // <span class="token property">"backgroundImageOpacity"</span> <span class="token operator">:</span> <span class="token number">0.5</span><span class="token punctuation">,</span>
+            // <span class="token property">"backgroundImageStretchMode"</span> <span class="token operator">:</span> <span class="token string">"uniformToFill"</span><span class="token punctuation">,</span>
+
+            // 配色主题
+            <span class="token property">"colorScheme"</span><span class="token operator">:</span> <span class="token string">"Atom"</span><span class="token punctuation">,</span>
+            // 光标颜色
+            <span class="token property">"cursorColor"</span><span class="token operator">:</span> <span class="token string">"#FFFFFF"</span><span class="token punctuation">,</span>
+            // 光标样式
+            <span class="token property">"cursorShape"</span><span class="token operator">:</span> <span class="token string">"bar"</span><span class="token punctuation">,</span>
+
+            // 字体设置
+            <span class="token property">"fontFace"</span><span class="token operator">:</span> <span class="token string">"Fira Code Retina"</span><span class="token punctuation">,</span>
+            <span class="token property">"fontSize"</span><span class="token operator">:</span> <span class="token number">12</span><span class="token punctuation">,</span>
+
+            // 启动的目录，如果需要使用右键启动的话就设置 <span class="token string">"."</span>
+            <span class="token property">"startingDirectory"</span><span class="token operator">:</span> <span class="token string">"."</span><span class="token punctuation">,</span>
+            // 显示滚动栏
+            <span class="token property">"scrollbarState"</span><span class="token operator">:</span> <span class="token string">"visible"</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token property">"list"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                // 用于识别不同 Profile 的 GUID，可以在 PowerShell 使用 <span class="token punctuation">[</span>guid<span class="token punctuation">]</span><span class="token operator">:</span><span class="token operator">:</span>NewGuid(<span class="token punctuation">)</span> 命令生成
+                <span class="token property">"guid"</span><span class="token operator">:</span> <span class="token string">"{61c54bbd-c2c6-5271-96e7-009a87ff44bf}"</span><span class="token punctuation">,</span>
+                // Profile 的名称
+                <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"PowerShell"</span><span class="token punctuation">,</span>
+                // 启动命令行
+                <span class="token property">"commandline"</span><span class="token operator">:</span> <span class="token string">"powershell.exe"</span><span class="token punctuation">,</span>
+                // 图标
+                <span class="token property">"icon"</span><span class="token operator">:</span> <span class="token string">"C:\\Users\\syfxl\\scoop\\my_data\\powershell.png"</span><span class="token punctuation">,</span>
+                // 是否显示在列表中
+                <span class="token property">"hidden"</span><span class="token operator">:</span> <span class="token boolean">false</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>把之前的 <code>defaultProfile</code> 设置为某个 Profile 的 GUID，打开 WT、新建标签页时就会默认使用这个 Profile。否则就需要使用 <code>+</code> 号旁边的 <code>下拉按钮</code> 来开启其他非 <code>hidden</code> 的 Profile。</p>
+<h4 id="配色方案"><a href="#配色方案" class="headerlink" title="配色方案"></a>配色方案</h4><p>WT 自带了一些配色方案，如果其中某个配色刚好是你喜欢的配色可以直接使用，WT 自带的配色有：<code>Campbell</code>、<code>Campbell Powershell</code>、<code>Vintage</code>、<code>One Half Dark</code>、<code>One Half Light</code>、<code>Solarized Dark</code>、<code>Solarized Light</code>。</p>
+<p>如果这些配色你都不喜欢，那么就可以到这个仓库 <a href="https://github.com/mbadolato/iTerm2-Color-Schemes/tree/master/windowsterminal" target="_blank" rel="noopener">mbadolato/iTerm2-Color-Schemes</a> 下载你喜欢的配色。</p>
+<pre class="line-numbers highlight language-json"><code class="language-json"><span class="token punctuation">{</span>
+    <span class="token property">"schemes"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Atom"</span><span class="token punctuation">,</span>
+            <span class="token property">"black"</span><span class="token operator">:</span> <span class="token string">"#000000"</span><span class="token punctuation">,</span>
+            <span class="token property">"red"</span><span class="token operator">:</span> <span class="token string">"#fd5ff1"</span><span class="token punctuation">,</span>
+            <span class="token property">"green"</span><span class="token operator">:</span> <span class="token string">"#87c38a"</span><span class="token punctuation">,</span>
+            <span class="token property">"yellow"</span><span class="token operator">:</span> <span class="token string">"#ffd7b1"</span><span class="token punctuation">,</span>
+            <span class="token property">"blue"</span><span class="token operator">:</span> <span class="token string">"#85befd"</span><span class="token punctuation">,</span>
+            <span class="token property">"purple"</span><span class="token operator">:</span> <span class="token string">"#b9b6fc"</span><span class="token punctuation">,</span>
+            <span class="token property">"cyan"</span><span class="token operator">:</span> <span class="token string">"#85befd"</span><span class="token punctuation">,</span>
+            <span class="token property">"white"</span><span class="token operator">:</span> <span class="token string">"#e0e0e0"</span><span class="token punctuation">,</span>
+            <span class="token property">"brightBlack"</span><span class="token operator">:</span> <span class="token string">"#000000"</span><span class="token punctuation">,</span>
+            <span class="token property">"brightRed"</span><span class="token operator">:</span> <span class="token string">"#fd5ff1"</span><span class="token punctuation">,</span>
+            <span class="token property">"brightGreen"</span><span class="token operator">:</span> <span class="token string">"#94fa36"</span><span class="token punctuation">,</span>
+            <span class="token property">"brightYellow"</span><span class="token operator">:</span> <span class="token string">"#f5ffa8"</span><span class="token punctuation">,</span>
+            <span class="token property">"brightBlue"</span><span class="token operator">:</span> <span class="token string">"#96cbfe"</span><span class="token punctuation">,</span>
+            <span class="token property">"brightPurple"</span><span class="token operator">:</span> <span class="token string">"#b9b6fc"</span><span class="token punctuation">,</span>
+            <span class="token property">"brightCyan"</span><span class="token operator">:</span> <span class="token string">"#85befd"</span><span class="token punctuation">,</span>
+            <span class="token property">"brightWhite"</span><span class="token operator">:</span> <span class="token string">"#e0e0e0"</span><span class="token punctuation">,</span>
+            <span class="token property">"background"</span><span class="token operator">:</span> <span class="token string">"#161719"</span><span class="token punctuation">,</span>
+            <span class="token property">"foreground"</span><span class="token operator">:</span> <span class="token string">"#c5c8c6"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="按键绑定"><a href="#按键绑定" class="headerlink" title="按键绑定"></a>按键绑定</h4><p>按键绑定这里就不写了，因为涉及到很多 <code>command</code> ，WT 自带的按键已经基本够用，如果有需要的可以到 WT 的文档中查看。</p>
+<h4 id="右键菜单启动"><a href="#右键菜单启动" class="headerlink" title="右键菜单启动"></a>右键菜单启动</h4><p>很多时候我们需要在文档管理器中直接启动 WT，此时就需要添加一个右键菜单启动项了。</p>
+<p>新建一个 bat 文件，填入以下内容（注意修改成你的配置），然后以管理员运行该 bat 即可。</p>
+<pre class="line-numbers highlight language-batch"><code class="language-batch"><span class="token operator">@</span><span class="token command"><span class="token keyword">echo</span> off</span>
+
+<span class="token command"><span class="token keyword">reg</span>.exe add <span class="token string">"HKEY_CLASSES_ROOT\Directory\Background\shell\wt"</span> <span class="token parameter attr-name">/f</span> <span class="token parameter attr-name">/ve</span> <span class="token parameter attr-name">/d</span> <span class="token string">"Windows Terminal here"</span></span>
+<span class="token command"><span class="token keyword">reg</span>.exe add <span class="token string">"HKEY_CLASSES_ROOT\Directory\Background\shell\wt"</span> <span class="token parameter attr-name">/f</span> <span class="token parameter attr-name">/v</span> <span class="token string">"Icon"</span> <span class="token parameter attr-name">/t</span> REG_EXPAND_SZ <span class="token parameter attr-name">/d</span> <span class="token string">"WT 图标路径"</span></span>
+<span class="token command"><span class="token keyword">reg</span>.exe add <span class="token string">"HKEY_CLASSES_ROOT\Directory\Background\shell\wt\command"</span> <span class="token parameter attr-name">/f</span> <span class="token parameter attr-name">/ve</span> <span class="token parameter attr-name">/t</span> REG_EXPAND_SZ <span class="token parameter attr-name">/d</span> <span class="token string">"\"</span>WT.exe 的路径\<span class="token string">""</span></span>
+
+<span class="token command"><span class="token keyword">pause</span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="WT-部分小结"><a href="#WT-部分小结" class="headerlink" title="WT 部分小结"></a>WT 部分小结</h4><p>至此 WT 部分就配置完毕的了，大致的效果如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314162500.png" alt=""></p>
+<h3 id="oh-my-posh"><a href="#oh-my-posh" class="headerlink" title="oh-my-posh"></a>oh-my-posh</h3><p>光有 WT 肯定是不够的，使用一下你会发现，也就主题的颜色变了，外表变了，字体好看了，终端很多字符都还是白色，并没有像 oh-my-zsh 那么色彩斑斓。本节就来改造下 PowerShell（以下简称 Posh）。</p>
+<p>zsh 下有 oh-my-zsh，Posh 下也有 oh-my-posh 可以做到和 oh-my-zsh 一样的外观。</p>
+<p>本文一样采用 Scoop 来安装 oh-my-posh，同时也提供了 Posh 默认的方式安装。</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># Scoop 安装</span>
+scoop install posh<span class="token operator">-</span>git
+scoop install oh<span class="token operator">-</span>my<span class="token operator">-</span>posh
+scoop install posh<span class="token operator">-</span>docker
+
+<span class="token comment" spellcheck="true"># 默认安装</span>
+Install<span class="token operator">-</span>Module posh<span class="token operator">-</span>git <span class="token operator">-</span>Scope CurrentUser
+Install<span class="token operator">-</span>Module oh<span class="token operator">-</span>my<span class="token operator">-</span>posh <span class="token operator">-</span>Scope CurrentUser
+Install<span class="token operator">-</span>Module posh<span class="token operator">-</span>docker <span class="token operator">-</span>Scope CurrentUser
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>安装完后，我们还需要配置下 Posh 才能使其变成 oh-my-zsh 的样子。</p>
+<p>首先在 Posh 中输入 <code>$profile</code> 并回车，Posh 会输出你当前使用的 Profile 文件地址，打开该文件（若没有就需要新建），在该文件中写入以下内容。</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token function">Import-Module</span> posh<span class="token operator">-</span>git
+<span class="token function">Import-Module</span> posh<span class="token operator">-</span>docker
+<span class="token function">Import-Module</span> oh<span class="token operator">-</span>my<span class="token operator">-</span>posh
+<span class="token comment" spellcheck="true"># 设置主题，博主用的是 Honukai</span>
+<span class="token function">Set</span><span class="token operator">-</span>Theme Honukai 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>重新启动后，你就会发现终端的样式变了几乎和 oh-my-zsh 的外观一样了，并且也有 git 状态的提示了：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314164306.png" alt=""></p>
+<p>注意：部分主题需要使用到 PowerLine 字体才能正确显示，若你要使用这些主题，请安装 PowerLine 字体并将 WT 的字体设置成 PowerLine 字体。</p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><p>光有好看的外表可不行，还要实用才行，oh-my-zsh 中有很多插件可以增强 zsh 的功能，其中如 zsh-syntax-highlighting，zsh-autosuggestions 等，zsh-syntax-highlighting 的功能 oh-my-posh 已经可以实现了，但是能够极大提高效率的 zsh-autosuggestions，Posh 有没有类似的实现？答案是有的，PSReadLine，这个插件早就默认集成在了 Posh 中，只是该插件需要配置才能使用，而该插件就可以做到和 zsh-autosuggestions 或 fish 的自动查找历史记录并填充的效果。</p>
+<h3 id="PSReadLine"><a href="#PSReadLine" class="headerlink" title="PSReadLine"></a>PSReadLine</h3><h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>PSReadLine 的配置较为麻烦，但是官方已经提供好了 <a href="https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1" target="_blank" rel="noopener">样例</a> 可以直接白嫖使用。</p>
+<p>直接将样例配置复制到 <code>$profile</code> 文件中即可。</p>
+<p>然后在 <code>Import-Module PSReadLine</code> 下增加一行：</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 设置类似于Bash的菜单选择功能</span>
+<span class="token function">Set</span><span class="token operator">-</span>PSReadlineKeyHandler <span class="token operator">-</span>Key Tab <span class="token operator">-</span><span class="token keyword">Function</span> MenuComplete
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="使用介绍"><a href="#使用介绍" class="headerlink" title="使用介绍"></a>使用介绍</h4><p>首先是类 Bash 选择菜单，输入命令的时候按下 <code>Tab</code> 键触发，再次按 <code>Tab</code> 可以在菜单中进行选择，如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314170651.png" alt=""></p>
+<p>然后是类似于 zsh-autosuggestions 和 fish 的历史记录搜索和补全，输入一半命令后可以通过上下键进行选择与前缀相匹配的历史记录：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314171954.gif" alt=""></p>
+<p>其他功能还有右引号和右括号自动补全等功能，需要的可以自行查看样例配置中的注释自行尝试即可，功能很全面。</p>
+<h3 id="Git-Bash-工具包"><a href="#Git-Bash-工具包" class="headerlink" title="Git Bash 工具包"></a>Git Bash 工具包</h3><p>有了一些增强功能，不过 Linux 终端的强大并不只有这些，还有其好用的 GNU 工具，虽然说 Windows 大多情况下可以用一些其他工具来做到和 GNU 工具一样的效果，但是偶尔也可能会用到这些 GNU 功能，那么 Windows 要如何安装使用这些工具呢？</p>
+<p>Windows 上的 GNU 工具可以有很多方式来安装，比如 Cygwin，MSYS2，Git Bash，CoreUtils 等等，但是这里推荐直接使用 Git Bash 的即可，因为不需要在安装 Git 后多安装一套工具。</p>
+<p>可是 Git 的 GNU 工具不是给 Git Bash 用的吗？Posh 要如何使用这些工具？如果你看过 Git 的 <code>usr\bin</code> 目录你就知道了，这些 GNU 工具都是 <code>exe</code> 可执行文件，Posh 完全可以直接运行这些工具。要在 Posh 下使用这个工具，只需要将 Git 的 <code>usr\bin</code> 目录添加到 PATH 中即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314173447.png" alt=""></p>
+<p>可是当你设置完后实际运行下你会发现，似乎并没有用，Posh 还是运行了 Posh 的命令</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314173625.png" alt=""></p>
+<p>这其实是命令别名把 GNU 的工具命令覆盖了导致的，我们只需要删除这些 Posh 自带的命令别名即可。</p>
+<p>利用 <code>Get-Alias</code> 命令就可以查看 Posh 中设置那些命令别名，这样我们就可以很方便的找出冲突的命令，并取消对应的命令别名。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314173916.png" alt=""></p>
+<p>找出冲突的别名后就可以用 <code>Remove-Item alias:\&lt;command&gt;</code> 删除命令别名了，比如我删除了以下的命令别名：</p>
+<pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token function">Remove-Item</span> alias:\curl
+<span class="token function">Remove-Item</span> alias:\wget
+<span class="token function">Remove-Item</span> alias:\<span class="token function">rm</span>
+<span class="token function">Remove-Item</span> alias:\<span class="token function">ls</span>
+<span class="token function">Remove-Item</span> alias:\<span class="token function">cp</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>再次运行 Posh 你就会发现被覆盖的 GNU 工具可以正常使用了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/03/20200314174205.png" alt=""></p>
+<p>不过需要注意下，Git Bash 的 GNU 工具中并没有 wget，如果要使用 wget 可以另外下载安装，这里就不写了。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>完整的配置文件已放到了 Gist 中你可以参照我的配置文件修改使用：<a href="https://gist.github.com/syfxlin/0214ea1c78d50e72edb83c218e1e02cb" target="_blank" rel="noopener">windows-terminal-profile.json</a> <a href="https://gist.github.com/syfxlin/3930bcf79465f0bde4b68cea6e2dfab0" target="_blank" rel="noopener">posh-profile.ps1</a></p>
+<p>又是一篇长文，肝了一个下午，总算把 Windows 终端的配置给讲完了，写这篇的目的有两个，一个是给直接的踩坑留下记录，方便以后重装系统之类的使用，二是希望受 Windows 终端使用苦恼的同学们一点微小的帮助。</p>
+<p>其实 Posh 还是很好用的，甚至比 zsh bash fish 等命令行好用，只是生态没有这些好，社区中好用的工具插件不如这些命令行多。[]~(￣▽￣)~*</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-03-15");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-03-14T10:00:32.000Z" itemprop="datePublished">2020-03-14</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-03-15T00:19:45.625Z" itemprop="dateModified">2020-03-15</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Windows/" rel="tag">#&nbsp;Windows</a>
+
+<a class="post-tags-list-item" href="/tags/PowerShell/" rel="tag">#&nbsp;PowerShell</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/vscode-java-output-chinese-garbled-problem-solving.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">VSCode Java输出中文乱码问题解决[更新]</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
