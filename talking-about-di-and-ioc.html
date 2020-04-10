@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>浅谈 DI 和 IoC | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="浅谈 DI 和 IoC | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talking-about-di-and-ioc.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言用过 Laravel 或者 Spring 的人一定都听过 依赖注入(DI) 和 控制反转(IoC) 这个概念，对于刚接触这两个个概念的人来说，这两个概念很难理解，正好最近折腾了下设计模式把这两个概念给补上了，于是便打算写一篇文章记录下。 控制反转是什么？用单纯的语言肯定讲不清楚这个概念的，所以，我们先来看一段代码吧： &amp;lt;?php interface Device {     public - Otstar Lin - 青空之蓝"><meta name="keywords" content="Laravel, Spring, 设计模式"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/04/20200409212657.png"><meta property="article:published_time" content="2020-04-09T13:02:40.000Z"><meta property="article:modified_time" content="2020-04-10T00:26:15.167Z"><meta property="og:updated_time" content="2020-04-10T00:26:15.167Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Laravel, Spring, 设计模式"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/talking-about-di-and-ioc.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/talking-about-di-and-ioc.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/talking-about-di-and-ioc.html"
+    },
+    "headline": "浅谈 DI 和 IoC | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-04-09T13:02:40.000Z",
+    "dateModified": "2020-04-10T00:26:15.167Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "Laravel, Spring, 设计模式",
+    "description": "前言用过 Laravel 或者 Spring 的人一定都听过 依赖注入(DI) 和 控制反转(IoC) 这个概念，对于刚接触这两个个概念的人来说，这两个概念很难理解，正好最近折腾了下设计模式把这两个概念给补上了，于是便打算写一篇文章记录下。 控制反转是什么？用单纯的语言肯定讲不清楚这个概念的，所以，我们先来看一段代码吧： &amp;amp;lt;?php interface Device {     public - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=浅谈 DI 和 IoC" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=浅谈 DI 和 IoC&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=浅谈 DI 和 IoC" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB2ElEQVR42u3awa7DIAxE0fz/T7ebLqoIZsYoi2BuNq8vauFEIoCNr88LrwsUKFCgBqhLXPfvDBv63Z/9rtQPqDYo1Zn7/I+aYeN+QLVC3Qfe/f6oMXd/9DCzfkCdh5oBZi9M2h6os1GzBVZBQZ2Lcpu31UmztPCDaoNSG/on/z4WzYB6NcomHSYNVALOx7MuoF6NUgPRdawm2mSgg+qJUgM6CSLUpDv6XwasoFqgVhbiatJWtRsn90FthXKBo7qXbBDjhAmoNqhqQmw2YBXYJTdA9UJVkl5JEmSWGLHJE1BtUGowuknWYVTizb59oLZEpZt/FQiogeyCCFB9UW4RTQNKF9zKyRpUK5QbhGpzlwScbgMIqg9KJcAqi+pKsiwKHEBtjXKBpluIk4VaPjioNqhkc6cKtpKirqWsC6hWqErg6QKINHECqg+qciCUHna7oq5oRgfVBpV05r7vAgxQZ6CSQhu3AXTJOPkygGqBSgoF06A0LZyYPjSoFihX8FAp0qkW9MSBA6jtUEnCNZ1kK4FsfNoOaktUJbGaFOosHWSCOhKVFuCkCRBQ56LUQWKSiC0VS4BqgXJJsbhhc4ApCyxAtUFVi7fUBrCaQAPVD/WmCxQoUKD+ri+lrbHxwACjtwAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">浅谈 DI 和 IoC</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-04-09</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=浅谈 DI 和 IoC&url=https://hexo.ixk.me/talking-about-di-and-ioc.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=浅谈 DI 和 IoC&url=https://hexo.ixk.me/talking-about-di-and-ioc.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/talking-about-di-and-ioc.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/talking-about-di-and-ioc.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/talking-about-di-and-ioc.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/talking-about-di-and-ioc.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/talking-about-di-and-ioc.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB2ElEQVR42u3awa7DIAxE0fz/T7ebLqoIZsYoi2BuNq8vauFEIoCNr88LrwsUKFCgBqhLXPfvDBv63Z/9rtQPqDYo1Zn7/I+aYeN+QLVC3Qfe/f6oMXd/9DCzfkCdh5oBZi9M2h6os1GzBVZBQZ2Lcpu31UmztPCDaoNSG/on/z4WzYB6NcomHSYNVALOx7MuoF6NUgPRdawm2mSgg+qJUgM6CSLUpDv6XwasoFqgVhbiatJWtRsn90FthXKBo7qXbBDjhAmoNqhqQmw2YBXYJTdA9UJVkl5JEmSWGLHJE1BtUGowuknWYVTizb59oLZEpZt/FQiogeyCCFB9UW4RTQNKF9zKyRpUK5QbhGpzlwScbgMIqg9KJcAqi+pKsiwKHEBtjXKBpluIk4VaPjioNqhkc6cKtpKirqWsC6hWqErg6QKINHECqg+qciCUHna7oq5oRgfVBpV05r7vAgxQZ6CSQhu3AXTJOPkygGqBSgoF06A0LZyYPjSoFihX8FAp0qkW9MSBA6jtUEnCNZ1kK4FsfNoOaktUJbGaFOosHWSCOhKVFuCkCRBQ56LUQWKSiC0VS4BqgXJJsbhhc4ApCyxAtUFVi7fUBrCaQAPVD/WmCxQoUKD+ri+lrbHxwACjtwAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#控制反转是什么？"><span class="post-toc-number">2.</span> <span class="post-toc-text">控制反转是什么？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#依赖注入是什么？"><span class="post-toc-number">3.</span> <span class="post-toc-text">依赖注入是什么？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#IoC-容器"><span class="post-toc-number">4.</span> <span class="post-toc-text">IoC 容器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#反射"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">反射</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#容器代码"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">容器代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">5.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/04/20200409212657.png" alt="">  </p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>用过 Laravel 或者 Spring 的人一定都听过 <strong>依赖注入(DI)</strong> 和 <strong>控制反转(IoC)</strong> 这个概念，对于刚接触这两个个概念的人来说，这两个概念很难理解，正好最近折腾了下设计模式把这两个概念给补上了，于是便打算写一篇文章记录下。</p>
+<h2 id="控制反转是什么？"><a href="#控制反转是什么？" class="headerlink" title="控制反转是什么？"></a>控制反转是什么？</h2><p>用单纯的语言肯定讲不清楚这个概念的，所以，我们先来看一段代码吧：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token keyword">interface</span> <span class="token class-name">Device</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">playGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Computer</span> <span class="token keyword">implements</span> <span class="token class-name">Device</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">playGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token string">"玩游戏\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Player</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token variable">$name</span> <span class="token operator">=</span> <span class="token string">"玩家"</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">printName</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">name</span> <span class="token punctuation">.</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token variable">$this</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">playGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Computer</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">playGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token variable">$this</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Player</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">printName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">playGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 玩家</span>
+<span class="token comment" spellcheck="true">// 玩游戏 </span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>首先我们先看一下上面的代码，玩家要玩游戏，但是玩家并没办法仅靠自己完成这个操作，需要借助一台电脑，此时电脑就称之为 <strong>依赖</strong>，而玩家操作电脑玩游戏的过程就称之为 <strong>控制</strong>。</p>
+<p>不过随着科技的进步，手机游戏逐渐的取代了部分桌面游戏，该玩家也因为各种广告的熏陶逐渐想玩某款手机游戏了，不过玩家发现自己已经和电脑 <strong>“绑定”</strong> 在一起了，如果要更换设备就需要修改内部的代码。不过这样以后就不能再使用电脑，作为一个重度电脑依赖的玩家这怎么能接受。</p>
+<p>那么有什么方法可以解决这个问题吗？有的，那就是把 <strong>控制反转</strong> 过来，将 <strong>依赖</strong>，也就是设备动态的赋予玩家，玩家不控制设备的创建和销毁，玩家只负责使用设备，如下代码：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token keyword">interface</span> <span class="token class-name">Device</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">playGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Computer</span> <span class="token keyword">implements</span> <span class="token class-name">Device</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">playGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token string">"玩游戏\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Player</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token variable">$name</span> <span class="token operator">=</span> <span class="token string">"玩家"</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token variable">$device</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span>Device <span class="token variable">$device</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">device</span> <span class="token operator">=</span> <span class="token variable">$device</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">printName</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">name</span> <span class="token punctuation">.</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token variable">$this</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">playGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">device</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">playGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token variable">$this</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Player</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Computer</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">printName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">playGame</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 玩家</span>
+<span class="token comment" spellcheck="true">// 玩游戏 </span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="依赖注入是什么？"><a href="#依赖注入是什么？" class="headerlink" title="依赖注入是什么？"></a>依赖注入是什么？</h2><p>从上面的代码可以看到设备是动态传入的，当需要更换设备的时候就只需要更换传入的参数即可，而不需要修改玩家类，而将参数传入到类的过程就称之为 <strong>依赖注入</strong>。</p>
+<p>常见的依赖注入的方式有三种：</p>
+<ol>
+<li><em>构造器注入</em></li>
+<li><em>接口注入</em></li>
+<li><em>设置属性注入</em></li>
+</ol>
+<p>上方代码使用的就是 <strong>构造器注入</strong> 的方式。</p>
+<p>依赖注入可以解决依赖需要切换的问题，解决各部件之间的强耦合问题。但是依赖注入也有个麻烦，如果依赖项太多了怎么办？每次使用的时候都需要创建一堆的依赖，并设置这些依赖：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token variable">$c1</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Class1</span><span class="token punctuation">;</span>
+<span class="token variable">$c2</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Class2</span><span class="token punctuation">;</span>
+<span class="token variable">$c3</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Class3</span><span class="token punctuation">;</span>
+<span class="token variable">$c4</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Class4</span><span class="token punctuation">;</span>
+<span class="token variable">$c5</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Class5</span><span class="token punctuation">;</span>
+
+<span class="token variable">$c6</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Class6</span><span class="token punctuation">(</span><span class="token variable">$c1</span><span class="token punctuation">,</span> <span class="token variable">$c2</span><span class="token punctuation">,</span> <span class="token variable">$c3</span><span class="token punctuation">,</span> <span class="token variable">$c4</span><span class="token punctuation">,</span> <span class="token variable">$c5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到这样的代码并不优雅，还会加大对象创建的难度和复杂度，这种情况可以使用工厂模式来解决：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token keyword">class</span> <span class="token class-name">Factory</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">function</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">//... new class 1-5</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Class6</span><span class="token punctuation">(</span><span class="token variable">$c1</span><span class="token punctuation">,</span> <span class="token variable">$c2</span><span class="token punctuation">,</span> <span class="token variable">$c3</span><span class="token punctuation">,</span> <span class="token variable">$c4</span><span class="token punctuation">,</span> <span class="token variable">$c5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token variable">$c6</span> <span class="token operator">=</span> Factory<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>工厂模式解决了创建对象复杂的问题，但是你会发现，这样就又回到了原点，对象的依赖就被工厂绑定了，当需要使用到其他依赖的时候工厂就无用武之地了。</p>
+<h2 id="IoC-容器"><a href="#IoC-容器" class="headerlink" title="IoC 容器"></a>IoC 容器</h2><p>那么还有什么的其他的方法能解决依赖注入的问题吗？答案是使用 <strong>IoC 容器</strong>。那么什么是 IoC 容器呢？我们可以把 <strong>IoC 容器</strong> 看成一个 <strong>仓库</strong>，里面存放着 <strong>依赖项</strong>，在运行的时候 <strong>注册绑定</strong> 一些需要用到的依赖，当我们要使用的某个对象的时候，直接 <strong>提取制造</strong> 一个出来即可，容器内部会自动创建并注入依赖。</p>
+<h3 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h3><p>反射是 IoC 容器实现的关键，通过反射 IoC 容器就能知道类或者方法用到了哪些依赖，知道了需要使用的依赖后就可以到依赖列表中进行查找查找完成后就可以将依赖赋值给对应的类和方法。</p>
+<p>举个例子说明下吧：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token keyword">class</span> <span class="token class-name">Cat</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> string
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"猫"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">PetShop</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * 动物依赖
+     *
+     * @var Cat
+     */</span>
+    <span class="token keyword">private</span> <span class="token variable">$cat</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 构造器注入
+     *
+     * @param   Cat  $cat  动物依赖
+     *
+     * @return  PetShop
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span>Cat <span class="token variable">$cat</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">cat</span> <span class="token operator">=</span> <span class="token variable">$cat</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">printName</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">echo</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">cat</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">.</span> <span class="token string">"\n"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 获取反射类</span>
+<span class="token variable">$reflector</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ReflectionClass</span><span class="token punctuation">(</span>PetShop<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 获取构造器</span>
+<span class="token variable">$constructor</span> <span class="token operator">=</span> <span class="token variable">$reflector</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getConstructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 获取构造器的参数，也就是依赖</span>
+<span class="token variable">$dependencies</span> <span class="token operator">=</span> <span class="token variable">$constructor</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getParameters</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 打印所有的依赖</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token variable">$dependencies</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 获取依赖的类</span>
+<span class="token variable">$class</span> <span class="token operator">=</span> <span class="token variable">$dependencies</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token variable">$class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 创建依赖对象</span>
+<span class="token variable">$cat</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token variable">$class</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">name</span><span class="token punctuation">;</span>
+<span class="token function">var_dump</span><span class="token punctuation">(</span><span class="token variable">$cat</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 将依赖注入，并实例化</span>
+<span class="token variable">$pet_shop</span> <span class="token operator">=</span> <span class="token variable">$reflector</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">newInstanceArgs</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token variable">$cat</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token variable">$pet_shop</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">printName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// F:\Code\code\design-pattern\Test.php:44:</span>
+<span class="token comment" spellcheck="true">// array(1) {</span>
+<span class="token comment" spellcheck="true">//   [0] =></span>
+<span class="token comment" spellcheck="true">//   class ReflectionParameter#3 (1) {</span>
+<span class="token comment" spellcheck="true">//     public $name =></span>
+<span class="token comment" spellcheck="true">//     string(3) "cat"</span>
+<span class="token comment" spellcheck="true">//   }</span>
+<span class="token comment" spellcheck="true">// }</span>
+<span class="token comment" spellcheck="true">// F:\Code\code\design-pattern\Test.php:47:</span>
+<span class="token comment" spellcheck="true">// class ReflectionClass#4 (1) {</span>
+<span class="token comment" spellcheck="true">//   public $name =></span>
+<span class="token comment" spellcheck="true">//   string(3) "Cat"</span>
+<span class="token comment" spellcheck="true">// }</span>
+<span class="token comment" spellcheck="true">// F:\Code\code\design-pattern\Test.php:50:</span>
+<span class="token comment" spellcheck="true">// class Cat#5 (0) {</span>
+<span class="token comment" spellcheck="true">// }</span>
+<span class="token comment" spellcheck="true">// 猫 </span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到代码中通过 PetShop 的反射类获取到了构造器的参数列表，并且通过反射参数获取到参数的类名，此时就可以通过类名创建对应的依赖，最后再使用反射类实例化出对象。</p>
+<h3 id="容器代码"><a href="#容器代码" class="headerlink" title="容器代码"></a>容器代码</h3><p>首先先贴代码：<a href="https://github.com/syfxlin/code/tree/master/design-pattern/IoC" target="_blank" rel="noopener">https://github.com/syfxlin/code/tree/master/design-pattern/IoC</a></p>
+<p>这个 IoC 容器是给 XK-PHP 设计的，参考了 Laravel 的容器和网上一些代码改造而来，实现了大部分 Laravel 容器的功能，所以显得很复杂 2333。这里就大致讲一下流程。</p>
+<p>容器创建后就需要调用 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L54-L86" target="_blank" rel="noopener">bind</a> 方法绑定依赖，bind 方法再通过调用 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L89-L104" target="_blank" rel="noopener">setBind</a> 方法完成对依赖的绑定，在 setBind 中会判断传入的 concrete 是否是闭包，如果不是闭包则 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L93-L97" target="_blank" rel="noopener">创建</a> 一个闭包，之所以使用闭包而不是直接 new 一个依赖是为了达到懒加载的效果，如果直接 new 一个依赖其实就变成了单例模式了，单例模式的实例是不会变化的这样也就没必要使用容器了。</p>
+<p>完成依赖的绑定后，当我们需要使用到某个对象的时候，就需要调用 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L135-L152" target="_blank" rel="noopener">make</a> 方法，make 方法会 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L146" target="_blank" rel="noopener">运行</a> 对应对象的闭包，闭包的返回值就是当前对象的实例，这个闭包可以自行设置，也可以使用 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L94-L96" target="_blank" rel="noopener">默认的闭包</a>，在默认的闭包中会调用 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L197-L224" target="_blank" rel="noopener">build</a> 方法来构建实例，构建的流程其实就是上面反射一节中的流程，在 build 方法中会调用 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L233-L251" target="_blank" rel="noopener">injectingDependencies</a> 方法来处理要注入的依赖参数。若对应的依赖通过是通过外部传入的则直接进行 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L237-L240" target="_blank" rel="noopener">设置</a>。若需要的依赖是一个类，则调用 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L283-L293" target="_blank" rel="noopener">resolveClass</a> 方法来处理类依赖，由于依赖可能还需要使用到其他依赖，所以需要调用 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L286" target="_blank" rel="noopener">make</a> 方法来进行递归处理依赖。如果需要的依赖不是一个类，则通过 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L260-L274" target="_blank" rel="noopener">resolvePrimitive</a> 方法来处理依赖，查找的方式是使用变量名的方式，如果容器中有绑定对应变量名的依赖则 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L262-L269" target="_blank" rel="noopener">注入</a> 对应的绑定，如果没找到绑定的变量，那么就看看有没有 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L270-L272" target="_blank" rel="noopener">默认值</a>，如果默认值也没有，那么就抛出异常。如果一切正常那么最终就会 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L223" target="_blank" rel="noopener">实例化</a> 对应的对象。</p>
+<p>当然，有依赖注入类的，自然也有注入函数或方法的，具体这里就不讲了，过程和注入类类似，相关的代码在 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/IoC/Container.php#L331-L386" target="_blank" rel="noopener">这里</a></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>总算写完了，又是一篇水文呢 o(^▽^)o，不知道大家有没有看懂呢？文中可能有错误或不足之处，如果您发现了问题欢迎反馈。[]~(￣▽￣)~*</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-04-10");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-04-09T13:02:40.000Z" itemprop="datePublished">2020-04-09</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-04-10T00:26:15.167Z" itemprop="dateModified">2020-04-10</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Laravel/" rel="tag">#&nbsp;Laravel</a>
+
+<a class="post-tags-list-item" href="/tags/Spring/" rel="tag">#&nbsp;Spring</a>
+
+<a class="post-tags-list-item" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">#&nbsp;设计模式</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/middleware-implementation-with-php.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">中间件实现 [PHP]</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
