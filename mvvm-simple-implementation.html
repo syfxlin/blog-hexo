@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>MVVM 简单实现 | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="MVVM 简单实现 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/mvvm-simple-implementation.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="什么是 MVVM？MVVM 即 Model-View-ViewModel 的缩写，最早由微软提出，其中的 Model 和 View 想必大家都很清楚了，这就只讲 ViewModel 吧，ViewModel 是 View 和 Model 中的一座桥梁，将 View 和 Model 进行绑定，使得 Model 中数据的变化可以传递给 View 引起视图的变化，反之亦可，这一过程是自动化的，这种轻量级的 - Otstar Lin - 青空之蓝"><meta name="keywords" content="JavaScript, Vue, 前端, 设计模式"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/04/20200415215946.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/04/20200414180230.png"><meta property="article:published_time" content="2020-04-20T16:09:16.000Z"><meta property="article:modified_time" content="2020-04-21T00:26:22.826Z"><meta property="og:updated_time" content="2020-04-21T00:26:22.826Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="JavaScript, Vue, 前端, 设计模式"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/mvvm-simple-implementation.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/mvvm-simple-implementation.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/mvvm-simple-implementation.html"
+    },
+    "headline": "MVVM 简单实现 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-04-20T16:09:16.000Z",
+    "dateModified": "2020-04-21T00:26:22.826Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "JavaScript, Vue, 前端, 设计模式",
+    "description": "什么是 MVVM？MVVM 即 Model-View-ViewModel 的缩写，最早由微软提出，其中的 Model 和 View 想必大家都很清楚了，这就只讲 ViewModel 吧，ViewModel 是 View 和 Model 中的一座桥梁，将 View 和 Model 进行绑定，使得 Model 中数据的变化可以传递给 View 引起视图的变化，反之亦可，这一过程是自动化的，这种轻量级的 - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=MVVM 简单实现" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=MVVM 简单实现&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=MVVM 简单实现" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB4UlEQVR42u3ay46DQAxEUf7/pydbJuquuiYssCk2kSISDpLpxo/j74HHEVRQQQW1QB3iOJ9zPvffH32dt/odvk5QY1DLoFtc3IHIp7pOULNQ34Gngpt87x6WFTao96BccO8WTnWTQb0btTpnFcwOHdS7ULuNsnJxtfne+pYQ1ONRKoDv/Lwtmwnq0ShbdNgsdOqBcL/5ueoS1KNR7k9V0Cr0Cqc28qBmo1SxbJcgqBdCfCNBjUHtXuJIAcM9FC6BsMX9oNqiCIYmpyqRkIlsUGNRKlAr56lNGSWjQbVE0UCuFGWrBbSgZqFIQYM0qF2z230X1HzUbvO8OlDhCrtBzUK5jZYkoWSBLL0lBNUeRYuodJFVje9LVZeg2qDoEBdZVGmjyBY4gmqNcoHuirBu2Ks0aBHUGBQBkcKta17amwxqFIo0eciAViWZQJW8oFqiaNORDD6Q4S28IQfVHkWC20Fp8mEnzYJqj6KFLVpsdRt+aagrqFYoOihIE1PXJJeFtqBGoNCgMWge0eKYXFSDGoNSiyMdeCBDhaUBnKDao1RhlTanq8WyoN6LcoFabYCjollQ41F0gNQNCcrGQFCjUJVkkxQvLiWuQY1BkU2z0lQiG7bdkINqi3rSEVRQQQV1Oj7C5lFgB8sNswAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">MVVM 简单实现</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-04-21</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=MVVM 简单实现&url=https://hexo.ixk.me/mvvm-simple-implementation.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=MVVM 简单实现&url=https://hexo.ixk.me/mvvm-simple-implementation.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/mvvm-simple-implementation.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/mvvm-simple-implementation.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/mvvm-simple-implementation.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/mvvm-simple-implementation.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/mvvm-simple-implementation.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB4UlEQVR42u3ay46DQAxEUf7/pydbJuquuiYssCk2kSISDpLpxo/j74HHEVRQQQW1QB3iOJ9zPvffH32dt/odvk5QY1DLoFtc3IHIp7pOULNQ34Gngpt87x6WFTao96BccO8WTnWTQb0btTpnFcwOHdS7ULuNsnJxtfne+pYQ1ONRKoDv/Lwtmwnq0ShbdNgsdOqBcL/5ueoS1KNR7k9V0Cr0Cqc28qBmo1SxbJcgqBdCfCNBjUHtXuJIAcM9FC6BsMX9oNqiCIYmpyqRkIlsUGNRKlAr56lNGSWjQbVE0UCuFGWrBbSgZqFIQYM0qF2z230X1HzUbvO8OlDhCrtBzUK5jZYkoWSBLL0lBNUeRYuodJFVje9LVZeg2qDoEBdZVGmjyBY4gmqNcoHuirBu2Ks0aBHUGBQBkcKta17amwxqFIo0eciAViWZQJW8oFqiaNORDD6Q4S28IQfVHkWC20Fp8mEnzYJqj6KFLVpsdRt+aagrqFYoOihIE1PXJJeFtqBGoNCgMWge0eKYXFSDGoNSiyMdeCBDhaUBnKDao1RhlTanq8WyoN6LcoFabYCjollQ41F0gNQNCcrGQFCjUJVkkxQvLiWuQY1BkU2z0lQiG7bdkINqi3rSEVRQQQV1Oj7C5lFgB8sNswAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是-MVVM？"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是 MVVM？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#谈谈-MVVM-框架"><span class="post-toc-number">2.</span> <span class="post-toc-text">谈谈 MVVM 框架</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现一个-MVVM"><span class="post-toc-number">3.</span> <span class="post-toc-text">实现一个 MVVM</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#流程"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">流程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#创建-VM"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">创建 VM</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#劫持数据"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">劫持数据</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#模板编译"><span class="post-toc-number">3.2.3.</span> <span class="post-toc-text">模板编译</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Dispatcher-amp-Watcher"><span class="post-toc-number">3.2.4.</span> <span class="post-toc-text">Dispatcher &amp; Watcher</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用"><span class="post-toc-number">3.2.5.</span> <span class="post-toc-text">使用</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">4.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="什么是-MVVM？"><a href="#什么是-MVVM？" class="headerlink" title="什么是 MVVM？"></a>什么是 MVVM？</h2><p><strong>MVVM</strong> 即 <strong>Model-View-ViewModel</strong> 的缩写，最早由微软提出，其中的 Model 和 View 想必大家都很清楚了，这就只讲 ViewModel 吧，ViewModel 是 View 和 Model 中的一座桥梁，将 <strong>View 和 Model 进行绑定</strong>，使得 Model 中数据的变化可以传递给 View 引起视图的变化，反之亦可，这一过程是<strong>自动化</strong>的，这种轻量级的架构使得开发更加高效便捷，同时也保证视图和数据的一致性。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/04/20200415215946.png" alt=""></p>
+<p>MVVM 模型</p>
+<h2 id="谈谈-MVVM-框架"><a href="#谈谈-MVVM-框架" class="headerlink" title="谈谈 MVVM 框架"></a>谈谈 MVVM 框架</h2><p>MVVM 在挺多的地方都有使用，如 Android，Web 等，这里就只讨论 Web。</p>
+<p>在前端 Vue.js 提供了类似于 MVVM 的数据双向绑定方式，它的核心是 ViewModel，主要负责 View 和 Model 的数据绑定。</p>
+<p>实例如下：</p>
+<pre class="line-numbers highlight language-html"><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- View --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>msg<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>msg<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script language-javascript">
+    <span class="token comment" spellcheck="true">// Model</span>
+    <span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token punctuation">{</span>
+        msg<span class="token punctuation">:</span> <span class="token string">"value"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// ViewModel</span>
+    <span class="token keyword">let</span> vm <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        el<span class="token punctuation">:</span> <span class="token string">"#app"</span><span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> data
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>let data = { msg: “value” }; let vm = new Vue({ el: “#app”, data: data });</p>
+<p>可以看到当第一个 input 改变值的时候，第二个 input 也会跟着改变，反过来也是可以的，然而我们并没有写两者绑定的代码，这一过程是 ViewModel 自动为我们完成的。</p>
+<h2 id="实现一个-MVVM"><a href="#实现一个-MVVM" class="headerlink" title="实现一个 MVVM"></a>实现一个 MVVM</h2><blockquote>
+<p>这里就不谈 Vue.js 是如何实现的了，原理都差不多，网上相关的文章也很多，可以自行搜索查看，本篇文章主要讲述 <a href="https://github.com/syfxlin/code/tree/master/design-pattern/MVVM" target="_blank" rel="noopener">MVVM Demo</a> 的实现原理和过程。</p>
+</blockquote>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>首先先放一张流程图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/04/20200414180230.png" alt=""></p>
+<p>从图中可以比较清楚的看到创建 MVVM 时需要对 <strong>模板(View)</strong> 进行编译，对 <strong>数据(Model)</strong> 进行劫持，然后创建 <strong>监听器(Watcher)</strong> 以及 <strong>发布器(Dispatcher)</strong>，最后将 <strong>Watcher 绑定到 Dispatcher</strong> 上即可完成 <strong>Model 绑定 View</strong>，对于可以修改的 View 元素，如 input，则需要同时<strong>创建一个更新事件</strong>，当可修改的元素发生改变后则<strong>直接修改 Model 中的数据</strong>，此时就完成了 View 绑定 Model。</p>
+<p>Model 到 View 的更新过程如上图<strong>蓝色路线</strong>，当被劫持的数据即 Model 发生改变后，则调用与之绑定的 Dispatcher 的 <strong>notify 方法</strong>，notify 方法则会调用与其绑定的每个 Watcher 的 <strong>update 方法</strong>，update 方法会调用对应的元素的<strong>更新回调方法</strong>，如普通的文本节点修改的是 textContent，input 元素修改的是 value，具体的修改方法是在<strong>创建 Watcher 的时候指定的</strong>，更新回调执行完毕后对应的更改就会反映到 View 上。</p>
+<p>View 到 Model 的更新过程如上图<strong>绿色路线</strong>，当 View 修改的时候，<strong>会触发对应的更新事件</strong>，更新事件是在编译模板的时候就指定的，该更新事件会<strong>直接对 Model 的数据进行修改</strong>。不过此时同样会触发 Model 的 set，为了防止死循环就需要进行节流，即<strong>判断新值是否和旧值相同</strong>，如果相同则不调用 Dispatcher 的 notify 方法。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>相关的流程讲完了，那么就进入实现的过程吧。ヾ(≧ ▽ ≦)ゝ</p>
+<h4 id="创建-VM"><a href="#创建-VM" class="headerlink" title="创建 VM"></a>创建 VM</h4><p>创建VM的 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/MVVM/vm.js#L12-L21" target="_blank" rel="noopener">过程</a> 很简单，就是 <strong>劫持数据</strong> 和 <strong>编译模板</strong>：</p>
+<h4 id="劫持数据"><a href="#劫持数据" class="headerlink" title="劫持数据"></a>劫持数据</h4><p>劫持数据的方法目前有挺多种的，可以使用传统的观察者模式，或者使用 Object.defineProperty，也可以使用 Proxy 的方式。本文劫持数据的方式使用的是 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy" target="_blank" rel="noopener">Proxy</a>。</p>
+<p>Proxy 只能代理对象，而不能代理基本数据类型，所以 Vue 3.0 的 Ref 为了代理基本数据类型将基本数据类型封装成<strong>只有一个 value 键的对象</strong>，不过本文就不弄那么复杂了，遇到基本数据类型就 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/MVVM/vm.js#L70" target="_blank" rel="noopener">直接返回值</a>。由于 Proxy 并不能<strong>深度代理数据</strong>，所以<strong>需要 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/MVVM/vm.js#L35-L37" target="_blank" rel="noopener">递归</a> 的对每一个对象进行代理</strong>。</p>
+<p>当发现这个对象没有子对象的时候就可以创建 Proxy 代理对象了，不过在这之前需要先<strong>创建该对象的 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/MVVM/vm.js#L39" target="_blank" rel="noopener">Dispatcher</a></strong>，作为该对象改变的<strong>通知调度器</strong>。Proxy 可以定义多种陷阱方法，这里就只设置 set，get 和 deleteProperty，下面就具体说下这 3 个方法。</p>
+<p>首先是 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/MVVM/vm.js#L41-L50" target="_blank" rel="noopener">get</a> 方法：</p>
+<pre class="line-numbers highlight language-javascript"><code class="language-javascript">functon <span class="token keyword">get</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> prop<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 一个临时指向 watcher 的指针，当有新的 watcher 创建时，会首次获取绑定数据，此时就会将 watcher 绑定到 dispatcher</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>Dispatcher<span class="token punctuation">.</span>target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    dispatcher<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>prop<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>Dispatcher<span class="token punctuation">.</span>targetFor<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    dispatcher<span class="token punctuation">.</span><span class="token function">bindFor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> obj<span class="token punctuation">[</span>prop<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在创建 Watcher 的时候，会<a href="https://github.com/syfxlin/code/blob/master/design-pattern/MVVM/vm.js#L162" target="_blank" rel="noopener">设置</a> <strong>Dispatcher.target 为当前 Watcher</strong>，并且因为模板中并没有绑定数据，所以要从 Model 中<strong>首次获取数据</strong>，此时就会调用对象的 get 陷阱方法，也就是上面的代码，<strong>判断 Dispatcher.target 不为空</strong>的时候就会将 <strong>Dispatcher.target 的 Watcher 绑定到该对象的 Dispatcher 上</strong>，<strong>此时 Model 就和 View 绑定在了一起</strong>。Dispatcher.targetFor 同理，只不过这个指向的 Watcher 是父元素，用于 for 循环。</p>
+<p>然后是 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/MVVM/vm.js#L51-L62" target="_blank" rel="noopener">set</a> 方法：</p>
+<pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token keyword">set</span><span class="token punctuation">(</span>obj<span class="token punctuation">,</span> prop<span class="token punctuation">,</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>obj<span class="token punctuation">[</span>prop<span class="token punctuation">]</span> <span class="token operator">!==</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    obj<span class="token punctuation">[</span>prop<span class="token punctuation">]</span> <span class="token operator">=</span> _this<span class="token punctuation">.</span><span class="token function">observable</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 通知数据更新</span>
+    dispatcher<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">// Hook length 属性以监听数组的增加</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>prop <span class="token operator">===</span> <span class="token string">"length"</span> <span class="token operator">&amp;&amp;</span> dispatcher<span class="token punctuation">.</span><span class="token keyword">for</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    dispatcher<span class="token punctuation">.</span><span class="token function">notifyFor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>由于设置值的时候也<strong>可以设置相同的值</strong>，此时一样<strong>会触发 set 陷阱方法</strong>，会造成不必要的更新，同时可能会导致死循环，所以需要在真正设置值和 notify 前对其进行节流，当<strong>新值和旧值相同时就不操作</strong>，直接返回 true（Proxy 的 set 方法要求返回 true，返回 false 或不返回会抛出异常），如果值不同，就可以设置，不过由于设置的可能是一个对象，<strong>这个对象可能不是 Proxy 对象</strong>，<strong>所以还需要递归的代理该对象</strong>。设置完毕后就可以<strong>调用 notify 方法</strong>来通知 Watcher 更新视图了。</p>
+<p>由于数组有可能新增或减少，所以可以判断更改的<strong>是否是 length 属性</strong>，如果是则<strong>通知 for 循环的 Watcher</strong>。</p>
+<p><a href="https://github.com/syfxlin/code/blob/master/design-pattern/MVVM/vm.js#L63-L67" target="_blank" rel="noopener">deleteProperty</a> 和 set 差不多，这里就不讲了。</p>
+<h4 id="模板编译"><a href="#模板编译" class="headerlink" title="模板编译"></a>模板编译</h4><p>劫持数据说完了，接下来就是模板编译了。编译普通的模板其实挺简单的，比如这个编译纯文本：</p>
+<pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// &lt;div x-text="msg"></span>
+<span class="token keyword">function</span> <span class="token function">compileText</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> before <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  node<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Watcher</span><span class="token punctuation">(</span>
+    before <span class="token operator">+</span> node<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">"x-text"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    value <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      node<span class="token punctuation">.</span>textContent <span class="token operator">=</span> value<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>vm
+  <span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>代码其实很简单就是创建一个 Watcher，创建 Watcher 的时候 Watcher 会将获取到的值（第一次的值）保存到 value 属性中，只需要将指定节点的 textContent 属性设置为这个 value 就可以了。</p>
+<p>不过除了像文本节点和属性节点外，还有 input 这种输入节点，此时还需要为 input 增加监听器，当 input 更改的时候触发监听器设置 Model：</p>
+<pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">compileModel</span><span class="token punctuation">(</span>node<span class="token punctuation">,</span> before <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> key <span class="token operator">=</span> node<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">"x-model"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  node<span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Watcher</span><span class="token punctuation">(</span>
+    before <span class="token operator">+</span> key<span class="token punctuation">,</span>
+    value <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      node<span class="token punctuation">.</span>value <span class="token operator">=</span> value<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>vm
+  <span class="token punctuation">)</span><span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+  node<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"change"</span><span class="token punctuation">,</span> e <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>vm<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> node<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="Dispatcher-amp-Watcher"><a href="#Dispatcher-amp-Watcher" class="headerlink" title="Dispatcher &amp; Watcher"></a>Dispatcher &amp; Watcher</h4><p>Dispatcher 和 Watcher 这里就不介绍了，其实就是订阅者模式稍微改变下而已，具体可以自行查阅。（￣︶￣）↗　</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>使用的方法有点类似于 Vue：</p>
+<pre class="line-numbers highlight language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>zh<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>width<span class="token punctuation">=</span>device-width, initial-scale<span class="token punctuation">=</span>1.0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>Document<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span> <span class="token attr-name">x-text</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>titleText<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span> <span class="token attr-name">x-html</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>titleHtml<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">x-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>inputModel<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>textarea</span> <span class="token attr-name">x-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>textareaModel<span class="token punctuation">"</span></span> <span class="token attr-name">cols</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>5<span class="token punctuation">"</span></span> <span class="token attr-name">rows</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>5<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>textarea</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">x-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>selectModel<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>true<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">x-bind</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>src:imgBind<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span> <span class="token attr-name">x-for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item in ulFor<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">x-class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item.class<span class="token punctuation">"</span></span> <span class="token attr-name">x-text</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item.value<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">x-show</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>divShow<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Show<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">x-if</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>btnIf <span class="token punctuation">=</span><span class="token punctuation">=</span><span class="token punctuation">=</span> 1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>vm.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers highlight language-javascript"><code class="language-javascript"><span class="token keyword">let</span> vm <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vm</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  el<span class="token punctuation">:</span> <span class="token string">"#app"</span><span class="token punctuation">,</span>
+  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    titleText<span class="token punctuation">:</span> <span class="token string">"title"</span><span class="token punctuation">,</span>
+    titleHtml<span class="token punctuation">:</span> <span class="token string">"title"</span><span class="token punctuation">,</span>
+    inputModel<span class="token punctuation">:</span> <span class="token string">"input"</span><span class="token punctuation">,</span>
+    textareaModel<span class="token punctuation">:</span> <span class="token string">"textarea"</span><span class="token punctuation">,</span>
+    selectModel<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    imgBind<span class="token punctuation">:</span> <span class="token string">"https://ixk.me/assets/img/1.jpg"</span><span class="token punctuation">,</span>
+    ulFor<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token keyword">class</span><span class="token punctuation">:</span> <span class="token string">"class-1"</span><span class="token punctuation">,</span>
+        value<span class="token punctuation">:</span> <span class="token number">1</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token keyword">class</span><span class="token punctuation">:</span> <span class="token string">"class-2"</span><span class="token punctuation">,</span>
+        value<span class="token punctuation">:</span> <span class="token number">2</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    divShow<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    btnIf<span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>总算码完了这篇文章，具体的代码可以到 <a href="https://github.com/syfxlin/code/blob/master/design-pattern/MVVM/" target="_blank" rel="noopener">Github</a> 上查看，文中可能有错误或不足之处，如果您发现了问题欢迎反馈。[]~(￣▽￣)~*</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-04-21");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-04-20T16:09:16.000Z" itemprop="datePublished">2020-04-21</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/JavaScript/" rel="tag">#&nbsp;JavaScript</a>
+
+<a class="post-tags-list-item" href="/tags/Vue/" rel="tag">#&nbsp;Vue</a>
+
+<a class="post-tags-list-item" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">#&nbsp;前端</a>
+
+<a class="post-tags-list-item" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">#&nbsp;设计模式</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/talking-about-di-and-ioc.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">浅谈 DI 和 IoC</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
