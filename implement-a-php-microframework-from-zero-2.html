@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>从零实现一个 PHP 微框架 - PSR &amp; Composer | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="从零实现一个 PHP 微框架 - PSR &amp; Composer | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/implement-a-php-microframework-from-zero-2.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="什么是 PSR？如果你不是刚入门 PHP 新手，那么你应该已经知道了 PSR 标准，不过为了照顾到不清楚的同学，这里还是要介绍一下。 PSR 即 PHP Standard Recommendations （PHP 推荐标准）的简写，由 PHP-FIG 组织制定的 PHP 规范，是 PHP 开发的实践标准。类似于 Java 的 JSR 标准，它提供了 PHP 编程概念的标准化。目的是通过各框架作者之 - Otstar Lin - 青空之蓝"><meta name="keywords" content="PHP, XK-PHP, 框架"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/05/20200509224527.png"><meta property="article:published_time" content="2020-05-09T15:04:20.000Z"><meta property="article:modified_time" content="2020-05-10T00:26:31.772Z"><meta property="og:updated_time" content="2020-05-10T00:26:31.772Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="PHP, XK-PHP, 框架"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/implement-a-php-microframework-from-zero-2.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/implement-a-php-microframework-from-zero-2.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/implement-a-php-microframework-from-zero-2.html"
+    },
+    "headline": "从零实现一个 PHP 微框架 - PSR &amp; Composer | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-05-09T15:04:20.000Z",
+    "dateModified": "2020-05-10T00:26:31.772Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "PHP, XK-PHP, 框架",
+    "description": "什么是 PSR？如果你不是刚入门 PHP 新手，那么你应该已经知道了 PSR 标准，不过为了照顾到不清楚的同学，这里还是要介绍一下。 PSR 即 PHP Standard Recommendations （PHP 推荐标准）的简写，由 PHP-FIG 组织制定的 PHP 规范，是 PHP 开发的实践标准。类似于 Java 的 JSR 标准，它提供了 PHP 编程概念的标准化。目的是通过各框架作者之 - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=从零实现一个 PHP 微框架 - PSR &amp; Composer" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=从零实现一个 PHP 微框架 - PSR &amp; Composer&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=从零实现一个 PHP 微框架 - PSR &amp; Composer" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACLklEQVR42u2c0W7CQAwE8/8/3T5VQgh7xylRaTx5IYjAzUnnu/Xa4vj6B9chpJBCCvkBkEdzPX/+8/7x9fGZ5/v0/W5cIXdDvly08MfO3JNxhRSyWuDVc9VAr773HBB0XCGF7BZ4ueFWAxRBJqSQ7wqcTjD8BkZIIacCgwYNEQ+XqSAhbweZRO1Vr2/NFoW8DWQ0jZoAOpOAXeKqCXkryO7Hq6QqTSJNMIkQIXdDdgI0JWKvoJOYSJMoo1vIdZDJaKKmQBLK3aHQnjhCroJMhmc1oW5jJ4WoNKaQOyHLBwBwBz4pqOJsUcg1kNOBiMgl5kM8MIRcDTlp7JgWlojwbUWvkKsgycadEjXa7EQCrzUHhFwBSYIkNdJ1xaiUlLUGmZBrIZOZSgNiUiBNhX0h90KSxIom9VMBPTpxhFwNmTbjJDLS5GjziJA7IcnipyKDJFopKJGrJuStIWngUNOUTioFk5B7IYkoTQX4VOCkkxdSSLLgJ4lZeo4mZUIK2QEmY4AKCXIYCCkkSZomyX8qitKCvZBCElNzUmSiDcsxwIRcCdkFQ2r4SAYUFRLlwSLkSshJIehMQwlpYEKNIkKug5yaVkn8EpM0Tk7IlZCTBT0JErK5CynkceKPEVJxnRT2U5EANdQJuQ5y0jhM31PxPE7EhFwNSYrpxFggYjk6vUIKCcwrej9pFhFSyFRoT810RIgQs0BIIWkiRs0B2jCCm1OEXAn5yZeQQgop5B9e33gyGCYzKjddAAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">从零实现一个 PHP 微框架 - PSR & Composer</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-05-09</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=从零实现一个 PHP 微框架 - PSR &amp; Composer&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-2.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=从零实现一个 PHP 微框架 - PSR &amp; Composer&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-2.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/implement-a-php-microframework-from-zero-2.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-2.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-2.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-2.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-2.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACLklEQVR42u2c0W7CQAwE8/8/3T5VQgh7xylRaTx5IYjAzUnnu/Xa4vj6B9chpJBCCvkBkEdzPX/+8/7x9fGZ5/v0/W5cIXdDvly08MfO3JNxhRSyWuDVc9VAr773HBB0XCGF7BZ4ueFWAxRBJqSQ7wqcTjD8BkZIIacCgwYNEQ+XqSAhbweZRO1Vr2/NFoW8DWQ0jZoAOpOAXeKqCXkryO7Hq6QqTSJNMIkQIXdDdgI0JWKvoJOYSJMoo1vIdZDJaKKmQBLK3aHQnjhCroJMhmc1oW5jJ4WoNKaQOyHLBwBwBz4pqOJsUcg1kNOBiMgl5kM8MIRcDTlp7JgWlojwbUWvkKsgycadEjXa7EQCrzUHhFwBSYIkNdJ1xaiUlLUGmZBrIZOZSgNiUiBNhX0h90KSxIom9VMBPTpxhFwNmTbjJDLS5GjziJA7IcnipyKDJFopKJGrJuStIWngUNOUTioFk5B7IYkoTQX4VOCkkxdSSLLgJ4lZeo4mZUIK2QEmY4AKCXIYCCkkSZomyX8qitKCvZBCElNzUmSiDcsxwIRcCdkFQ2r4SAYUFRLlwSLkSshJIehMQwlpYEKNIkKug5yaVkn8EpM0Tk7IlZCTBT0JErK5CynkceKPEVJxnRT2U5EANdQJuQ5y0jhM31PxPE7EhFwNSYrpxFggYjk6vUIKCcwrej9pFhFSyFRoT810RIgQs0BIIWkiRs0B2jCCm1OEXAn5yZeQQgop5B9e33gyGCYzKjddAAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是-PSR？"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是 PSR？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是-Composer？"><span class="post-toc-number">2.</span> <span class="post-toc-text">什么是 Composer？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#自动加载"><span class="post-toc-number">3.</span> <span class="post-toc-text">自动加载</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#初始化项目"><span class="post-toc-number">4.</span> <span class="post-toc-text">初始化项目</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">5.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="什么是-PSR？"><a href="#什么是-PSR？" class="headerlink" title="什么是 PSR？"></a>什么是 PSR？</h2><p>如果你不是刚入门 PHP 新手，那么你应该已经知道了 <strong>PSR 标准</strong>，不过为了照顾到不清楚的同学，这里还是要介绍一下。</p>
+<p><strong>PSR</strong> 即 PHP Standard Recommendations （PHP 推荐标准）的简写，由 <a href="https://github.com/php-fig" target="_blank" rel="noopener">PHP-FIG</a> 组织制定的 <strong>PHP 规范</strong>，是 PHP 开发的<strong>实践标准</strong>。类似于 Java 的 JSR 标准，它提供了 PHP 编程概念的标准化。目的是通过各框架作者之间的讨论制定一个标准，各框架都应遵循该规范进行开发，避免了不同框架自行发展阻碍了 PHP 的发展。</p>
+<p>PSR 标准：<a href="https://github.com/php-fig/fig-standards/blob/master/index.md" target="_blank" rel="noopener">Github（英文）</a> <a href="https://learnku.com/docs/psr" target="_blank" rel="noopener">LearnKu（中文）</a></p>
+<h2 id="什么是-Composer？"><a href="#什么是-Composer？" class="headerlink" title="什么是 Composer？"></a>什么是 Composer？</h2><p>Composer 我应该不用介绍了吧？（逃</p>
+<p><strong>Composer</strong> 是 PHP 的一个<strong>依赖管理工具</strong>。类似于 NodeJS 的 NPM，是用来管理依赖包的。为什么需要依赖管理呢？当我们开发一个项目的时候，总会用到一些第三方的 Library，而不同的 Library 的安装方式都不相同，使用的方式也不相同。但是可被复用的代码集或功能集，都应该以<strong>一致的方式编写和声明</strong>，并且<strong>发布到云端的仓库中</strong>。这样能够减少使用者的了解与学习成本，并且能够通过工具来管理。而包管理器就是那个工具，通过包管理器，我们可以以一致的方式<strong>引入 Library</strong>，<strong>使用 Library</strong>，当我们不需要的时候又能<strong>轻易的卸载不需要的 Library</strong>。</p>
+<h2 id="自动加载"><a href="#自动加载" class="headerlink" title="自动加载"></a>自动加载</h2><p><strong>PSR-4 自动加载规范</strong> 是一个给 PHP 自动加载器将<strong>命名空间映射到文件系统</strong>的规则，PSR-4 是对 PSR-0 的补充，PSR-4 是为了解决 Composer 目录层次的问题。</p>
+<p>写 PHP 最麻烦的就是 <code>require</code> 和 <code>include</code> 了，而有了自动加载，我们就不需要再写麻烦的 <code>require/include</code> 了，利用 <code>spl_autoload_register</code> PHP 就会在需要的时候自动加载，同时也不会遗漏或者把不必要的类加载进来，同时也不会因为大量的类而编写庞大的 <code>require/include</code> 代码。</p>
+<p>自动加载带来的好处：</p>
+<ul>
+<li>使用类或代码前<strong>无需使用</strong> <code>require/include</code>。</li>
+<li>但有使用的时候才会 <code>require/include</code>，实现了<strong>懒加载</strong>。避免了遗漏和多余。</li>
+<li><strong>无需考虑路径</strong>的问题，我们只需要按照规范编写代码即可。</li>
+</ul>
+<h2 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h2><p>利用 Composer 我们就无需直接编写自动加载器的规则，只需按照 PSR-4 的标准编写代码，Composer 会在我们需要的时候自动加载类和代码。</p>
+<p>首先我们先找个一个文件夹，然后用 IDEA 打开它（你也可以用 PhpStorm，VSCode 等编辑器），然后打开终端，输入：</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash">composer init
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>输入信息后 Composer 会在项目根目录（以下简称根目录）下生成一个 <code>composer.json</code> 的配置文件。</p>
+<p>然后我们在根目录下新建一个 <code>app</code> 文件夹，作为框架的主要入口，同时在 <code>composer.json</code> 中添加 <code>autoload</code> 的配置项，完成后的 <code>composer.json</code> 如下：</p>
+<pre class="line-numbers highlight language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"syfxlin/xkphp"</span><span class="token punctuation">,</span>
+  <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">"一个轻量的 PHP 框架"</span><span class="token punctuation">,</span>
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"project"</span><span class="token punctuation">,</span>
+  <span class="token property">"license"</span><span class="token operator">:</span> <span class="token string">"Apache 2.0"</span><span class="token punctuation">,</span>
+  <span class="token property">"authors"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"syfxlin"</span><span class="token punctuation">,</span>
+      <span class="token property">"email"</span><span class="token operator">:</span> <span class="token string">"syfxlin@gmail.com"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"autoload"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"psr-4"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">"App\\"</span><span class="token operator">:</span> <span class="token string">"app/"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"require"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其中 <code>psr-4</code> 指的是按 PSR-4 标准加载的命名空间，<code>key</code> 是命名空间，<code>value</code> 是路径，此时在 <code>app</code> 下的所有类如果按 PSR-4 标准进行编写，那么 Composer 就会自动加载了。</p>
+<p>然后执行以下代码初始化 Composer 的 autoload 文件：</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash">composer <span class="token function">install</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>不过此时还不算完成，我们还需要写一个入口文件，作为网站的入口，这里我放到根目录下的 <code>public</code> 文件夹下，这样外部就无法直接访问根目录了。在 <code>public</code> 文件夹下建立 <code>index.php</code> 文件，内容如下：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token comment" spellcheck="true">// 定义根目录</span>
+<span class="token function">define</span><span class="token punctuation">(</span><span class="token string">'BASE_PATH'</span><span class="token punctuation">,</span> <span class="token function">dirname</span><span class="token punctuation">(</span><span class="token constant">__DIR__</span><span class="token punctuation">)</span> <span class="token punctuation">.</span> <span class="token string">'/'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 引入 Composer 的 autoload</span>
+<span class="token keyword">require_once</span> <span class="token constant">__DIR__</span> <span class="token punctuation">.</span> <span class="token string">'/../vendor/autoload.php'</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此时 Composer 已经可以正常工作了，我们写一个类来测试下，在 <code>app</code> 目录下新建一个 <code>Test</code> 类：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Test</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * @var string
+     */</span>
+    <span class="token keyword">public</span> <span class="token variable">$name</span> <span class="token operator">=</span> <span class="token string">"Test"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后在 <code>index.php</code> 下添加 <code>echo (new Test())-&gt;name</code>，然后运行测试下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/05/20200509224527.png" alt=""></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>今天就简单介绍了下 Composer 和 PSR，下一篇文章不出意外就是 IoC 容器了，您可以先前往我之前的文章了解一下：</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-05-10");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-05-09T15:04:20.000Z" itemprop="datePublished">2020-05-09</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-05-10T00:26:31.772Z" itemprop="dateModified">2020-05-10</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/PHP/" rel="tag">#&nbsp;PHP</a>
+
+<a class="post-tags-list-item" href="/tags/XK-PHP/" rel="tag">#&nbsp;XK-PHP</a>
+
+<a class="post-tags-list-item" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">#&nbsp;框架</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/implement-a-php-microframework-from-zero-1.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">从零实现一个 PHP 微框架 - 前言</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
