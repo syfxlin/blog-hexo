@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>从零实现一个 PHP 微框架 - Bootstrap 启动加载 | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="从零实现一个 PHP 微框架 - Bootstrap 启动加载 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/implement-a-php-microframework-from-zero-4.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言抽了个空更新一下，给博客除除草。 Laravel 框架中在启动的时候，会依次调用 Illuminate\Foundation\Http\Kernel::$bootstrappers 中的启动类，这些启动类会完成对 .env 文件的加载，配置文件的加载，配置错误处理器，注册 Provider，并启动 Provider。XK-PHP 也参考该流程制作了对应的 Bootstrap，但是 XK-PHP - Otstar Lin - 青空之蓝"><meta name="keywords" content="PHP, XK-PHP, 框架"><meta property="og:image" content="https://blog.ixk.me/wp-content/uploads/2020/06/image.png"><meta property="article:published_time" content="2020-06-18T14:09:25.000Z"><meta property="article:modified_time" content="2020-06-19T02:50:30.208Z"><meta property="og:updated_time" content="2020-06-19T02:50:30.208Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="PHP, XK-PHP, 框架"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/implement-a-php-microframework-from-zero-4.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/implement-a-php-microframework-from-zero-4.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/implement-a-php-microframework-from-zero-4.html"
+    },
+    "headline": "从零实现一个 PHP 微框架 - Bootstrap 启动加载 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-06-18T14:09:25.000Z",
+    "dateModified": "2020-06-19T02:50:30.208Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "PHP, XK-PHP, 框架",
+    "description": "前言抽了个空更新一下，给博客除除草。 Laravel 框架中在启动的时候，会依次调用 Illuminate\Foundation\Http\Kernel::$bootstrappers 中的启动类，这些启动类会完成对 .env 文件的加载，配置文件的加载，配置错误处理器，注册 Provider，并启动 Provider。XK-PHP 也参考该流程制作了对应的 Bootstrap，但是 XK-PHP - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=从零实现一个 PHP 微框架 - Bootstrap 启动加载" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=从零实现一个 PHP 微框架 - Bootstrap 启动加载&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=从零实现一个 PHP 微框架 - Bootstrap 启动加载" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACM0lEQVR42u2ay27DMAwE/f8/3V4Lw+IO1QRNxfElb2kUgPRyyevrH1yXkEIKKeQHQF7Fdf989frn+09rPgKEfYWcDbla5AnqvsnT9zuPq32FFDIFRAqGpwB6ChK6r5BCll++Pe9sWB1eSCF/EzhJHFQJOiV1IYXsCIzq9VKsFuLkLSpIyOMgUyH2rseXVotCHgOJjCNQiHWKtre4akIeA7kStB3BWgncJFjKxC/kSMjqpp9giDlKAmq5v5AjIZNwrRJ3ZahSkVKuK+R4yFTgr4ysZKySmwVW5kKOgKwKpBQoXdBqDeSqCXk8ZBINVeOSNqB2izQhZ0Km5FwFEgm6as1oxgo5FjIJWtJk2mkQxD9CyJGQ5IcdodBtypfNfiHHQlZJl5oI1WE6By27D0KOgewY9VQIdwailmsJORIyJVpiFlBjKx1eSCFJ4CTRQRvupPDaTuZCHgdJhkE6hlQ6DB2wE3Iu5AqADr91hps6wkNIIUmDnZj6u6YrmmYRcgwkKfKpWKBNqxRsQs6ETOYTHYrrDC29rAEq5LGQZDiYGPS7SR8FjpCjIEmSpQ0oelNIzU8hhUxiodPIpCbX1pCnkMdDEvOTiFtqqJImk5CzIYkZRRvpO6ZpOdwk5FjIHQGQijQqSlCzSciRkN3CPg12VgcjBxdSyA4kbcwn4RuHSoQUMiTdTjGFg6P6M4QcDUmHQEjzviMkWg6GkGMgOwYAMetxoZUGooQcCfnJl5BCCinkH17f1nFW9X79vTYAAAAASUVORK5CYII=" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">从零实现一个 PHP 微框架 - Bootstrap 启动加载</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-06-18</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=从零实现一个 PHP 微框架 - Bootstrap 启动加载&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-4.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=从零实现一个 PHP 微框架 - Bootstrap 启动加载&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-4.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/implement-a-php-microframework-from-zero-4.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-4.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-4.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-4.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-4.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACM0lEQVR42u2ay27DMAwE/f8/3V4Lw+IO1QRNxfElb2kUgPRyyevrH1yXkEIKKeQHQF7Fdf989frn+09rPgKEfYWcDbla5AnqvsnT9zuPq32FFDIFRAqGpwB6ChK6r5BCll++Pe9sWB1eSCF/EzhJHFQJOiV1IYXsCIzq9VKsFuLkLSpIyOMgUyH2rseXVotCHgOJjCNQiHWKtre4akIeA7kStB3BWgncJFjKxC/kSMjqpp9giDlKAmq5v5AjIZNwrRJ3ZahSkVKuK+R4yFTgr4ysZKySmwVW5kKOgKwKpBQoXdBqDeSqCXk8ZBINVeOSNqB2izQhZ0Km5FwFEgm6as1oxgo5FjIJWtJk2mkQxD9CyJGQ5IcdodBtypfNfiHHQlZJl5oI1WE6By27D0KOgewY9VQIdwailmsJORIyJVpiFlBjKx1eSCFJ4CTRQRvupPDaTuZCHgdJhkE6hlQ6DB2wE3Iu5AqADr91hps6wkNIIUmDnZj6u6YrmmYRcgwkKfKpWKBNqxRsQs6ETOYTHYrrDC29rAEq5LGQZDiYGPS7SR8FjpCjIEmSpQ0oelNIzU8hhUxiodPIpCbX1pCnkMdDEvOTiFtqqJImk5CzIYkZRRvpO6ZpOdwk5FjIHQGQijQqSlCzSciRkN3CPg12VgcjBxdSyA4kbcwn4RuHSoQUMiTdTjGFg6P6M4QcDUmHQEjzviMkWg6GkGMgOwYAMetxoZUGooQcCfnJl5BCCinkH17f1nFW9X79vTYAAAAASUVORK5CYII=" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义-Bootstrap"><span class="post-toc-number">2.</span> <span class="post-toc-text">定义 Bootstrap</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编写-Bootstrap"><span class="post-toc-number">3.</span> <span class="post-toc-text">编写 Bootstrap</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LoadEnvironmentVariables"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">LoadEnvironmentVariables</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LoadConfiguration"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">LoadConfiguration</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RegisterFacades"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">RegisterFacades</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HandleExceptions"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">HandleExceptions</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RegisterProviders"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">RegisterProviders</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BootProviders"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">BootProviders</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">4.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>抽了个空更新一下，给博客除除草。</p>
+<p>Laravel 框架中在启动的时候，会依次调用 <code>Illuminate\Foundation\Http\Kernel::$bootstrappers</code> 中的启动类，这些启动类会完成对 <code>.env</code> 文件的加载，配置文件的加载，配置错误处理器，注册 <code>Provider</code>，并启动 <code>Provider</code>。XK-PHP 也参考该流程制作了对应的 Bootstrap，但是 XK-PHP 并没有用 Kernel 来加载，而是使用 <code>Application</code> 这个类来作为核心，调控框架。</p>
+<h2 id="定义-Bootstrap"><a href="#定义-Bootstrap" class="headerlink" title="定义 Bootstrap"></a>定义 Bootstrap</h2><p>首先我们需要创建一个 <code>Bootstrap</code> 接口和抽象类来管理 <code>Bootstrap</code>，<code>Bootstrap</code> 接口和抽象类如下：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Contracts</span><span class="token punctuation">;</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Bootstrap</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Bootstrap</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Application</span><span class="token punctuation">;</span>
+
+<span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">Bootstrap</span> <span class="token keyword">implements</span> <span class="token class-name"><span class="token punctuation">\</span>App<span class="token punctuation">\</span>Contracts<span class="token punctuation">\</span>Bootstrap</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * @var Application
+     */</span>
+    <span class="token keyword">protected</span> <span class="token variable">$app</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span>Application <span class="token variable">$app</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span> <span class="token operator">=</span> <span class="token variable">$app</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>由于我们在 <code>Bootstrap</code> 中可能需要用到 <code>Application</code> 中的实例或方法，或者需要将将类或实例绑定到 <code>Application</code> 中，我们可以通过构造器传入一个 <code>Application</code> 实例，当 <code>Bootstrap</code> 具体的实现类需要使用的时候就可以直接使用 <code>$this-&gt;app</code> 来取得 <code>Application</code>，而不再需要使用 <code>Application</code> 的静态方法来调用。</p>
+<h2 id="编写-Bootstrap"><a href="#编写-Bootstrap" class="headerlink" title="编写 Bootstrap"></a>编写 Bootstrap</h2><p>首先我们先看下需要哪些 <code>Bootstrap</code>，同时需要知道那些需要在 <code>Bootstrap</code> 中加载。</p>
+<p><code>Bootstrap</code> 的作用是在应用启动时对一些配置文件，环境变量，门面，异常处理这些进行读取注册，主要的工作是在 <code>Provider</code> 未开始执行的时候提供 <code>Application</code> 运作的基础服务，而具体的服务，如切面，路由，数据库等不是基础服务，应在 <code>Provider</code> 中进行加载，关于 <code>Provider</code> 我会在下一篇中介绍。</p>
+<p>我们直接看看有那些 <code>Bootstrap</code> 吧，<code>Bootstrap</code> 列表是在 <code>Application</code> 中定义的，如下：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token keyword">class</span> <span class="token class-name">Application</span> <span class="token keyword">extends</span> <span class="token class-name">Container</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * 存储 App 中所有的单例 instance
+     *
+     * @var Application
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token variable">$app</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * @var string[]
+     */</span>
+    <span class="token keyword">protected</span> <span class="token variable">$bootstraps</span> <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <span class="token comment" spellcheck="true">// 加载 env 文件</span>
+        LoadEnvironmentVariables<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        <span class="token comment" spellcheck="true">// 加载配置</span>
+        LoadConfiguration<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        <span class="token comment" spellcheck="true">// 注册门面</span>
+        RegisterFacades<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        <span class="token comment" spellcheck="true">// 注册异常处理</span>
+        HandleExceptions<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        <span class="token comment" spellcheck="true">// 注册服务提供者管理器</span>
+        RegisterProviders<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        <span class="token comment" spellcheck="true">// 启动服务</span>
+        BootProviders<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="LoadEnvironmentVariables"><a href="#LoadEnvironmentVariables" class="headerlink" title="LoadEnvironmentVariables"></a>LoadEnvironmentVariables</h3><p>该 <code>Bootstrap</code> 主要的工作是加载环境变量和 .env 文件，使用的是 <code>vlucas/phpdotenv</code> 这个库，所以加载的部分就很简单了，直接调用其方法即可。</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Bootstrap</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">Dotenv<span class="token punctuation">\</span>Dotenv</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">LoadEnvironmentVariables</span> <span class="token keyword">extends</span> <span class="token class-name">Bootstrap</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// .env 文件所在的文件夹</span>
+        <span class="token variable">$dotenv</span> <span class="token operator">=</span> Dotenv<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">createImmutable</span><span class="token punctuation">(</span><span class="token constant">__DIR__</span> <span class="token punctuation">.</span> <span class="token string">'/../../'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$dotenv</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">load</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="LoadConfiguration"><a href="#LoadConfiguration" class="headerlink" title="LoadConfiguration"></a>LoadConfiguration</h3><p>然后就是加载配置文件了，之所以不直接使用 env 来作为配置，主要的是 env 并不需要将所有的配置都写全，应用要调用的时候就需要设置默认值，当该配置文件多了，需要改默认值的时候，就容易遗漏，非常不好管理。所以我们需要另外的配置文件来集中的管理。<code>LoadConfiguration</code> 的内容很简单，就是绑定 <code>Config</code> 类实例到容器中，其中配置文件的读取是在 <code>Config</code> 类中完成的。</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Bootstrap</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Utils<span class="token punctuation">\</span>Config</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">LoadConfiguration</span> <span class="token keyword">extends</span> <span class="token class-name">Bootstrap</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">instance</span><span class="token punctuation">(</span>Config<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'config'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Utils</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// ...</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Config</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * 配置项，动态读取
+     *
+     * @var array
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token variable">$config</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 匹配 config_path 下的所有 php 文件，并解析存入 $config 静态属性</span>
+        <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token function">glob</span><span class="token punctuation">(</span><span class="token function">config_path</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">.</span> <span class="token string">'/*.php'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> <span class="token variable">$path</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            self<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token variable">$config</span><span class="token punctuation">[</span><span class="token function">pathinfo</span><span class="token punctuation">(</span><span class="token variable">$path</span><span class="token punctuation">,</span> <span class="token constant">PATHINFO_FILENAME</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">require</span> <span class="token variable">$path</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在 Laravel 中，<code>LoadConfiguration</code> 还进行了许多的操作，比如，如果有 Config 缓存文件则直接读取缓存文件，当没有缓存文件的话，Laravel 才会扫描 Config 目录，在 Laravel 中，Config 是支持文件夹的，不过 XK-PHP 就没对文件夹进行处理。Laravel 在 <code>LoadConfiguration</code> 还会对一些值进行初始化，如设置时区 <code>date_default_timezone_set</code>，设置编码 <code>mb_internal_encoding</code>，然后检测是开发环境还是生产环境，并将该值设置到容器。</p>
+<h3 id="RegisterFacades"><a href="#RegisterFacades" class="headerlink" title="RegisterFacades"></a>RegisterFacades</h3><p>在 Laravel 中，门面是一个很方便的东西，我们可以通过门面快速对方法进行调用，同时也不需要关系我们调用的方法来自哪个类，是静态方法还是实例方法。XK-PHP 也采用这一设计，不过 XK-PHP 也缩减掉了部分功能，比如同一个门面调用不同类的方法等等。</p>
+<p>XK-PHP 中注册门面的过程也是很简单，就是将 <code>Application</code> 设置到门面抽象类中的静态属性，如下：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Bootstrap</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Facades<span class="token punctuation">\</span>Facade</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">RegisterFacades</span> <span class="token keyword">extends</span> <span class="token class-name">Bootstrap</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        Facade<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">setApplication</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>具体的实现这里就先不说明了，后续讲门面的时候在说吧。</p>
+<h3 id="HandleExceptions"><a href="#HandleExceptions" class="headerlink" title="HandleExceptions"></a>HandleExceptions</h3><p>接下来就是注册异常处理了，在说明具体的实现之前，我们需要先了解一下 PHP 异常处理相关的函数。</p>
+<ul>
+<li><strong><code>error_reporting</code></strong>：设置报告的异常等级，<code>0</code> 表示不报告错误，<code>-1</code> 表示报告所有错误。</li>
+<li><strong><code>set_error_handler</code></strong>：设置自定义的<strong>错误</strong>处理函数，当应用抛出<strong>错误</strong>没有使用 <code>try/catch</code> 捕获的时候，会调用该函数设置的处理函数对<strong>错误</strong>进行处理。</li>
+<li><strong><code>set_exception_handler</code></strong>：设置自定义的<strong>异常</strong>处理函数。</li>
+<li><strong><code>register_shutdown_function</code></strong>：设置一个在 PHP 脚本停止时调用的函数。</li>
+</ul>
+<p>有了上面这些函数，我们就可以很方便的进行异常处理了：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Bootstrap</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// ...</span>
+
+<span class="token keyword">class</span> <span class="token class-name">HandleExceptions</span> <span class="token keyword">extends</span> <span class="token class-name">Bootstrap</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * @var string
+     */</span>
+    <span class="token keyword">protected</span> <span class="token variable">$env</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">env</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">environment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">env</span> <span class="token operator">!==</span> <span class="token string">'development'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 不处于开发环境的时候则设置异常处理</span>
+            <span class="token function">error_reporting</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">set_error_handler</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token variable">$this</span><span class="token punctuation">,</span> <span class="token string">'handleError'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">set_exception_handler</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token variable">$this</span><span class="token punctuation">,</span> <span class="token string">'handleException'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">register_shutdown_function</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token variable">$this</span><span class="token punctuation">,</span> <span class="token string">'handleDown'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">ini_set</span><span class="token punctuation">(</span><span class="token string">'display_errors'</span><span class="token punctuation">,</span> <span class="token string">'Off'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">handleError</span><span class="token punctuation">(</span>
+        <span class="token variable">$level</span><span class="token punctuation">,</span>
+        <span class="token variable">$message</span><span class="token punctuation">,</span>
+        <span class="token variable">$file</span> <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">,</span>
+        <span class="token variable">$line</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token variable">$context</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">)</span><span class="token punctuation">:</span> void <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 将 Error 级别的错误转化成 Exception，交给 handleException 处理</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">error_reporting</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token variable">$level</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">ErrorException</span><span class="token punctuation">(</span><span class="token variable">$message</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token variable">$level</span><span class="token punctuation">,</span> <span class="token variable">$file</span><span class="token punctuation">,</span> <span class="token variable">$line</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">handleException</span><span class="token punctuation">(</span>Throwable <span class="token variable">$e</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 渲染 Response，并发送</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">renderResponse</span><span class="token punctuation">(</span><span class="token variable">$e</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">protected</span> <span class="token keyword">function</span> <span class="token function">renderResponse</span><span class="token punctuation">(</span>Throwable <span class="token variable">$e</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Response
+    <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 首先获取 Request</span>
+            <span class="token variable">$request</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">make</span><span class="token punctuation">(</span>Request<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token punctuation">\</span>Exception</span> <span class="token variable">$ex</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果获取 Request 异常了，那也没办法，直接设为 null</span>
+            <span class="token variable">$request</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 如果不是集成自 XK-PHP 的可渲染异常，那么就包装一下异常</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token variable">$e</span> <span class="token keyword">instanceof</span> <span class="token class-name"><span class="token punctuation">\</span>App<span class="token punctuation">\</span>Contracts<span class="token punctuation">\</span>Exception</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$e</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Exception</span><span class="token punctuation">(</span>Response<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token variable">$phrases</span><span class="token punctuation">[</span><span class="token number">500</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">,</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getPrevious</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// 对异常进行渲染，当是浏览器请求的时候返回 HTML，若是异步请求，则返回 JSON</span>
+        <span class="token keyword">return</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">render</span><span class="token punctuation">(</span><span class="token variable">$request</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">handleDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 获取最后一个异常</span>
+        <span class="token variable">$error</span> <span class="token operator">=</span> <span class="token function">error_get_last</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>
+            <span class="token variable">$error</span> <span class="token operator">!==</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span>
+            <span class="token function">in_array</span><span class="token punctuation">(</span>
+                <span class="token variable">$error</span><span class="token punctuation">[</span><span class="token string">'type'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token punctuation">[</span><span class="token constant">E_COMPILE_ERROR</span><span class="token punctuation">,</span> <span class="token constant">E_CORE_ERROR</span><span class="token punctuation">,</span> <span class="token constant">E_ERROR</span><span class="token punctuation">,</span> <span class="token constant">E_PARSE</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token boolean">true</span>
+            <span class="token punctuation">)</span>
+        <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果有异常，则处理异常</span>
+            <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">handleException</span><span class="token punctuation">(</span>
+                <span class="token keyword">new</span> <span class="token class-name">ErrorException</span><span class="token punctuation">(</span>
+                    <span class="token variable">$error</span><span class="token punctuation">[</span><span class="token string">'message'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                    <span class="token variable">$error</span><span class="token punctuation">[</span><span class="token string">'type'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                    <span class="token number">0</span><span class="token punctuation">,</span>
+                    <span class="token variable">$error</span><span class="token punctuation">[</span><span class="token string">'file'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                    <span class="token variable">$error</span><span class="token punctuation">[</span><span class="token string">'line'</span><span class="token punctuation">]</span>
+                <span class="token punctuation">)</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="RegisterProviders"><a href="#RegisterProviders" class="headerlink" title="RegisterProviders"></a>RegisterProviders</h3><p>注册 Providers，在一些基础服务加载后，就可以注册服务提供者了，XK-PHP 另外写了一个类来管理 <code>Provider</code>，所以 <code>Bootstrap</code> 的代码也挺简单的：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Bootstrap</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Kernel<span class="token punctuation">\</span>ProviderManager</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">function</span> config<span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">RegisterProviders</span> <span class="token keyword">extends</span> <span class="token class-name">Bootstrap</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">setProviderManager</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ProviderManager</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getProviderManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">registers</span><span class="token punctuation">(</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token string">'app.providers'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">instance</span><span class="token punctuation">(</span>
+            ProviderManager<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+            <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getProviderManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">'provider_manager'</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>关于 <code>ProviderManager</code> 的内容会在下一篇讲解，本篇就不做太多的说明了。</p>
+<h3 id="BootProviders"><a href="#BootProviders" class="headerlink" title="BootProviders"></a>BootProviders</h3><p>最后就是启动 <code>Provider</code> 了：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Bootstrap</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">BootProviders</span> <span class="token keyword">extends</span> <span class="token class-name">Bootstrap</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getProviderManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>最近学院里安排了考试，同时又安排了 JavaWeb 体验实习的课程（说白了就是培训班的课程，真的浪费时间，会的都会了，不会的这期末开课也没人想听），所以最近没有什么时间来更新文章和项目了，等 6 月底考完后应该就会有比较宽松的时间，虽然说还有体验实习的课程和对应的课程设计，不过 XK-Java 也已经完成了，写项目会比纯 JavaWeb 写起来容易多了，所以应该还行。</p>
+<p><img src="https://blog.ixk.me/wp-content/uploads/2020/06/image.png" alt=""></p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-06-19");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-06-18T14:09:25.000Z" itemprop="datePublished">2020-06-18</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-06-19T02:50:30.208Z" itemprop="dateModified">2020-06-19</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/PHP/" rel="tag">#&nbsp;PHP</a>
+
+<a class="post-tags-list-item" href="/tags/XK-PHP/" rel="tag">#&nbsp;XK-PHP</a>
+
+<a class="post-tags-list-item" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">#&nbsp;框架</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/implement-a-php-microframework-from-zero-3.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">从零实现一个 PHP 微框架 - IoC 容器</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
