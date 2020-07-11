@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>从零实现一个 PHP 微框架 - 服务提供者 | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="从零实现一个 PHP 微框架 - 服务提供者 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/implement-a-php-microframework-from-zero-5.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言考试在两周前就结束了，因为一直在填坑 XK-Java，所以一直没更新 PHP 微框架系列文章 2333，最近 XK-Java 也填的差不多了，后续打算把 XK-PHP 也适配到 Swoole，还有 XK-Blog 的坑还没填 🤣。 什么是服务提供者（Provider）？如果你写过 Laravel，那么你一定对 Provider 不陌生，服务提供者实现了将服务绑定到服务容器（IoC Conta - Otstar Lin - 青空之蓝"><meta name="keywords" content="PHP, XK-PHP, 框架"><meta property="article:published_time" content="2020-07-10T04:16:52.000Z"><meta property="article:modified_time" content="2020-07-11T00:18:53.076Z"><meta property="og:updated_time" content="2020-07-11T00:18:53.076Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="PHP, XK-PHP, 框架"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/implement-a-php-microframework-from-zero-5.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/implement-a-php-microframework-from-zero-5.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/implement-a-php-microframework-from-zero-5.html"
+    },
+    "headline": "从零实现一个 PHP 微框架 - 服务提供者 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-07-10T04:16:52.000Z",
+    "dateModified": "2020-07-11T00:18:53.076Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "PHP, XK-PHP, 框架",
+    "description": "前言考试在两周前就结束了，因为一直在填坑 XK-Java，所以一直没更新 PHP 微框架系列文章 2333，最近 XK-Java 也填的差不多了，后续打算把 XK-PHP 也适配到 Swoole，还有 XK-Blog 的坑还没填 🤣。 什么是服务提供者（Provider）？如果你写过 Laravel，那么你一定对 Provider 不陌生，服务提供者实现了将服务绑定到服务容器（IoC Conta - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=从零实现一个 PHP 微框架 - 服务提供者" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=从零实现一个 PHP 微框架 - 服务提供者&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=从零实现一个 PHP 微框架 - 服务提供者" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACMUlEQVR42u3a0VKDQAxGYd7/pfXW6ezmP0Gc1s3hxopt+XAIJNlcX/9gu0SKFCnyA5BXsa3e83Pf6m/ps6vPbY8rcixyedG+7K8Qr/vp63RckbOR6QLfwatAWL23CiCRIikyBc7yAAswfRiIFEmQKXCqG/3uoSBS5J0EI8E7CUk6AZEiSUH0lz8fqxZFHoWMTaPGRU+/6/GumsijkKSQSoV+NyBI4SZyLrIKkOrgK2g36KqEWeRcJG0upRvxrrDa7UOFncjRyJToksCqTnx1UgkucjaSfElV0JNCqwpKVC2KHIEsG0abpJYkud0Eo1UtihyDvMBWPQTSoAhpjsXAEXk8siq0SDFPfk/JNUp6RY5GkgQjLbSTQKoeEiLnIrvN/XQTJgMieIhP5HgkGR4mgXV70JhmQSKPRnZv0GTos7O4hBtWIscgq0SgakjF5AAkGXEgSuRIZHnhggG6VGihhc5dwiFyNJI02lOjKi3u06RFpMgUIFUj604xRxdKRc5Edm+6JNkgiW27YSVyDLIzmEQGlchiansBVOQ4JF1c7zRCq8SFnrDI2Uha7KcTeOpzIkWSBmkniOiASZm0iByJJAXUb4aT0gmV/xiRI5Hd4TkaGJ3EAyUYIkchafJKF6PSojxOoEWORnaGM8mgyO476bCoSJEE2X1P1Zx9bBJV5EhkKvjJ66op8EjgiDwO2W26V42CFDBVw1+kSNpAIsNJ3aGSx6pFkUchP3kTKVKkyDdu35ngdeTFpAtXAAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">从零实现一个 PHP 微框架 - 服务提供者</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-07-10</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=从零实现一个 PHP 微框架 - 服务提供者&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-5.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=从零实现一个 PHP 微框架 - 服务提供者&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-5.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/implement-a-php-microframework-from-zero-5.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-5.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-5.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-5.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-5.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACMUlEQVR42u3a0VKDQAxGYd7/pfXW6ezmP0Gc1s3hxopt+XAIJNlcX/9gu0SKFCnyA5BXsa3e83Pf6m/ps6vPbY8rcixyedG+7K8Qr/vp63RckbOR6QLfwatAWL23CiCRIikyBc7yAAswfRiIFEmQKXCqG/3uoSBS5J0EI8E7CUk6AZEiSUH0lz8fqxZFHoWMTaPGRU+/6/GumsijkKSQSoV+NyBI4SZyLrIKkOrgK2g36KqEWeRcJG0upRvxrrDa7UOFncjRyJToksCqTnx1UgkucjaSfElV0JNCqwpKVC2KHIEsG0abpJYkud0Eo1UtihyDvMBWPQTSoAhpjsXAEXk8siq0SDFPfk/JNUp6RY5GkgQjLbSTQKoeEiLnIrvN/XQTJgMieIhP5HgkGR4mgXV70JhmQSKPRnZv0GTos7O4hBtWIscgq0SgakjF5AAkGXEgSuRIZHnhggG6VGihhc5dwiFyNJI02lOjKi3u06RFpMgUIFUj604xRxdKRc5Edm+6JNkgiW27YSVyDLIzmEQGlchiansBVOQ4JF1c7zRCq8SFnrDI2Uha7KcTeOpzIkWSBmkniOiASZm0iByJJAXUb4aT0gmV/xiRI5Hd4TkaGJ3EAyUYIkchafJKF6PSojxOoEWORnaGM8mgyO476bCoSJEE2X1P1Zx9bBJV5EhkKvjJ66op8EjgiDwO2W26V42CFDBVw1+kSNpAIsNJ3aGSx6pFkUchP3kTKVKkyDdu35ngdeTFpAtXAAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是服务提供者（Provider）？"><span class="post-toc-number">2.</span> <span class="post-toc-text">什么是服务提供者（Provider）？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义-Provider"><span class="post-toc-number">3.</span> <span class="post-toc-text">定义 Provider</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编写-Provider"><span class="post-toc-number">4.</span> <span class="post-toc-text">编写 Provider</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CookieProvider"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">CookieProvider</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RouteProvider"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">RouteProvider</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AspectProvider"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">AspectProvider</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#加载-Provider"><span class="post-toc-number">5.</span> <span class="post-toc-text">加载 Provider</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">6.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>考试在两周前就结束了，因为一直在填坑 <a href="https://github.com/syfxlin/xkjava" target="_blank" rel="noopener" title="https://github.com/syfxlin/xkjava">XK-Java</a>，所以一直没更新 PHP 微框架系列文章 2333，最近 XK-Java 也填的差不多了，后续打算把 XK-PHP 也适配到 Swoole，还有 XK-Blog 的坑还没填 🤣。</p>
+<h2 id="什么是服务提供者（Provider）？"><a href="#什么是服务提供者（Provider）？" class="headerlink" title="什么是服务提供者（Provider）？"></a>什么是服务提供者（Provider）？</h2><p>如果你写过 Laravel，那么你一定对 Provider 不陌生，服务提供者实现了将服务绑定到服务容器（IoC Container），并按需启动的功能。</p>
+<p>在 Laravel 中，服务提供者是在 <code>config/app.php</code> 的配置文件中配置的：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token keyword">return</span> <span class="token punctuation">[</span>
+    <span class="token string">'providers'</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span>
+        <span class="token comment" spellcheck="true">/*
+         * Laravel Framework Service Providers...
+         */</span>
+        Illuminate\<span class="token package">Auth<span class="token punctuation">\</span>AuthServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Broadcasting<span class="token punctuation">\</span>BroadcastServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Bus<span class="token punctuation">\</span>BusServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Cache<span class="token punctuation">\</span>CacheServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Foundation<span class="token punctuation">\</span>Providers<span class="token punctuation">\</span>ConsoleSupportServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Cookie<span class="token punctuation">\</span>CookieServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Database<span class="token punctuation">\</span>DatabaseServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Encryption<span class="token punctuation">\</span>EncryptionServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Filesystem<span class="token punctuation">\</span>FilesystemServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Foundation<span class="token punctuation">\</span>Providers<span class="token punctuation">\</span>FoundationServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Hashing<span class="token punctuation">\</span>HashServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Mail<span class="token punctuation">\</span>MailServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Notifications<span class="token punctuation">\</span>NotificationServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Pagination<span class="token punctuation">\</span>PaginationServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Pipeline<span class="token punctuation">\</span>PipelineServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Queue<span class="token punctuation">\</span>QueueServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Redis<span class="token punctuation">\</span>RedisServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Auth<span class="token punctuation">\</span>Passwords<span class="token punctuation">\</span>PasswordResetServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Session<span class="token punctuation">\</span>SessionServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Translation<span class="token punctuation">\</span>TranslationServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">Validation<span class="token punctuation">\</span>ValidationServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        Illuminate\<span class="token package">View<span class="token punctuation">\</span>ViewServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+
+        <span class="token comment" spellcheck="true">/*
+         * Package Service Providers...
+         */</span>
+
+        <span class="token comment" spellcheck="true">/*
+         * Application Service Providers...
+         */</span>
+        App\<span class="token package">Providers<span class="token punctuation">\</span>AppServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        App\<span class="token package">Providers<span class="token punctuation">\</span>AuthServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        <span class="token comment" spellcheck="true">// App\Providers\BroadcastServiceProvider::class,</span>
+        App\<span class="token package">Providers<span class="token punctuation">\</span>EventServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+        App\<span class="token package">Providers<span class="token punctuation">\</span>RouteServiceProvider</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这些服务提供者会在框架启动后将服务注册到服务容器上，如果你学过 Spring，那么就很好理解了，这些服务提供者就是用编码的方式来注册 <code>Bean</code>、<code>Component</code> 等等，因为 PHP8 才开始支持注解，所以目前跑在 PHP7 的 Laravel 无法像 Spring 一样很方便的绑定服务实例。</p>
+<p>光说肯定没法很好的理解，那么我们就来看一个简单的服务提供者吧：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">Illuminate<span class="token punctuation">\</span>Cookie</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">Illuminate<span class="token punctuation">\</span>Support<span class="token punctuation">\</span>ServiceProvider</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">CookieServiceProvider</span> <span class="token keyword">extends</span> <span class="token class-name">ServiceProvider</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * Register the service provider.
+     *
+     * @return void
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">register</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">singleton</span><span class="token punctuation">(</span><span class="token string">'cookie'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token variable">$app</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$config</span> <span class="token operator">=</span> <span class="token variable">$app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">make</span><span class="token punctuation">(</span><span class="token string">'config'</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'session'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">CookieJar</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">setDefaultPathAndDomain</span><span class="token punctuation">(</span>
+                <span class="token variable">$config</span><span class="token punctuation">[</span><span class="token string">'path'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$config</span><span class="token punctuation">[</span><span class="token string">'domain'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$config</span><span class="token punctuation">[</span><span class="token string">'secure'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$config</span><span class="token punctuation">[</span><span class="token string">'same_site'</span><span class="token punctuation">]</span> <span class="token operator">?</span><span class="token operator">?</span> <span class="token keyword">null</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这是 Laravel 用来注册 <code>CookieJar</code> 实例的服务提供者，可以看到在 <code>register</code> 方法中使用了 <code>singleton</code> 方法将一个的回调注册到了服务容器中，这样，当我们使用 <code>$app-&gt;make(&#39;cookie&#39;)</code> 的时候就可以取得 <code>CookieJar</code> 实例了。</p>
+<p>当然服务提供者不止可以注册服务，还能在服务注册后启动实例，只要重写 <code>boot</code> 方法即可。</p>
+<h2 id="定义-Provider"><a href="#定义-Provider" class="headerlink" title="定义 Provider"></a>定义 Provider</h2><p>了解了服务提供者，那么就可以开始编码了。</p>
+<p>首先，我们需要定义 <code>Provider</code> 的接口和抽象类来规范 <code>Provider</code>，如下：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Contracts</span><span class="token punctuation">;</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Provider</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 之所以只定义 register 方法是因为并不是每一个服务提供者都需要预加载（boot），当然你也可以在接口定义 boot 方法，然后在抽象类中提供一个无影响的实现</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">register</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void<span class="token punctuation">;</span>
+<span class="token punctuation">}</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Providers</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Application</span><span class="token punctuation">;</span>
+
+<span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">Provider</span> <span class="token keyword">implements</span> <span class="token class-name"><span class="token punctuation">\</span>App<span class="token punctuation">\</span>Contracts<span class="token punctuation">\</span>Provider</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * @var Application
+     */</span>
+    <span class="token keyword">protected</span> <span class="token variable">$app</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * @var bool
+     */</span>
+    <span class="token keyword">public</span> <span class="token variable">$booted</span> <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span>Application <span class="token variable">$app</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span> <span class="token operator">=</span> <span class="token variable">$app</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到 <code>Provider</code> 和 <code>Bootstrap</code> 其实差不多，所以这里就不对抽象类做说明了，具体请看 <a href="https://blog.ixk.me/implement-a-php-microframework-from-zero-4.html" target="_blank" rel="noopener">Bootstrap 篇</a>。</p>
+<h2 id="编写-Provider"><a href="#编写-Provider" class="headerlink" title="编写 Provider"></a>编写 Provider</h2><p>由于 <code>Provider</code> 数量众多，所以这里就不全部写了，只列举几个比较典型的。</p>
+<h3 id="CookieProvider"><a href="#CookieProvider" class="headerlink" title="CookieProvider"></a>CookieProvider</h3><p><code>CookieProvider</code> 是一个简单纯注册服务的 <code>Provider</code>：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Providers</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Http<span class="token punctuation">\</span>CookieManager</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">CookieProvider</span> <span class="token keyword">extends</span> <span class="token class-name">Provider</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">register</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 将 CookieManager 注册到服务容器</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">singleton</span><span class="token punctuation">(</span>CookieManager<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token string">'cookie'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="RouteProvider"><a href="#RouteProvider" class="headerlink" title="RouteProvider"></a>RouteProvider</h3><p><code>RouteProvider</code> 在注册后还会提供预加载，即 <code>boot</code>：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Providers</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Kernel<span class="token punctuation">\</span>RouteManager</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">RouteProvider</span> <span class="token keyword">extends</span> <span class="token class-name">Provider</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">register</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">singleton</span><span class="token punctuation">(</span>RouteManager<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token string">'route'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 在所有服务容器注册完毕后，经 BootProvider 这个 Bootstrap 调用该方法来预加载服务</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 预加载就是在框架启动后立即实例化服务的功能</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">make</span><span class="token punctuation">(</span>RouteManager<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="AspectProvider"><a href="#AspectProvider" class="headerlink" title="AspectProvider"></a>AspectProvider</h3><p>除了简单 <code>Provider</code>，还有一些比较复杂的 <code>Provider</code>，如 <code>AspectProvider</code>：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Providers</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Kernel<span class="token punctuation">\</span>AspectManager</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">function</span> array_keys<span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">function</span> config<span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">AspectProvider</span> <span class="token keyword">extends</span> <span class="token class-name">Provider</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * @var string[]
+     */</span>
+    <span class="token keyword">protected</span> <span class="token variable">$aspects</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">register</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">singleton</span><span class="token punctuation">(</span>
+            AspectManager<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+            <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">AspectManager</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token string">'aspect.manager'</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">aspects</span> <span class="token operator">=</span> <span class="token function">config</span><span class="token punctuation">(</span><span class="token string">'aspect'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token function">array_keys</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">aspects</span><span class="token punctuation">)</span> <span class="token keyword">as</span> <span class="token variable">$aspect</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">singleton</span><span class="token punctuation">(</span><span class="token variable">$aspect</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">/* @var AspectManager $manager */</span>
+        <span class="token variable">$manager</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">make</span><span class="token punctuation">(</span>AspectManager<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">aspects</span> <span class="token keyword">as</span> <span class="token variable">$aspect</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token variable">$points</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$manager</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">putPoint</span><span class="token punctuation">(</span><span class="token variable">$points</span><span class="token punctuation">,</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">make</span><span class="token punctuation">(</span><span class="token variable">$aspect</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在 <code>AspectProvider</code> 中不止注册了 <code>AspectManager</code>，还会读取配置文件将切面也加载进服务容器，同时在启动时把切面依次放入 <code>AspectManager</code>。</p>
+<h2 id="加载-Provider"><a href="#加载-Provider" class="headerlink" title="加载 Provider"></a>加载 Provider</h2><p>有了 <code>Provider</code>，那么 <code>Provider</code> 是如何被创建和执行的呢？</p>
+<p>在 <code>Bootstrap</code> 有两个 <code>Provider</code> 相关的 <code>Bootstrap</code>，分别是 <code>RegisterProviders</code> 和 <code>BootProviders</code>，上一篇文章只是简单介绍了这两个 <code>Bootstrap</code> 的功能，这里就详细的讲解一下。</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Bootstrap</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Kernel<span class="token punctuation">\</span>ProviderManager</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">function</span> config<span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">RegisterProviders</span> <span class="token keyword">extends</span> <span class="token class-name">Bootstrap</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">setProviderManager</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ProviderManager</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getProviderManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">registers</span><span class="token punctuation">(</span><span class="token function">config</span><span class="token punctuation">(</span><span class="token string">'app.providers'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">instance</span><span class="token punctuation">(</span>
+            ProviderManager<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+            <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getProviderManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">'provider_manager'</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后我们看看 <code>ProviderManager</code>：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Kernel</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Application</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Providers<span class="token punctuation">\</span>Provider</span><span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">function</span> array_map<span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">function</span> array_walk<span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">function</span> is_string<span class="token punctuation">;</span>
+<span class="token keyword">use</span> <span class="token package">function</span> method_exists<span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ProviderManager</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * @var Application
+     */</span>
+    <span class="token keyword">protected</span> <span class="token variable">$app</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * @var Provider[]
+     */</span>
+    <span class="token keyword">protected</span> <span class="token variable">$providers</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span>Application <span class="token variable">$app</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span> <span class="token operator">=</span> <span class="token variable">$app</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * @param string|Provider $provider
+     * @return Provider|null
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">getProvider</span><span class="token punctuation">(</span><span class="token variable">$provider</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token operator">?</span>Provider
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">is_string</span><span class="token punctuation">(</span><span class="token variable">$provider</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">providers</span><span class="token punctuation">[</span><span class="token variable">$provider</span><span class="token punctuation">]</span> <span class="token operator">?</span><span class="token operator">?</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token variable">$provider</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">setProvider</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token punctuation">,</span> <span class="token variable">$provider</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">providers</span><span class="token punctuation">[</span><span class="token variable">$name</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token variable">$provider</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">register</span><span class="token punctuation">(</span><span class="token variable">$provider</span><span class="token punctuation">,</span> <span class="token variable">$force</span> <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">:</span> Provider
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token variable">$force</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token variable">$reg</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getProvider</span><span class="token punctuation">(</span><span class="token variable">$provider</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token variable">$reg</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">is_string</span><span class="token punctuation">(</span><span class="token variable">$provider</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$name</span> <span class="token operator">=</span> <span class="token variable">$provider</span><span class="token punctuation">;</span>
+            <span class="token variable">$provider</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token variable">$provider</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">setProvider</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token punctuation">,</span> <span class="token variable">$provider</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">method_exists</span><span class="token punctuation">(</span><span class="token variable">$provider</span><span class="token punctuation">,</span> <span class="token string">'register'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$provider</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">register</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token variable">$provider</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">registers</span><span class="token punctuation">(</span><span class="token keyword">array</span> <span class="token variable">$providers</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">array</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">array_map</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token variable">$provider</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">register</span><span class="token punctuation">(</span><span class="token variable">$provider</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token variable">$providers</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token function">array_walk</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">providers</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>Provider <span class="token variable">$provider</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token variable">$provider</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">booted</span> <span class="token operator">&amp;&amp;</span> <span class="token function">method_exists</span><span class="token punctuation">(</span><span class="token variable">$provider</span><span class="token punctuation">,</span> <span class="token string">'boot'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">call</span><span class="token punctuation">(</span><span class="token string">'boot'</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$provider</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token variable">$provider</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">booted</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其实看起来复杂，不过 <code>ProviderManager</code> 做的事情也很简单。</p>
+<p>首先利用 <code>Class</code> 创建对应 <code>Provider</code> 实例，然后将 <code>Provider</code> 添加到 <code>ProviderManager</code> 的 <code>Provider</code> 数组中，最后判断有没有 <code>register</code> 方法，如果有则执行该方法。</p>
+<p>有了注册，那么还需要一个启动：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Bootstrap</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">BootProviders</span> <span class="token keyword">extends</span> <span class="token class-name">Bootstrap</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getProviderManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">boot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在 <code>BootProviders</code> 中 <code>boot</code> 方法会从服务容器中取得 <code>ProviderManager</code>，然后调用其 <code>boot</code> 方法，依次执行 <code>Provider</code> 的 <code>boot</code> 方法。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>到这里 Provider 的部分就说完了。现在也放假了，PHP 微框架的文章会逐步更新。不过最近还是比较忙的，更新速度会慢一点。😃</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-07-11");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-07-10T04:16:52.000Z" itemprop="datePublished">2020-07-10</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-07-11T00:18:53.076Z" itemprop="dateModified">2020-07-11</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/PHP/" rel="tag">#&nbsp;PHP</a>
+
+<a class="post-tags-list-item" href="/tags/XK-PHP/" rel="tag">#&nbsp;XK-PHP</a>
+
+<a class="post-tags-list-item" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">#&nbsp;框架</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/wsl-2-recording.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">WSL2 踩坑记录</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
