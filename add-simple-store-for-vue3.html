@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>为 Vue3 添加一个简单的 Store | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="为 Vue3 添加一个简单的 Store | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/add-simple-store-for-vue3.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言Vue 3.0 挺早就已经发布了 Beta 版本，一直没有机会尝试下。主要是最近在折腾后端，前端几乎没再碰过。现在 XK-Java 已经大致写完了，最近应该也不会添加太多的功能了，XK-PHP 也打算等到 Swoole 支持 PHP8 的时候重构一波，所以比较闲，便打算翻出以前的项目（XK-Note，XK-Editor）重构（重写）一下。 由于 Vue 2.x 对 TypeScript 的支持 - Otstar Lin - 青空之蓝"><meta name="keywords" content="Vue, Vuex, TypeScript"><meta property="article:published_time" content="2020-07-11T09:21:30.000Z"><meta property="article:modified_time" content="2020-07-12T00:19:00.487Z"><meta property="og:updated_time" content="2020-07-12T00:19:00.487Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Vue, Vuex, TypeScript"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/add-simple-store-for-vue3.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/add-simple-store-for-vue3.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/add-simple-store-for-vue3.html"
+    },
+    "headline": "为 Vue3 添加一个简单的 Store | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-07-11T09:21:30.000Z",
+    "dateModified": "2020-07-12T00:19:00.487Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "Vue, Vuex, TypeScript",
+    "description": "前言Vue 3.0 挺早就已经发布了 Beta 版本，一直没有机会尝试下。主要是最近在折腾后端，前端几乎没再碰过。现在 XK-Java 已经大致写完了，最近应该也不会添加太多的功能了，XK-PHP 也打算等到 Swoole 支持 PHP8 的时候重构一波，所以比较闲，便打算翻出以前的项目（XK-Note，XK-Editor）重构（重写）一下。 由于 Vue 2.x 对 TypeScript 的支持 - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=为 Vue3 添加一个简单的 Store" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=为 Vue3 添加一个简单的 Store&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=为 Vue3 添加一个简单的 Store" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5ElEQVR42u3a0W6EMAxEUf7/p9tXWsUz45aVEnN52aLdkoMUiO34+trwuECBAgVqgbrE8fs393P3/+nvfvwG1BjUctI1LliB7+fROKBGoaqBqom/wq5uIh0H1LtQauJW31d/gwK1mrQOsFrIQb0PVQ2YvgSrgLC18IMag0oCuCc+H8tmQG2NskUHsfC6BPVjVRdQW6PURKyQLtBLJzqomajqJdr5rgreVufVjYGaiaoKFJ3EQRVhVfAIag6q8+KzFzUJrU1uQY1BuU2itECmNgRccQPUPFSFUYUOtUB3iiSgZqEUJpn8ncQ1nuigjka5TWmXTLobcQ8TqJkoF8zJBFI8FEmAZ9/ooI5DdTeNVOCWBoFRcR/UGJQbtLNoJ7AySgB1NEoFaUlB1SUY/9qEBHUkqtMEmDTepEU1uWEE6lhUp8CRNum4l2j5UIEag0oaZ9JFNS16RAUOUCNQaYOEGsg1rLY6YkEdi0qDtuThSIqwUVMXqCNR7mg1uTdv6LHmU1BboZIkMS2EpJsAUQMOqKNRSRHWJaVxYUxdD9QolJuYf9loVA+S7eAANRqVTtakSScqxIJ6FcpNcrdZ2ergAHU0KgnoVEE1AdrEFdQYlFs0XTEjXbztDYEagdrpAAUKFKjb8Q2OnNDgrMFeBgAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">为 Vue3 添加一个简单的 Store</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-07-11</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=为 Vue3 添加一个简单的 Store&url=https://hexo.ixk.me/add-simple-store-for-vue3.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=为 Vue3 添加一个简单的 Store&url=https://hexo.ixk.me/add-simple-store-for-vue3.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/add-simple-store-for-vue3.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/add-simple-store-for-vue3.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/add-simple-store-for-vue3.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/add-simple-store-for-vue3.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/add-simple-store-for-vue3.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5ElEQVR42u3a0W6EMAxEUf7/p9tXWsUz45aVEnN52aLdkoMUiO34+trwuECBAgVqgbrE8fs393P3/+nvfvwG1BjUctI1LliB7+fROKBGoaqBqom/wq5uIh0H1LtQauJW31d/gwK1mrQOsFrIQb0PVQ2YvgSrgLC18IMag0oCuCc+H8tmQG2NskUHsfC6BPVjVRdQW6PURKyQLtBLJzqomajqJdr5rgreVufVjYGaiaoKFJ3EQRVhVfAIag6q8+KzFzUJrU1uQY1BuU2itECmNgRccQPUPFSFUYUOtUB3iiSgZqEUJpn8ncQ1nuigjka5TWmXTLobcQ8TqJkoF8zJBFI8FEmAZ9/ooI5DdTeNVOCWBoFRcR/UGJQbtLNoJ7AySgB1NEoFaUlB1SUY/9qEBHUkqtMEmDTepEU1uWEE6lhUp8CRNum4l2j5UIEag0oaZ9JFNS16RAUOUCNQaYOEGsg1rLY6YkEdi0qDtuThSIqwUVMXqCNR7mg1uTdv6LHmU1BboZIkMS2EpJsAUQMOqKNRSRHWJaVxYUxdD9QolJuYf9loVA+S7eAANRqVTtakSScqxIJ6FcpNcrdZ2ergAHU0KgnoVEE1AdrEFdQYlFs0XTEjXbztDYEagdrpAAUKFKjb8Q2OnNDgrMFeBgAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#效果"><span class="post-toc-number">2.</span> <span class="post-toc-text">效果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分析"><span class="post-toc-number">3.</span> <span class="post-toc-text">分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现"><span class="post-toc-number">4.</span> <span class="post-toc-text">实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用"><span class="post-toc-number">5.</span> <span class="post-toc-text">使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">6.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Vue 3.0 挺早就已经发布了 Beta 版本，一直没有机会尝试下。主要是最近在折腾后端，前端几乎没再碰过。现在 XK-Java 已经大致写完了，最近应该也不会添加太多的功能了，XK-PHP 也打算等到 Swoole 支持 PHP8 的时候重构一波，所以比较闲，便打算翻出以前的项目（XK-Note，XK-Editor）重构（重写）一下。</p>
+<p>由于 Vue 2.x 对 TypeScript 的支持性不好，所以便打算直接使用 Vue 3.0，顺便体验一把函数化组件。因为 XK-Editor 需要使用 Store 来管理状态，而之前的并不太适合 Vue 3.0，于是便有了这篇文章。</p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>首先放下效果：</p>
+<pre class="line-numbers highlight language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Vue logo<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>./assets/logo.png<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+      { { count }}
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>addCount<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+      { { subCount }}
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>addSubCount<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>{ { arr1 }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ts<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript">
+<span class="token keyword">import</span> <span class="token punctuation">{</span> defineComponent <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"vue"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> useAction<span class="token punctuation">,</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@/store"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">defineComponent</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">"App"</span><span class="token punctuation">,</span>
+  <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> count <span class="token operator">=</span> useState<span class="token operator">&lt;</span>number<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"count"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> addCount <span class="token operator">=</span> useAction<span class="token operator">&lt;</span>Function<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"addCount"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> subCount <span class="token operator">=</span> useState<span class="token operator">&lt;</span>number<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"sub.count"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> addSubCount <span class="token operator">=</span> <span class="token function">useAction</span><span class="token punctuation">(</span><span class="token string">"sub.addSubCount"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> arr1 <span class="token operator">=</span> useState<span class="token operator">&lt;</span>string<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"arr.0"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span> count<span class="token punctuation">,</span> addCount<span class="token punctuation">,</span> subCount<span class="token punctuation">,</span> addSubCount<span class="token punctuation">,</span> arr1 <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到风格非常像 React Hook，而且使用起来也很方便，可以通过像 Laravel 的 <code>data_get</code> 一样的点语法来获取到嵌套的 <code>state</code>，同时由于数据是响应式的，同时也可以直接设置值，而不需要另外增加一个 <code>set</code> 方法来设置。当然也不一定需要使用点语法，你也可以像之前的 Vuex 2 的 <code>mapState</code> 一样使用函数的方式获取 <code>state</code>。支持泛型，可以很好的保持 TypeScript 的特性和优点。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>Store 相关的分析这里就不说明了，本文只介绍 Store 用到的 Vue 3.0 新增的特性。</p>
+<p>首先就是最重要的 <code>reactive</code> 函数，这是在 Vue 3 新增的函数，用来将普通的数据转换成响应式数据，替代了 Vue 2.x 中的 <code>Vue.observable</code>。</p>
+<p>然后就是 <code>computed</code> 函数，<code>computed</code> 函数对应着 Vue 2.x 的计算属性，由于 Vue 3 不再是 Vue 2.x 的 Options API（虽然依旧可以用）而是采用了和 React Hook 类似的 Composition API，这意味着，我们可以在任何的地方使用 Composition API，而不再局限于组件内。之所以要用到这个函数的原因是外部的响应式数据无法在组件中直接使用，会导致不更新的情况发生，所以需要一层计算属性来解决这种问题，在 Vue 2.x 也存在这个问题。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>首先我们先创建 State 的部分：</p>
+<pre class="line-numbers highlight language-typescript"><code class="language-typescript"><span class="token keyword">import</span> <span class="token punctuation">{</span> reactive <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"vue"</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 使用 reactive 函数完成响应式转换</span>
+<span class="token keyword">const</span> state <span class="token operator">=</span> <span class="token function">reactive</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  count<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  sub<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    count<span class="token punctuation">:</span> <span class="token number">2</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  arr<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"arr1"</span><span class="token punctuation">,</span> <span class="token string">"arr2"</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 由于使用了 TypeScript，光有数据还不行，还需要有类型，利用 typeof 可以很方便的获取对象的类型</span>
+<span class="token keyword">export</span> type State <span class="token operator">=</span> <span class="token keyword">typeof</span> state<span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> state<span class="token punctuation">;</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后是 Actions：</p>
+<pre class="line-numbers highlight language-typescript"><code class="language-typescript"><span class="token keyword">import</span> state <span class="token keyword">from</span> <span class="token string">"@/store/state"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> actions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token function">addCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    state<span class="token punctuation">.</span>count<span class="token operator">++</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  sub<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token function">addSubCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      state<span class="token punctuation">.</span>sub<span class="token punctuation">.</span>count<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 同样需要导出类型</span>
+<span class="token keyword">export</span> type Actions <span class="token operator">=</span> <span class="token keyword">typeof</span> actions<span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> actions<span class="token punctuation">;</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>接着就是最主要的部分了：</p>
+<pre class="line-numbers highlight language-typescript"><code class="language-typescript"><span class="token keyword">import</span> state<span class="token punctuation">,</span> <span class="token punctuation">{</span> State <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@/store/state"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> actions<span class="token punctuation">,</span> <span class="token punctuation">{</span> Actions <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@/store/actions"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> WritableComputedRef <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@vue/reactivity"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> computed <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"vue"</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 函数的方式获取值的参数类型</span>
+type useStateGetterFn <span class="token operator">=</span> <span class="token operator">&lt;</span>R<span class="token operator">></span><span class="token punctuation">(</span>state<span class="token punctuation">:</span> State<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> R<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 函数的方式获取值和设置值的参数类型</span>
+type useStateWritableFn<span class="token operator">&lt;</span>R<span class="token operator">></span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token keyword">get</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>state<span class="token punctuation">:</span> State<span class="token punctuation">,</span> ctx<span class="token operator">?</span><span class="token punctuation">:</span> <span class="token keyword">any</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> R<span class="token punctuation">;</span>
+  <span class="token keyword">set</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>state<span class="token punctuation">:</span> State<span class="token punctuation">,</span> value<span class="token punctuation">:</span> R<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 函数的方式获取 Action 的参数类型</span>
+type useActionFn <span class="token operator">=</span> <span class="token punctuation">(</span>actions<span class="token punctuation">:</span> Actions<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">any</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 获取 Store</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> useStore <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> state<span class="token punctuation">:</span> State<span class="token punctuation">;</span> actions<span class="token punctuation">:</span> Actions <span class="token punctuation">}</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span> state<span class="token punctuation">,</span> actions <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 获取 State</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> useState<span class="token operator">&lt;</span>R<span class="token operator">></span><span class="token punctuation">(</span>
+  key<span class="token punctuation">:</span> <span class="token keyword">string</span> <span class="token operator">|</span> useStateGetterFn <span class="token operator">|</span> useStateWritableFn<span class="token operator">&lt;</span>R<span class="token operator">></span> <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token operator">=</span> <span class="token keyword">null</span>
+<span class="token punctuation">)</span><span class="token punctuation">:</span> WritableComputedRef<span class="token operator">&lt;</span>R<span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 如果未传参代表获取全部的 state</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>key <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 将 state 包装成计算属性</span>
+    <span class="token keyword">return</span> <span class="token function">computed</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>state as <span class="token keyword">any</span><span class="token punctuation">)</span> as R<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">// 函数方式获取 const count = useState(() => state.count)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> key <span class="token operator">===</span> <span class="token string">"function"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 将 state 传入函数，然后将函数返回值包装成计算属性</span>
+    <span class="token keyword">return</span> <span class="token function">computed</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">key</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">// 字符串或点语法方式获取和设置</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> key <span class="token operator">===</span> <span class="token string">"string"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> result <span class="token operator">=</span> state as <span class="token keyword">any</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> keys <span class="token operator">=</span> key<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> lastKey <span class="token operator">=</span> keys<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> as <span class="token keyword">string</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> k of keys<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      result <span class="token operator">=</span> result<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">// 如果 result 为 null 了说明 key 设置错误，抛出异常</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>result <span class="token operator">===</span> <span class="token keyword">null</span> <span class="token operator">||</span> result <span class="token operator">===</span> undefined<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token function">Error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`key is error [</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>key<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">]`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 包装 set 和 get</span>
+    <span class="token keyword">return</span> <span class="token function">computed</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      <span class="token keyword">get</span><span class="token punctuation">:</span> ctx <span class="token operator">=</span><span class="token operator">></span> result<span class="token punctuation">[</span>lastKey<span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token keyword">set</span><span class="token punctuation">:</span> v <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span>result<span class="token punctuation">[</span>lastKey<span class="token punctuation">]</span> <span class="token operator">=</span> v<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment" spellcheck="true">// 函数的方式，传入了 set 和 get，则将其包装成带 set 的计算属性</span>
+  <span class="token keyword">return</span> <span class="token function">computed</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token keyword">get</span><span class="token punctuation">:</span> ctx <span class="token operator">=</span><span class="token operator">></span> key<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span>state<span class="token punctuation">,</span> ctx<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token keyword">set</span><span class="token punctuation">:</span> v <span class="token operator">=</span><span class="token operator">></span> key<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>state<span class="token punctuation">,</span> v<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 获取 Action，类似于 useState</span>
+<span class="token keyword">export</span> <span class="token keyword">function</span> useAction<span class="token operator">&lt;</span>A<span class="token operator">></span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> <span class="token keyword">string</span> <span class="token operator">|</span> useActionFn <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">:</span> A <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>key <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>actions as <span class="token keyword">any</span><span class="token punctuation">)</span> as A<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> key <span class="token operator">===</span> <span class="token string">"string"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> result <span class="token operator">=</span> actions as <span class="token keyword">any</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> keys <span class="token operator">=</span> key<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> k of keys<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      result <span class="token operator">=</span> result<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>result <span class="token operator">===</span> <span class="token keyword">null</span> <span class="token operator">||</span> result <span class="token operator">===</span> undefined<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token function">Error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`key is error [</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>key<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">]`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token function">key</span><span class="token punctuation">(</span>actions<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>由于只简单弄了一下，并没有添加 <code>debug</code> 的部分，由于 Vue 不像 React 一样使用不可变数据，所以无法简单的获取旧值，必须要深克隆一份才能保证旧值不随新值变化，这里就不弄了（逃。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用的方式上面已经展示过了，这里就不展示了。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>Vue 3.0 添加了 Composition API 后编码就不会再像 Vue 2.x 那样为了一个方法满屏幕找的情况了，各种逻辑都可以集中在一个区域里，同时也和 React Hook 一样，可以很方便的利用各种 <code>use</code> 函数扩展功能。响应式也改成用 <code>Proxy</code>，应该不会再遇到各种丢更新的情况了。</p>
+<p>Vue 3 香，不过我还是更喜欢 React（逃</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-07-12");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-07-11T09:21:30.000Z" itemprop="datePublished">2020-07-11</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-07-12T00:19:00.487Z" itemprop="dateModified">2020-07-12</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Vue/" rel="tag">#&nbsp;Vue</a>
+
+<a class="post-tags-list-item" href="/tags/Vuex/" rel="tag">#&nbsp;Vuex</a>
+
+<a class="post-tags-list-item" href="/tags/TypeScript/" rel="tag">#&nbsp;TypeScript</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/implement-a-php-microframework-from-zero-5.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">从零实现一个 PHP 微框架 - 服务提供者</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
