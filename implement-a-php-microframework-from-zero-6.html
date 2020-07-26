@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>从零实现一个 PHP 微框架 - 初始化请求 | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="从零实现一个 PHP 微框架 - 初始化请求 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/implement-a-php-microframework-from-zero-6.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言更新一波文章。 这次的内容相对简单点，初始化请求的过程包括封装 $_GET $_POST 等关联数组到 Request 对象中，用于后续流程的使用，以及从封装 Request 到路由之前的这段过程。 构造 Request构造 Request 是通过 Application.dispatchToEmit 里的 $request &#x3D; $this-&amp;gt;make(Request::class) 初 - Otstar Lin - 青空之蓝"><meta name="keywords" content="PHP, XK-PHP, 框架"><meta property="article:published_time" content="2020-07-25T15:02:43.000Z"><meta property="article:modified_time" content="2020-07-26T00:18:15.539Z"><meta property="og:updated_time" content="2020-07-26T00:18:15.539Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="PHP, XK-PHP, 框架"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/implement-a-php-microframework-from-zero-6.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/implement-a-php-microframework-from-zero-6.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/implement-a-php-microframework-from-zero-6.html"
+    },
+    "headline": "从零实现一个 PHP 微框架 - 初始化请求 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-07-25T15:02:43.000Z",
+    "dateModified": "2020-07-26T00:18:15.539Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "PHP, XK-PHP, 框架",
+    "description": "前言更新一波文章。 这次的内容相对简单点，初始化请求的过程包括封装 $_GET $_POST 等关联数组到 Request 对象中，用于后续流程的使用，以及从封装 Request 到路由之前的这段过程。 构造 Request构造 Request 是通过 Application.dispatchToEmit 里的 $request = $this-&amp;amp;gt;make(Request::class) 初 - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=从零实现一个 PHP 微框架 - 初始化请求" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=从零实现一个 PHP 微框架 - 初始化请求&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=从零实现一个 PHP 微框架 - 初始化请求" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACMklEQVR42u2aQXKDQAwE+f+nk1MuLlbTAlN2Vs3FKRPYXhcSo5GOn39wHEIKKaSQXwB5FEd1/u/c633OrjkFCOsKORtydZNqwRVw93O1rpBCVoueBcXZ36/frTZE1hVSyJSoUxBVG0oBJqSQVwInCYQqQaekLqSQHYFR/V83kB5TQUJuB0mKrSc+31otCrkNJDKOGsFVid5HXTUht4FcFfykAKPfVYKlTPxCjoS8Yz4Rc5QE1Oq+Qs6ETCZpFQCrZN3ZdCWuhZwNWSV3UvCvCjXaYELKXMgxkB2jtGPoJ8FcGbZCzoasGuikEU8ArxRpQs6ETC/+rolFGgRpEEVIIYmIIIV9t0EQXyBCjoUkhlWV3O805cthEiHHQ5IHnSb26mVRCWDUfRBye0gqLNLQBwmk9GMgFSTk1pDJyCQmKhEmdOhJSCHbF4ImEjFcybVCzoSkQ+xpKI409NNQs5BCksZ6ldTJBlPw4GQu5ChIYiolEyEW+oWxuryPkGMh3wXaMQhIsAk5E5I04DvN9StmVqtLK+QYyPIBBqZVVziTdYScC1klWQpIDFZiFsRqUchRkFcKfGL6p8GQ1pCnkNtDEvOzM/jZMfxvGVZCbgtJAoYKYWL408ATcjZkEgDkoU/DdgQqdh+EHAXZGS4mG6yM1HReSCE7orbTmE/CNw6VCClkSLp3jsqkWgamkKMhq4IpBceqUU+ERMvBEHIMJG1m3h1Kpo1VIWdDfvMhpJBCCvnB4xcoAjYkQMMEqQAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">从零实现一个 PHP 微框架 - 初始化请求</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-07-25</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=从零实现一个 PHP 微框架 - 初始化请求&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-6.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=从零实现一个 PHP 微框架 - 初始化请求&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-6.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/implement-a-php-microframework-from-zero-6.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-6.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-6.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-6.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/implement-a-php-microframework-from-zero-6.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACMklEQVR42u2aQXKDQAwE+f+nk1MuLlbTAlN2Vs3FKRPYXhcSo5GOn39wHEIKKaSQXwB5FEd1/u/c633OrjkFCOsKORtydZNqwRVw93O1rpBCVoueBcXZ36/frTZE1hVSyJSoUxBVG0oBJqSQVwInCYQqQaekLqSQHYFR/V83kB5TQUJuB0mKrSc+31otCrkNJDKOGsFVid5HXTUht4FcFfykAKPfVYKlTPxCjoS8Yz4Rc5QE1Oq+Qs6ETCZpFQCrZN3ZdCWuhZwNWSV3UvCvCjXaYELKXMgxkB2jtGPoJ8FcGbZCzoasGuikEU8ArxRpQs6ETC/+rolFGgRpEEVIIYmIIIV9t0EQXyBCjoUkhlWV3O805cthEiHHQ5IHnSb26mVRCWDUfRBye0gqLNLQBwmk9GMgFSTk1pDJyCQmKhEmdOhJSCHbF4ImEjFcybVCzoSkQ+xpKI409NNQs5BCksZ6ldTJBlPw4GQu5ChIYiolEyEW+oWxuryPkGMh3wXaMQhIsAk5E5I04DvN9StmVqtLK+QYyPIBBqZVVziTdYScC1klWQpIDFZiFsRqUchRkFcKfGL6p8GQ1pCnkNtDEvOzM/jZMfxvGVZCbgtJAoYKYWL408ATcjZkEgDkoU/DdgQqdh+EHAXZGS4mG6yM1HReSCE7orbTmE/CNw6VCClkSLp3jsqkWgamkKMhq4IpBceqUU+ERMvBEHIMJG1m3h1Kpo1VIWdDfvMhpJBCCvnB4xcoAjYkQMMEqQAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#构造-Request"><span class="post-toc-number">2.</span> <span class="post-toc-text">构造 Request</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Request-make"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Request::make</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#new-Request"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">new Request</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">3.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>更新一波文章。</p>
+<p>这次的内容相对简单点，初始化请求的过程包括封装 <code>$_GET</code> <code>$_POST</code> 等关联数组到 Request 对象中，用于后续流程的使用，以及从封装 Request 到路由之前的这段过程。</p>
+<h2 id="构造-Request"><a href="#构造-Request" class="headerlink" title="构造 Request"></a>构造 Request</h2><p>构造 Request 是通过 <code>Application.dispatchToEmit</code> 里的 <code>$request = $this-&gt;make(Request::class)</code> 初始化的，<code>make</code> 方法会通知容器初始化 <code>Request</code> 对象。</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token keyword">protected</span> <span class="token keyword">function</span> <span class="token function">dispatchToEmit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 获取请求</span>
+    <span class="token variable">$request</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">make</span><span class="token punctuation">(</span>Request<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 处理</span>
+    <span class="token variable">$response</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">make</span><span class="token punctuation">(</span>RouteManager<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token variable">$request</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// 发送响应</span>
+    <span class="token variable">$response</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>既然是通过容器来初始化的，那么就需要绑定该对象到容器，<code>Request</code> 对象是通过 <code>RequestProvider</code> 进行绑定的：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+
+<span class="token keyword">namespace</span> <span class="token package">App<span class="token punctuation">\</span>Providers</span><span class="token punctuation">;</span>
+
+<span class="token keyword">use</span> <span class="token package">App<span class="token punctuation">\</span>Http<span class="token punctuation">\</span>Request</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">RequestProvider</span> <span class="token keyword">extends</span> <span class="token class-name">Provider</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">register</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> void
+    <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">app</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">singleton</span><span class="token punctuation">(</span>
+            Request<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token keyword">class</span><span class="token punctuation">,</span>
+            <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> Request<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token string">'request'</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Request-make"><a href="#Request-make" class="headerlink" title="Request::make"></a>Request::make</h3><p>从上面的代码可以看到初始化 <code>Request</code> 是通过 <code>Request::make()</code> 的静态工厂方法构造的：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">function</span> <span class="token function">make</span><span class="token punctuation">(</span>
+    <span class="token keyword">array</span> <span class="token variable">$server</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token keyword">array</span> <span class="token variable">$query</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token keyword">array</span> <span class="token variable">$body</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token keyword">array</span> <span class="token variable">$cookies</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token keyword">array</span> <span class="token variable">$files</span> <span class="token operator">=</span> <span class="token keyword">null</span>
+<span class="token punctuation">)</span><span class="token punctuation">:</span> Request <span class="token punctuation">{</span>
+    <span class="token variable">$files</span> <span class="token operator">=</span> Functions<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">convertFiles</span><span class="token punctuation">(</span><span class="token variable">$files</span> <span class="token operator">?</span><span class="token punctuation">:</span> <span class="token variable">$_FILES</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$server</span> <span class="token operator">=</span> <span class="token variable">$server</span> <span class="token operator">?</span><span class="token punctuation">:</span> <span class="token variable">$_SERVER</span><span class="token punctuation">;</span>
+    <span class="token variable">$uri</span> <span class="token operator">=</span>
+        <span class="token function">isset</span><span class="token punctuation">(</span><span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'HTTPS'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'HTTPS'</span><span class="token punctuation">]</span> <span class="token operator">===</span> <span class="token string">'on'</span>
+            <span class="token operator">?</span> 'https<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//'</span>
+            <span class="token punctuation">:</span> 'http<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//';</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isset</span><span class="token punctuation">(</span><span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'HTTP_HOST'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token variable">$uri</span> <span class="token punctuation">.</span><span class="token operator">=</span> <span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'HTTP_HOST'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token variable">$uri</span> <span class="token punctuation">.</span><span class="token operator">=</span>
+            <span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'SERVER_NAME'</span><span class="token punctuation">]</span> <span class="token punctuation">.</span>
+            <span class="token punctuation">(</span><span class="token function">isset</span><span class="token punctuation">(</span><span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'SERVER_PORT'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+            <span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'SERVER_PORT'</span><span class="token punctuation">]</span> <span class="token operator">!==</span> <span class="token string">'80'</span> <span class="token operator">&amp;&amp;</span>
+            <span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'SERVER_PORT'</span><span class="token punctuation">]</span> <span class="token operator">!==</span> <span class="token string">'443'</span>
+                <span class="token operator">?</span> <span class="token string">':'</span> <span class="token punctuation">.</span> <span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'SERVER_PORT'</span><span class="token punctuation">]</span>
+                <span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token variable">$uri</span> <span class="token punctuation">.</span><span class="token operator">=</span> <span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'REQUEST_URI'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token variable">$protocol</span> <span class="token operator">=</span> <span class="token string">'1.1'</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isset</span><span class="token punctuation">(</span><span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'SERVER_PROTOCOL'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">preg_match</span><span class="token punctuation">(</span>
+            <span class="token string">'|^(HTTP/)?(?P&lt;version>[1-9]\d*(?:\.\d)?)$|'</span><span class="token punctuation">,</span>
+            <span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'SERVER_PROTOCOL'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token variable">$matches</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$protocol</span> <span class="token operator">=</span> <span class="token variable">$matches</span><span class="token punctuation">[</span><span class="token string">'version'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">static</span><span class="token punctuation">(</span>
+        <span class="token variable">$server</span><span class="token punctuation">,</span>
+        <span class="token variable">$files</span><span class="token punctuation">,</span>
+        <span class="token variable">$uri</span><span class="token punctuation">,</span>
+        <span class="token variable">$server</span><span class="token punctuation">[</span><span class="token string">'REQUEST_METHOD'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        'php<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//input',</span>
+        Functions<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">parseHeaders</span><span class="token punctuation">(</span><span class="token variable">$server</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token variable">$cookies</span> <span class="token operator">?</span><span class="token punctuation">:</span> <span class="token variable">$_COOKIE</span><span class="token punctuation">,</span>
+        <span class="token variable">$query</span> <span class="token operator">?</span><span class="token punctuation">:</span> <span class="token variable">$_GET</span><span class="token punctuation">,</span>
+        <span class="token variable">$body</span> <span class="token operator">?</span><span class="token punctuation">:</span> <span class="token variable">$_POST</span><span class="token punctuation">,</span>
+        <span class="token variable">$protocol</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>首先是使用 <code>Functions::convertFiles</code> 方法将 <code>$_FILES</code> 关联数组转化到 <code>UploadFile</code> 数组，转化的步骤就不说明了，就是将数组的结构封装到对象（之所以要这么做是为了遵循 PSR 标准）。</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">function</span> <span class="token function">convertFiles</span><span class="token punctuation">(</span><span class="token keyword">array</span> <span class="token variable">$files</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">array</span>
+<span class="token punctuation">{</span>
+    <span class="token variable">$result</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$files</span> <span class="token keyword">as</span> <span class="token variable">$key</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token variable">$value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$value</span> <span class="token keyword">instanceof</span> <span class="token class-name">UploadedFileInterface</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$result</span><span class="token punctuation">[</span><span class="token variable">$key</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token variable">$value</span><span class="token punctuation">;</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>
+            <span class="token function">is_array</span><span class="token punctuation">(</span><span class="token variable">$value</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+            <span class="token function">isset</span><span class="token punctuation">(</span><span class="token variable">$value</span><span class="token punctuation">[</span><span class="token string">'tmp_name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+            <span class="token function">is_array</span><span class="token punctuation">(</span><span class="token variable">$value</span><span class="token punctuation">[</span><span class="token string">'tmp_name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$result</span><span class="token punctuation">[</span><span class="token variable">$key</span><span class="token punctuation">]</span> <span class="token operator">=</span> self<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">resolveStructure</span><span class="token punctuation">(</span><span class="token variable">$value</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">is_array</span><span class="token punctuation">(</span><span class="token variable">$value</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">isset</span><span class="token punctuation">(</span><span class="token variable">$value</span><span class="token punctuation">[</span><span class="token string">'tmp_name'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$result</span><span class="token punctuation">[</span><span class="token variable">$key</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">UploadFile</span><span class="token punctuation">(</span>
+                <span class="token variable">$value</span><span class="token punctuation">[</span><span class="token string">'tmp_name'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token variable">$value</span><span class="token punctuation">[</span><span class="token string">'size'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token variable">$value</span><span class="token punctuation">[</span><span class="token string">'error'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token variable">$value</span><span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token variable">$value</span><span class="token punctuation">[</span><span class="token string">'type'</span><span class="token punctuation">]</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">is_array</span><span class="token punctuation">(</span><span class="token variable">$value</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$result</span><span class="token punctuation">[</span><span class="token variable">$key</span><span class="token punctuation">]</span> <span class="token operator">=</span> self<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">convertFiles</span><span class="token punctuation">(</span><span class="token variable">$value</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token variable">$result</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后是拼接 URL，由于 PHP 已经对 URL 进行切割，所以我们还需要拼接回去，以便后续的代码使用。以及 Protocol 的提取。</p>
+<p>由于 PHP 将 <code>Request header</code> 存入了 <code>$_SERVER</code> 为了方便使用，我们需要把 <code>$_SERVER</code> 中带有 <code>HTTP_</code> 前缀的字段都提取出来，这些就是 <code>Request header</code>，同时由于 <code>header</code> 是不区分大小写的，我们直接把 <code>header</code> 的名称转成小写即可。</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">function</span> <span class="token function">parseHeaders</span><span class="token punctuation">(</span><span class="token keyword">array</span> <span class="token variable">$server</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">array</span>
+<span class="token punctuation">{</span>
+    <span class="token variable">$headers</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$server</span> <span class="token keyword">as</span> <span class="token variable">$key</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token variable">$value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">is_string</span><span class="token punctuation">(</span><span class="token variable">$key</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$value</span> <span class="token operator">===</span> <span class="token string">''</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">strpos</span><span class="token punctuation">(</span><span class="token variable">$key</span><span class="token punctuation">,</span> <span class="token string">'HTTP_'</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token variable">$name</span> <span class="token operator">=</span> <span class="token function">str_replace</span><span class="token punctuation">(</span><span class="token string">'_'</span><span class="token punctuation">,</span> <span class="token string">'-'</span><span class="token punctuation">,</span> <span class="token function">strtolower</span><span class="token punctuation">(</span><span class="token function">substr</span><span class="token punctuation">(</span><span class="token variable">$key</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token variable">$headers</span><span class="token punctuation">[</span><span class="token variable">$name</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token variable">$value</span><span class="token punctuation">;</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token variable">$headers</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="new-Request"><a href="#new-Request" class="headerlink" title="new Request"></a>new Request</h3><p>有了上面的一些基础的信息，就可以正式的创建 <code>Request</code> 对象的：</p>
+<pre class="line-numbers highlight language-php"><code class="language-php"><span class="token delimiter">&lt;?php</span>
+<span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span>
+    <span class="token keyword">array</span> <span class="token variable">$server</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token keyword">array</span> <span class="token variable">$files</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token variable">$uri</span> <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">,</span>
+    string <span class="token variable">$method</span> <span class="token operator">=</span> <span class="token string">'GET'</span><span class="token punctuation">,</span>
+    <span class="token variable">$body</span> <span class="token operator">=</span> 'php<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//input',</span>
+    <span class="token keyword">array</span> <span class="token variable">$headers</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token keyword">array</span> <span class="token variable">$cookies</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token keyword">array</span> <span class="token variable">$query</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token variable">$parsed_body</span> <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    string <span class="token variable">$protocol</span> <span class="token operator">=</span> <span class="token string">'1.1'</span>
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">validateFiles</span><span class="token punctuation">(</span><span class="token variable">$files</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$body</span> <span class="token operator">===</span> 'php<span class="token punctuation">:</span><span class="token comment" spellcheck="true">//input') {</span>
+        <span class="token variable">$body</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stream</span><span class="token punctuation">(</span><span class="token variable">$body</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">setMethod</span><span class="token punctuation">(</span><span class="token variable">$method</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$uri</span> <span class="token keyword">instanceof</span> <span class="token class-name">UriInterface</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">uri</span> <span class="token operator">=</span> <span class="token variable">$uri</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">uri</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Uri</span><span class="token punctuation">(</span><span class="token variable">$uri</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$body</span> <span class="token keyword">instanceof</span> <span class="token class-name">StreamInterface</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">stream</span> <span class="token operator">=</span> <span class="token variable">$body</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">stream</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stream</span><span class="token punctuation">(</span><span class="token variable">$body</span><span class="token punctuation">,</span> <span class="token string">'wb+'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">setHeaders</span><span class="token punctuation">(</span><span class="token variable">$headers</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">server</span> <span class="token operator">=</span> <span class="token variable">$server</span><span class="token punctuation">;</span>
+    <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">files</span> <span class="token operator">=</span> <span class="token variable">$files</span><span class="token punctuation">;</span>
+    <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">cookies</span> <span class="token operator">=</span> <span class="token variable">$cookies</span><span class="token punctuation">;</span>
+    <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">query</span> <span class="token operator">=</span> <span class="token variable">$query</span><span class="token punctuation">;</span>
+    <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">protocol</span> <span class="token operator">=</span> <span class="token variable">$protocol</span><span class="token punctuation">;</span>
+
+    <span class="token variable">$content_type</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">'Content-Type'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>
+        <span class="token variable">$content_type</span> <span class="token operator">!==</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span>
+        <span class="token function">stripos</span><span class="token punctuation">(</span><span class="token variable">$content_type</span><span class="token punctuation">,</span> <span class="token string">'application/json'</span><span class="token punctuation">)</span> <span class="token operator">!==</span> <span class="token boolean">false</span>
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">parsed_body</span> <span class="token operator">=</span> <span class="token function">array_merge</span><span class="token punctuation">(</span>
+            <span class="token variable">$parsed_body</span><span class="token punctuation">,</span>
+            <span class="token function">json_decode</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">stream</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getContents</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">parsed_body</span> <span class="token operator">=</span> <span class="token variable">$parsed_body</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">hasHeader</span><span class="token punctuation">(</span><span class="token string">'Host'</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">uri</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getHost</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token variable">$host</span> <span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">uri</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getHost</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token variable">$host</span> <span class="token punctuation">.</span><span class="token operator">=</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">uri</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">':'</span> <span class="token punctuation">.</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">uri</span><span class="token operator">-</span><span class="token operator">></span><span class="token function">getPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">headerAlias</span><span class="token punctuation">[</span><span class="token string">'host'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'Host'</span><span class="token punctuation">;</span>
+        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">></span><span class="token property">headers</span><span class="token punctuation">[</span><span class="token string">'Host'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token variable">$host</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>首先需要对 <code>files</code> 进行验证，判断 <code>files</code> 是否实现了 <code>UploadedFileInterface</code>。</p>
+<p>接着就需要对 <code>Request body</code> 进行封装了，<code>Stream</code> 是 <code>StreamInterface</code> 的实现类，提供了对 <code>body</code> 数据流的一些操作方法。</p>
+<p>除了 <code>file</code> 和 <code>body</code>，我们还需要把 <code>url</code> 封装成 <code>Uri</code> 对象，该对象实现了 <code>UriInterface</code>，提供了对 <code>url</code> 的一些操作方法。</p>
+<p>由于请求的方式可能是通过 JSON 的格式传输的，此时 <code>$_POST</code> 就无法获取到这些通过 JSON 传输的数据，所以，我们还需要解析 JSON。</p>
+<p>在 PSR 标准中有说明，当请求没有 <code>Host</code> 头的时候，需要手动设置，保证 <code>Request</code> 对象中存在 <code>Host</code> 头。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>到这里初始化 Request 的部分就完成了。由于博主忙着重写 XK-Editor，所以更新 文章的速度可能会慢一点 2333。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-07-26");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-07-25T15:02:43.000Z" itemprop="datePublished">2020-07-25</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-07-26T00:18:15.539Z" itemprop="dateModified">2020-07-26</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/PHP/" rel="tag">#&nbsp;PHP</a>
+
+<a class="post-tags-list-item" href="/tags/XK-PHP/" rel="tag">#&nbsp;XK-PHP</a>
+
+<a class="post-tags-list-item" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">#&nbsp;框架</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/add-simple-store-for-vue3.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">为 Vue3 添加一个简单的 Store</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
