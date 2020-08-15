@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>浅谈缓存 | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="浅谈缓存 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talking-about-cache.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言原本是打算写并发相关的文章的，但是目前知识储备还不足，所以就先咕咕了。缓存相对简单点，就先水一篇了 🤣。 什么是缓存？作用？缓存（Cache）是用于数据交互的缓冲层，用于提高常用数据的读取速度，缓存非常常见，如 CPU 中的 L1 L2 L3 缓存，浏览器的静态资源缓存等。本篇主要围绕着后端缓存，硬件缓存之类的就不涉及了（我也不懂.jpg）。 缓存一般是用于在读多写少的场景下加快数据的获取， - Otstar Lin - 青空之蓝"><meta name="keywords" content="浅谈, 缓存"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/08/20200813134026.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/08/20200813141750.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/08/20200813141544.png"><meta property="article:published_time" content="2020-08-13T06:21:25.000Z"><meta property="article:modified_time" content="2020-08-15T09:27:47.336Z"><meta property="og:updated_time" content="2020-08-15T09:27:47.336Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="浅谈, 缓存"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/talking-about-cache.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/talking-about-cache.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/talking-about-cache.html"
+    },
+    "headline": "浅谈缓存 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-08-13T06:21:25.000Z",
+    "dateModified": "2020-08-15T09:27:47.336Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "浅谈, 缓存",
+    "description": "前言原本是打算写并发相关的文章的，但是目前知识储备还不足，所以就先咕咕了。缓存相对简单点，就先水一篇了 🤣。 什么是缓存？作用？缓存（Cache）是用于数据交互的缓冲层，用于提高常用数据的读取速度，缓存非常常见，如 CPU 中的 L1 L2 L3 缓存，浏览器的静态资源缓存等。本篇主要围绕着后端缓存，硬件缓存之类的就不涉及了（我也不懂.jpg）。 缓存一般是用于在读多写少的场景下加快数据的获取， - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=浅谈缓存" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=浅谈缓存&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=浅谈缓存" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB4klEQVR42u3awa7DIAxE0fz/T7+3rSI8M26zAOdmU6lNxKnkALa5/ja8LlCgQIFaoC5xfd6z+qyevz8XjwNqDGoZdLfvL3NVz6/+SDUOqFmo+wAuqFfPru5PxwH1PtTq91WQVy8BKFCrIJYTn7kH1PtQnQVVTZpug/jILgHU9ii1cXvy87FsBtTWKFt0UJOdCN7qt0eqLqC2RqlArCbTBKo2hWUCC2oUqpM8JNgKJZNXUCNQyWCu4JHC3aYP1ByUekAV7tV3anK1kyeoo1FJ8pgWO5LEtMKCmoNSTSL3MriGZVroBzULlTZ7qk2am3xbjQFQ41CdYocriiVN8XhBBjUClTS5u5tDm1SAGoHqJJxJwqCSULuYgxqFqgZKD3gljWwb9KDGoNxkmASwuzdZlEHNQLkCfFrUSDZ0X1VdQB2NShIF92fSQ1+2iwXqaFTSkO4Es9tARoEO6nhUpwH5zaSaNAlAzUS5JCJZWDtJRnQiFtRRqLRBlLwUnSLZz4dPQW2LSg4aq+BVE2P7gBioMaikgZ0ezkoOsUYn90Edj3LNxaSQnzSO1OQK6l2otKDaOaATFThAjUZ1ElAV1HEyCupolEoYOsXWZAEHNR/1S2E1OYDjCvygZqF2ukCBAgXq4/oHtWDwwISJ7sYAAAAASUVORK5CYII=" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">浅谈缓存</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-08-13</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=浅谈缓存&url=https://hexo.ixk.me/talking-about-cache.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=浅谈缓存&url=https://hexo.ixk.me/talking-about-cache.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/talking-about-cache.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/talking-about-cache.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/talking-about-cache.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/talking-about-cache.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/talking-about-cache.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB4klEQVR42u3awa7DIAxE0fz/T7+3rSI8M26zAOdmU6lNxKnkALa5/ja8LlCgQIFaoC5xfd6z+qyevz8XjwNqDGoZdLfvL3NVz6/+SDUOqFmo+wAuqFfPru5PxwH1PtTq91WQVy8BKFCrIJYTn7kH1PtQnQVVTZpug/jILgHU9ii1cXvy87FsBtTWKFt0UJOdCN7qt0eqLqC2RqlArCbTBKo2hWUCC2oUqpM8JNgKJZNXUCNQyWCu4JHC3aYP1ByUekAV7tV3anK1kyeoo1FJ8pgWO5LEtMKCmoNSTSL3MriGZVroBzULlTZ7qk2am3xbjQFQ41CdYocriiVN8XhBBjUClTS5u5tDm1SAGoHqJJxJwqCSULuYgxqFqgZKD3gljWwb9KDGoNxkmASwuzdZlEHNQLkCfFrUSDZ0X1VdQB2NShIF92fSQ1+2iwXqaFTSkO4Es9tARoEO6nhUpwH5zaSaNAlAzUS5JCJZWDtJRnQiFtRRqLRBlLwUnSLZz4dPQW2LSg4aq+BVE2P7gBioMaikgZ0ezkoOsUYn90Edj3LNxaSQnzSO1OQK6l2otKDaOaATFThAjUZ1ElAV1HEyCupolEoYOsXWZAEHNR/1S2E1OYDjCvygZqF2ukCBAgXq4/oHtWDwwISJ7sYAAAAASUVORK5CYII=" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是缓存？作用？"><span class="post-toc-number">2.</span> <span class="post-toc-text">什么是缓存？作用？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一些常见的缓存算法-amp-策略"><span class="post-toc-number">3.</span> <span class="post-toc-text">一些常见的缓存算法 &amp; 策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基于访问时间"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">基于访问时间</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基于访问频率"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">基于访问频率</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基于访问时间与频率"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">基于访问时间与频率</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基于访问模式"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">基于访问模式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一些名词-amp-解释"><span class="post-toc-number">4.</span> <span class="post-toc-text">一些名词 &amp; 解释</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#缓存穿透"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">缓存穿透</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#是什么？"><span class="post-toc-number">4.1.1.</span> <span class="post-toc-text">是什么？</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#带来的问题"><span class="post-toc-number">4.1.2.</span> <span class="post-toc-text">带来的问题</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#解决方案"><span class="post-toc-number">4.1.3.</span> <span class="post-toc-text">解决方案</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#缓存击穿"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">缓存击穿</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#是什么？-1"><span class="post-toc-number">4.2.1.</span> <span class="post-toc-text">是什么？</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#带来的问题-1"><span class="post-toc-number">4.2.2.</span> <span class="post-toc-text">带来的问题</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#解决方案-1"><span class="post-toc-number">4.2.3.</span> <span class="post-toc-text">解决方案</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#缓存雪崩"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">缓存雪崩</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#是什么？-2"><span class="post-toc-number">4.3.1.</span> <span class="post-toc-text">是什么？</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#带来的问题-2"><span class="post-toc-number">4.3.2.</span> <span class="post-toc-text">带来的问题</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#解决方案-2"><span class="post-toc-number">4.3.3.</span> <span class="post-toc-text">解决方案</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">5.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>原本是打算写并发相关的文章的，但是目前知识储备还不足，所以就先咕咕了。缓存相对简单点，就先水一篇了 🤣。</p>
+<h2 id="什么是缓存？作用？"><a href="#什么是缓存？作用？" class="headerlink" title="什么是缓存？作用？"></a>什么是缓存？作用？</h2><p>缓存（Cache）是用于数据交互的缓冲层，用于提高常用数据的读取速度，缓存非常常见，如 CPU 中的 L1 L2 L3 缓存，浏览器的静态资源缓存等。本篇主要围绕着后端缓存，硬件缓存之类的就不涉及了（我也不懂.jpg）。</p>
+<p>缓存一般是用于在读多写少的场景下加快数据的获取，起加速作用。不过缓存其实还有另外的作用，如在高并发的场景下起到保护后端薄弱部分（数据库等）的作用。</p>
+<h2 id="一些常见的缓存算法-amp-策略"><a href="#一些常见的缓存算法-amp-策略" class="headerlink" title="一些常见的缓存算法 &amp; 策略"></a>一些常见的缓存算法 &amp; 策略</h2><h3 id="基于访问时间"><a href="#基于访问时间" class="headerlink" title="基于访问时间"></a>基于访问时间</h3><ul>
+<li><strong>LRU (最近最少使用)：</strong>通过一个缓存队列，按每项的最后被访问时间排序。当缓存满了的时候删除队尾，即最后一次被访问时间距现在最久的项。当某个项被使用的时候，则将该项移至队首。</li>
+</ul>
+<h3 id="基于访问频率"><a href="#基于访问频率" class="headerlink" title="基于访问频率"></a>基于访问频率</h3><ul>
+<li><strong>LFU (最近最少使用)：</strong>通过一个缓存队列，按每个缓存块的被访问频率将缓存中的各块排序，当缓存满了替换掉缓存队列中访问频率最低的一项。</li>
+<li><strong>LRU-K：</strong>是一种 LRU 算法的增强版，LRU 队列的基础上，再添加一个队列维护数据访问的次数，由原来访问 1 次会被添加到缓存中，改为访问 K 次才会被加入到缓存中。</li>
+</ul>
+<h3 id="基于访问时间与频率"><a href="#基于访问时间与频率" class="headerlink" title="基于访问时间与频率"></a>基于访问时间与频率</h3><ul>
+<li><strong>ARC：</strong>兼顾访问时间与频率，使得在数据访问模式变化时缓存策略仍有较好性能。</li>
+</ul>
+<h3 id="基于访问模式"><a href="#基于访问模式" class="headerlink" title="基于访问模式"></a>基于访问模式</h3><p>有些应用有特性的数据访问特点，可以通过制定一个与之匹配的模式来实现高效缓存。</p>
+<h2 id="一些名词-amp-解释"><a href="#一些名词-amp-解释" class="headerlink" title="一些名词 &amp; 解释"></a>一些名词 &amp; 解释</h2><h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><h4 id="是什么？"><a href="#是什么？" class="headerlink" title="是什么？"></a>是什么？</h4><p>一般情况下，我们从 API 或数据库等高耗时操作取得数据后才会对值进行缓存，如果没有获取值就不进行缓存，而这时候如果我没读取一条不存在的数据，那么该请求每次都会绕过缓存而打到缓存后的数据库或 API，这个过程就被称为缓存穿透，如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/08/20200813134026.png" alt=""></p>
+<h4 id="带来的问题"><a href="#带来的问题" class="headerlink" title="带来的问题"></a>带来的问题</h4><p>当系统并发量大并且空值的查询多的时候，大部分请求会打到缓存后的薄弱部分，通常会导致数据库或 API 承受不住而导致不稳定或崩溃。</p>
+<p>黑客可以通过这一漏洞对系统进行攻击，造成重大损失。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>这一问题是不缓存空值导致的，那么我们对空值进行缓存即可解决。这种方案有一定局限性，当产生空值的范围很大的时候，这一方案就不太适用了，此时黑客可以利用不断变化查询的 key 达到爆缓存的效果。</p>
+<p>还有一种方案是采用布隆过滤器，利用布隆过滤器来判断值是否存在，当从布隆过滤器中得知有值的时候才进入缓存和数据库，否则则直接返回不存在。通常利用这种方法来解决上述爆缓存的问题，但是布隆过滤器有误判几率，所以要依系统的特性选择合适的方案。</p>
+<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><h4 id="是什么？-1"><a href="#是什么？-1" class="headerlink" title="是什么？"></a>是什么？</h4><p>缓存击穿指的是当大量请求正好请求某一个 key 的数据的时候，而这个 key 又刚好失效的时候，这些大量请求会打到数据库或 API 上，这过程就称为缓存击穿。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/08/20200813141750.png" alt=""></p>
+<h4 id="带来的问题-1"><a href="#带来的问题-1" class="headerlink" title="带来的问题"></a>带来的问题</h4><p>会造成某个时刻数据库或 API 的压力剧增，甚至崩溃的情况发生。</p>
+<h4 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h4><p>如果该数据是因为时间过期导致失效，那么就应使用访问频率方式缓存。</p>
+<p>如果该数据是因为更新而导致失效，那么可以通过加读锁使请求等待缓存更新完毕。或者使用 CAS 操作，当值更新完毕的时候就替换掉旧的缓存。</p>
+<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><h4 id="是什么？-2"><a href="#是什么？-2" class="headerlink" title="是什么？"></a>是什么？</h4><p>与缓存击穿类似，都是由于缓存失效导致的问题，不过雪崩指的就是大量的缓存失效。常见的有缓存服务器挂掉，缓存过期时间设置不当（同一时间过期）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/08/20200813141544.png" alt=""></p>
+<h4 id="带来的问题-2"><a href="#带来的问题-2" class="headerlink" title="带来的问题"></a>带来的问题</h4><p>在高并发的情况下，一旦出现缓存雪崩，有极大的可能会导致缓存后的服务直接崩溃。</p>
+<h4 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案"></a>解决方案</h4><p>采用集群缓存的方式，当某一条缓存服务器失效的时候还有其他缓存服务器可以顶替。</p>
+<p>当缓存服务器失效后就对服务进行降级和限流，通过降低体验来防止后端服务挂掉导致完全不可用的状况发生。</p>
+<p>避免设置相同的过期时间，应使缓存的数据错峰失效。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>本篇文章主要是对缓存进行介绍，其实就是一些名词解释 🤣，后续可能会写一些关于 Redis 和其他缓存系统的介绍和使用，不过应该要等我肝完并发系列的文章和 PHP 框架的文章才会写吧。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-08-15");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-08-13T06:21:25.000Z" itemprop="datePublished">2020-08-13</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-08-15T09:27:47.336Z" itemprop="dateModified">2020-08-15</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/%E6%B5%85%E8%B0%88/" rel="tag">#&nbsp;浅谈</a>
+
+<a class="post-tags-list-item" href="/tags/%E7%BC%93%E5%AD%98/" rel="tag">#&nbsp;缓存</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/spring-quickly-inject-json-parameters.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">无须定义类，Spring 快速注入 Json 参数</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>

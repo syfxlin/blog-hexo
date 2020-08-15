@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>标签: 从零实现 | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="标签: 从零实现 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="website"><meta property="og:url" content="https://hexo.ixk.me/tags/%E4%BB%8E%E9%9B%B6%E5%AE%9E%E7%8E%B0/"><meta property="og:locale" content="zh-CN"><meta name="description" content="Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_ - Otstar Lin - 青空之蓝">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/tags/%E4%BB%8E%E9%9B%B6%E5%AE%9E%E7%8E%B0/">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB1ElEQVR42u3bwZKDIBCEYd//pXevyS5M96gHaH4vSVlRv1QRGBpy/Sx4XKBAgQI1QF3F8XWBODe69vPzznNA5aCGje7PDWfvR9ePYNZzQEWhZo109mDV+P81YvEcUGeiOuDqWlCg7jT60Q8A1Fmo2UA5K9iqc7NB+rUqAdTyqKqgf/P1tdkMqKVRMnSYdIJqEFafe5S6gFoaVTXEClIFGW5DB3UGqgolqrDC6YTloA0qBqUasir+nc7TmciCykCpScPsJrNOthPyt6oEUNug3IZZhRhqkcm5B6gcVAfiLkx2vgSoPJS7CKk6ywrinAOVg3Iatir2nBDXCUpA5aBU+OVMPp2wX3a2oKJQncZ7d5GpXSWA2hZVhVxuQDYbbN2CEVQWqrNY1J2AqkVIUHkoZ6OyCludjlH9CEDlodyQ/85GVPUeVB5KFWjqoSpYcwN+UHmop0FrpwBs7YgFtS1KLWI/+XOGMzEBlYFyJw9OwVYVf1YIAioCZW00NhetnWLOCjhAbY9yN+F0BvE7E1JQWahqsK1CtG7gUQ7eoI5BOYczaMuJBahjUCokczYPquIPVB7K3dTlLlCqIBdUNsoNMZzFSScgay8YgdoKtdIBChQoUB/HL6rl78/EhifsAAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            <div class="container">
+    <div class="main-container">
+        <main>
+            <!-- # Title # -->
+            <h2 class="page-title">标签 : 从零实现</h2>
+            <!-- # Post List # -->
+            <div class="post-stream-container">
+                
+                    <article class="post-entry container px-0 card">
+        <div class="columns col-gapless">
+            
+                <div class="column col-12">
+                    
+    <h2 class="h5 mb-0 card-header"><a class="card-title" href="/implement-a-php-microframework-from-zero-6.html" rel="bookmark">从零实现一个 PHP 微框架 - 初始化请求</a></h2>
+
+
+<p class="mb-0 card-body">
+    
+        前言更新一波文章。
+这次的内容相对简单点，初始化请求的过程包括封装 $_...
+    <a href="/implement-a-php-microframework-from-zero-6.html">阅读全文</a>
+</p>
+
+
+
+
+    <!-- Date & Category -->
+    <div class="card-footer post-entry-info text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <time>2020-07-25</time>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+    </div>
+
+                </div>
+            
+        </div>
+</article>
+
+                
+                    <article class="post-entry container px-0 card">
+        <div class="columns col-gapless">
+            
+                <div class="column col-12">
+                    
+    <h2 class="h5 mb-0 card-header"><a class="card-title" href="/implement-a-php-microframework-from-zero-5.html" rel="bookmark">从零实现一个 PHP 微框架 - 服务提供者</a></h2>
+
+
+<p class="mb-0 card-body">
+    
+        前言考试在两周前就结束了，因为一直在填坑 
+    <a href="/implement-a-php-microframework-from-zero-5.html">阅读全文</a>
+</p>
+
+
+
+
+    <!-- Date & Category -->
+    <div class="card-footer post-entry-info text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <time>2020-07-10</time>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+    </div>
+
+                </div>
+            
+        </div>
+</article>
+
+                
+                    <article class="post-entry container px-0 card">
+        <div class="columns col-gapless">
+            
+                <div class="column col-12">
+                    
+    <h2 class="h5 mb-0 card-header"><a class="card-title" href="/implement-a-php-microframework-from-zero-4.html" rel="bookmark">从零实现一个 PHP 微框架 - Bootstrap 启动加载</a></h2>
+
+
+<p class="mb-0 card-body">
+    
+        前言抽了个空更新一下，给博客除除草。
+Laravel 框架中在启动的时候，会依次调用...
+    <a href="/implement-a-php-microframework-from-zero-4.html">阅读全文</a>
+</p>
+
+
+
+
+    <!-- Date & Category -->
+    <div class="card-footer post-entry-info text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <time>2020-06-18</time>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+    </div>
+
+                </div>
+            
+        </div>
+</article>
+
+                
+                    <article class="post-entry container px-0 card">
+        <div class="columns col-gapless">
+            
+                <div class="column col-12">
+                    
+    <h2 class="h5 mb-0 card-header"><a class="card-title" href="/implement-a-php-microframework-from-zero-3.html" rel="bookmark">从零实现一个 PHP 微框架 - IoC 容器</a></h2>
+
+
+<p class="mb-0 card-body">
+    
+        前言差不多该写写该系列文章了，咕了好几天 🤣。
+在 XK-PHP 中 IoC 容器...
+    <a href="/implement-a-php-microframework-from-zero-3.html">阅读全文</a>
+</p>
+
+
+
+
+    <!-- Date & Category -->
+    <div class="card-footer post-entry-info text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <time>2020-05-13</time>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+    </div>
+
+                </div>
+            
+        </div>
+</article>
+
+                
+                    <article class="post-entry container px-0 card">
+        <div class="columns col-gapless">
+            
+                <div class="column col-12">
+                    
+    <h2 class="h5 mb-0 card-header"><a class="card-title" href="/implement-a-php-microframework-from-zero-2.html" rel="bookmark">从零实现一个 PHP 微框架 - PSR & Composer</a></h2>
+
+
+<p class="mb-0 card-body">
+    
+        什么是 PSR？如果你不是刚入门 PHP 新手，那么你应该已经...
+    <a href="/implement-a-php-microframework-from-zero-2.html">阅读全文</a>
+</p>
+
+
+
+
+    <!-- Date & Category -->
+    <div class="card-footer post-entry-info text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <time>2020-05-09</time>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+    </div>
+
+                </div>
+            
+        </div>
+</article>
+
+                
+                    <article class="post-entry container px-0 card">
+        <div class="columns col-gapless">
+            
+                <div class="column col-12">
+                    
+    <h2 class="h5 mb-0 card-header"><a class="card-title" href="/implement-a-php-microframework-from-zero-1.html" rel="bookmark">从零实现一个 PHP 微框架 - 前言</a></h2>
+
+
+<p class="mb-0 card-body">
+    
+        前言前不久为了准备用 PHP（原本打算是用 Spring，但是还不太会 233） 写一个博客项目，...
+    <a href="/implement-a-php-microframework-from-zero-1.html">阅读全文</a>
+</p>
+
+
+
+
+    <!-- Date & Category -->
+    <div class="card-footer post-entry-info text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <time>2020-05-07</time>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+    </div>
+
+                </div>
+            
+        </div>
+</article>
+
+                
+            </div>
+        </main>
+        
+
+    </div>
+</div>
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
