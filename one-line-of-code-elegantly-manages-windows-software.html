@@ -152,7 +152,7 @@
     <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- ### The Open Graph & Twitter Card Protocol ### -->
-    <meta property="og:title" content="「一行代码」优雅管理 Windows 软件 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="想必小伙伴们苦恼 Windows 下没有和 Ubuntu 等 Linux 下方便的包管理吧，不过经过较长时间的体验我觉得 Scoop 可能是 Windows 上体验最好的「包管理器」。 那么如何安装 Scoop 呢？首先你需要打开 PowerShell ，然后输入以下命令允许执行本地脚本。 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Sco - Otstar Lin - 青空之蓝"><meta name="keywords" content="Develop, Windows, Scoop, 包管理器"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163007.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163801.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122164748.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122165118.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122170708.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122172809.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122173220.png"><meta property="article:published_time" content="2020-01-22T10:02:38.000Z"><meta property="article:modified_time" content="2020-09-03T00:09:16.096Z"><meta property="og:updated_time" content="2020-09-03T00:09:16.096Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Develop, Windows, Scoop, 包管理器"><meta name="twitter:card" content="summary">
+    <meta property="og:title" content="「一行代码」优雅管理 Windows 软件 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/one-line-of-code-elegantly-manages-windows-software.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="想必小伙伴们苦恼 Windows 下没有和 Ubuntu 等 Linux 下方便的包管理吧，不过经过较长时间的体验我觉得 Scoop 可能是 Windows 上体验最好的「包管理器」。 那么如何安装 Scoop 呢？首先你需要打开 PowerShell ，然后输入以下命令允许执行本地脚本。 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Sco - Otstar Lin - 青空之蓝"><meta name="keywords" content="Develop, Windows, Scoop, 包管理器"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163007.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163801.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122164748.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122165118.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122170708.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122172809.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122173220.png"><meta property="article:published_time" content="2020-01-22T10:02:38.000Z"><meta property="article:modified_time" content="2020-09-04T00:01:41.784Z"><meta property="og:updated_time" content="2020-09-04T00:01:41.784Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Develop, Windows, Scoop, 包管理器"><meta name="twitter:card" content="summary">
 
     
 
@@ -193,7 +193,7 @@
     },
     
     "datePublished": "2020-01-22T10:02:38.000Z",
-    "dateModified": "2020-09-03T00:09:16.096Z",
+    "dateModified": "2020-09-04T00:01:41.784Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -450,12 +450,12 @@ scoop help
 <p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163007.png" alt=""></p>
 <p>这说明了 Scoop 安装成功了，通过 Scoop 安装的软件默认会位于 <code>C:\Users\&lt;user&gt;\scoop</code> 如果是安装到 <code>global</code> 环境的是 <code>C:\ProgramData\scoop</code>。</p>
 <p>Scoop 安装成功后我们就可以利用它来安装其他软件了，Scoop 的命令和 Linux 下的包管理器非常类似都是「<code>scoop</code> + 动作 + 对象」的语法，比较常用的动作主要是以下几种操作。</p>
-<h2 id="Scoop-常用操作"><a href="#Scoop-常用操作" class="headerlink" title="Scoop 常用操作"></a>Scoop 常用操作</h2><p>🌰 <strong>搜索</strong>，比如我们不清楚 Scoop 中是否有我们想要的软件或者不清楚 Scoop 中软件的名称，就可以使用 <code>scoop search &lt;app&gt;</code> 来查找软件。</p>
+<h2 id="Scoop-常用操作"><a href="#Scoop-常用操作" class="headerlink" title="Scoop 常用操作"></a>Scoop 常用操作</h2><p>? <strong>搜索</strong>，比如我们不清楚 Scoop 中是否有我们想要的软件或者不清楚 Scoop 中软件的名称，就可以使用 <code>scoop search &lt;app&gt;</code> 来查找软件。</p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 搜索软件</span>
 scoop search aria2
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122163801.png" alt=""></p>
-<p>🌰 <strong>查看软件相关信息</strong>，当我们通过搜索找到软件的名称，但是不确定是否是该软件的时候，我们就可以通过 <code>scoop [info|home] &lt;app&gt;</code> 进一步确认软件</p>
+<p>? <strong>查看软件相关信息</strong>，当我们通过搜索找到软件的名称，但是不确定是否是该软件的时候，我们就可以通过 <code>scoop [info|home] &lt;app&gt;</code> 进一步确认软件</p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 查看软件信息</span>
 scoop info firefox
 
@@ -463,7 +463,7 @@ scoop info firefox
 scoop home firefox
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122164748.png" alt=""></p>
-<p>🌰 <strong>安装</strong>，确认软件了，我们就可以开始安装了 <code>scoop install &lt;app&gt;</code>，<strong>注意</strong>：Scoop 偶尔 可能会因为网络错误安装失败，但是 Scoop 会显示已安装，这时可以用 <code>scoop uninstall &lt;app&gt;</code> 卸载，然后再次安装</p>
+<p>? <strong>安装</strong>，确认软件了，我们就可以开始安装了 <code>scoop install &lt;app&gt;</code>，<strong>注意</strong>：Scoop 偶尔 可能会因为网络错误安装失败，但是 Scoop 会显示已安装，这时可以用 <code>scoop uninstall &lt;app&gt;</code> 卸载，然后再次安装</p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 安装软件</span>
 scoop install aria2
 
@@ -473,7 +473,7 @@ scoop install sudo
 sudo scoop install <span class="token operator">-</span>g aria2
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122165118.png" alt=""></p>
-<p>🌰 <strong>卸载</strong>，安装后如果不喜欢这个软件怎么办？当然是卸载呀，那么 Scoop 如何卸载呢，很简单 <code>scoop uninstall &lt;app&gt;</code> 即可完成卸载，不过作为 Debian Apt 党怎么可能喜欢 <code>uninstall</code> ，<code>remove</code> 走起(。・∀・)ノ</p>
+<p>? <strong>卸载</strong>，安装后如果不喜欢这个软件怎么办？当然是卸载呀，那么 Scoop 如何卸载呢，很简单 <code>scoop uninstall &lt;app&gt;</code> 即可完成卸载，不过作为 Debian Apt 党怎么可能喜欢 <code>uninstall</code> ，<code>remove</code> 走起(。・∀・)ノ</p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 卸载软件</span>
 scoop uninstall aria2
 
@@ -485,7 +485,7 @@ scoop alias <span class="token function">rm</span> remove
 scoop remove aria2
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122170708.png" alt=""></p>
-<p>🌰 <strong>升级</strong>，那么软件有新版了如何升级呢？用 <code>scoop update &lt;app&gt;</code> 就可以了，那我要一键升级所有的软件呢？用 <code>scoop update *</code> ，或者可以添加 upgrade 的别名，那我的一个软件不想升级怎么办？可以利用 <code>scoop hold &lt;app&gt;</code> 放置某个软件更新</p>
+<p>? <strong>升级</strong>，那么软件有新版了如何升级呢？用 <code>scoop update &lt;app&gt;</code> 就可以了，那我要一键升级所有的软件呢？用 <code>scoop update *</code> ，或者可以添加 upgrade 的别名，那我的一个软件不想升级怎么办？可以利用 <code>scoop hold &lt;app&gt;</code> 放置某个软件更新</p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 升级一个软件</span>
 scoop update aria2
 
@@ -502,14 +502,14 @@ scoop hold aria2
 <span class="token comment" spellcheck="true"># 允许软件更新</span>
 scoop unhold aria2
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>🌰 <strong>清除旧版本</strong>，升级后 Scoop 并不会自动删除旧版本，而只是将当前版本切换到新版，当我们需要删除的时候就可以使用 <code>scoop cleanup [&lt;app&gt;]</code> 清除旧版本</p>
+<p>? <strong>清除旧版本</strong>，升级后 Scoop 并不会自动删除旧版本，而只是将当前版本切换到新版，当我们需要删除的时候就可以使用 <code>scoop cleanup [&lt;app&gt;]</code> 清除旧版本</p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 清除单个软件的旧版本</span>
 scoop cleanup aria2
 
 <span class="token comment" spellcheck="true"># 清楚所有安装软件的旧版本</span>
 scoop cleanup
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>🌰 <strong>切换版本</strong>，有时候我们需要使用到旧版的软件怎么办？比如 Python3 和 Python2 的切换，这时我们可以用 <code>scoop reset &lt;app&gt;@&lt;version&gt;</code></p>
+<p>? <strong>切换版本</strong>，有时候我们需要使用到旧版的软件怎么办？比如 Python3 和 Python2 的切换，这时我们可以用 <code>scoop reset &lt;app&gt;@&lt;version&gt;</code></p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 我个人比较推荐的方式</span>
 scoop reset php@7<span class="token punctuation">.</span>4<span class="token punctuation">.</span>1
 
@@ -517,23 +517,23 @@ scoop reset php@7<span class="token punctuation">.</span>4<span class="token pun
 scoop reset python27
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122172809.png" alt=""></p>
-<p>🌰 <strong>检查状态</strong>，有时候我们不想直接升级，而是想看看是否有新版本，或者有的应用安装失败需要重新安装的我们没注意到怎么办？用 <code>scoop status</code> 就行啦</p>
+<p>? <strong>检查状态</strong>，有时候我们不想直接升级，而是想看看是否有新版本，或者有的应用安装失败需要重新安装的我们没注意到怎么办？用 <code>scoop status</code> 就行啦</p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 检查状态</span>
 scoop status
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/01/20200122173220.png" alt=""></p>
-<p>🌰 <strong>列出已安装软件列表</strong></p>
+<p>? <strong>列出已安装软件列表</strong></p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 列出已安装软件列表</span>
 scoop list
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>🌰 <strong>添加软件源</strong>，当我们需要的软件不在列表中怎么办？这时我们就可以看看有没有软件源中包含了我们需要的软件，Scoop 的软件源称之为桶 <code>bucket</code> ，在 <a href="https://github.com/rasa/scoop-directory" target="_blank" rel="noopener">rasa/scoop-directory</a> 上可以找到所有的 Scoop 桶，添加桶 <code>scoop bucket add &lt;bucket_name&gt; &lt;bucket_url&gt;</code> ，删除桶 <code>scoop bucket rm &lt;bucket_name&gt;</code></p>
+<p>? <strong>添加软件源</strong>，当我们需要的软件不在列表中怎么办？这时我们就可以看看有没有软件源中包含了我们需要的软件，Scoop 的软件源称之为桶 <code>bucket</code> ，在 <a href="https://github.com/rasa/scoop-directory" target="_blank" rel="noopener">rasa/scoop-directory</a> 上可以找到所有的 Scoop 桶，添加桶 <code>scoop bucket add &lt;bucket_name&gt; &lt;bucket_url&gt;</code> ，删除桶 <code>scoop bucket rm &lt;bucket_name&gt;</code></p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 添加桶</span>
 scoop bucket add extras https:<span class="token operator">/</span><span class="token operator">/</span>github<span class="token punctuation">.</span>com<span class="token operator">/</span>lukesampson<span class="token operator">/</span>scoop<span class="token operator">-</span>extras<span class="token punctuation">.</span>git
 
 <span class="token comment" spellcheck="true"># 删除桶</span>
 scoop bucket <span class="token function">rm</span> extras
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>🌰 <strong>清除缓存</strong></p>
+<p>? <strong>清除缓存</strong></p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 查看缓存</span>
 scoop cache
 scoop cache show aria2
@@ -542,7 +542,7 @@ scoop cache show aria2
 scoop cache <span class="token function">rm</span> <span class="token operator">*</span>
 scoop cache <span class="token function">rm</span> aria2
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>🌰 <strong>别名</strong>，有的时候，我们不喜欢 Scoop 的某些命令，比如 <code>scoop uninstall &lt;app&gt;</code> 怎么办？可以添加别名来解决 <code>scoop alias add &lt;name&gt; &lt;command&gt; &lt;description&gt;</code></p>
+<p>? <strong>别名</strong>，有的时候，我们不喜欢 Scoop 的某些命令，比如 <code>scoop uninstall &lt;app&gt;</code> 怎么办？可以添加别名来解决 <code>scoop alias add &lt;name&gt; &lt;command&gt; &lt;description&gt;</code></p>
 <pre class="line-numbers highlight language-powershell"><code class="language-powershell"><span class="token comment" spellcheck="true"># 添加</span>
 scoop alias add remove <span class="token string">'scoop uninstall $args'</span> <span class="token string">'Uninstall apps'</span>
 
@@ -560,7 +560,7 @@ scoop alias <span class="token function">rm</span> remove
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
     (function() {
-        var dateUpdate = Date.parse("2020-09-03");
+        var dateUpdate = Date.parse("2020-09-04");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -576,7 +576,7 @@ scoop alias <span class="token function">rm</span> remove
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-01-22T10:02:38.000Z" itemprop="datePublished">2020-01-22</time>
 
-    , 最后修改于&nbsp;<time datetime="2020-09-03T00:09:16.096Z" itemprop="dateModified">2020-09-03</time>
+    , 最后修改于&nbsp;<time datetime="2020-09-04T00:01:41.784Z" itemprop="dateModified">2020-09-04</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
