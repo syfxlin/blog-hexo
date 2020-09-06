@@ -152,7 +152,7 @@
     <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- ### The Open Graph & Twitter Card Protocol ### -->
-    <meta property="og:title" content="WSL2 踩坑记录 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/wsl-2-recording.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言前不久 Windows 20H1 正式推送了，我们终于可以用上 WSL2 了，博主因为是 Release 通道的 Insider，所以比其他用户早升级到 20H1，由于之前比较忙，所以一直没折腾 WSL2，直到前天考完了试，并且我之前部署的 Ubuntu 虚拟机总是出现一些问题，于是就打算试试 WSL2。 安装准备环境由于 WSL2 使用的是 Hyper-V 虚拟平台，所以我们需要先开启虚拟机 - Otstar Lin - 青空之蓝"><meta name="keywords" content="Windows, Linux, WSL"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/06/20200628230726.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/06/20200628233731.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/06/20200628235333.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/06/20200628235942.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/06/20200629003358.png"><meta property="article:published_time" content="2020-06-28T17:05:11.000Z"><meta property="article:modified_time" content="2020-09-05T00:01:31.993Z"><meta property="og:updated_time" content="2020-09-05T00:01:31.993Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Windows, Linux, WSL"><meta name="twitter:card" content="summary">
+    <meta property="og:title" content="WSL2 踩坑记录 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/wsl-2-recording.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言前不久 Windows 20H1 正式推送了，我们终于可以用上 WSL2 了，博主因为是 Release 通道的 Insider，所以比其他用户早升级到 20H1，由于之前比较忙，所以一直没折腾 WSL2，直到前天考完了试，并且我之前部署的 Ubuntu 虚拟机总是出现一些问题，于是就打算试试 WSL2。 安装准备环境由于 WSL2 使用的是 Hyper-V 虚拟平台，所以我们需要先开启虚拟机 - Otstar Lin - 青空之蓝"><meta name="keywords" content="Windows, Linux, WSL"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/06/20200628230726.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/06/20200628233731.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/06/20200628235333.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/06/20200628235942.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/06/20200629003358.png"><meta property="article:published_time" content="2020-06-28T17:05:11.000Z"><meta property="article:modified_time" content="2020-09-06T00:01:54.710Z"><meta property="og:updated_time" content="2020-09-06T00:01:54.710Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Windows, Linux, WSL"><meta name="twitter:card" content="summary">
 
     
 
@@ -193,7 +193,7 @@
     },
     
     "datePublished": "2020-06-28T17:05:11.000Z",
-    "dateModified": "2020-09-05T00:01:31.993Z",
+    "dateModified": "2020-09-06T00:01:54.710Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -429,7 +429,7 @@
                     
                         
                         
-                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装"><span class="post-toc-number">2.</span> <span class="post-toc-text">安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#准备环境"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">准备环境</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#准备发行版"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">准备发行版</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#切换-WSL-版本"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">切换 WSL 版本</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#初始化-WSL2"><span class="post-toc-number">3.</span> <span class="post-toc-text">初始化 WSL2</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一些使用技巧"><span class="post-toc-number">4.</span> <span class="post-toc-text">一些使用技巧</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">5.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装"><span class="post-toc-number">2.</span> <span class="post-toc-text">安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#准备环境"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">准备环境</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#准备发行版"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">准备发行版</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#切换-WSL-版本"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">切换 WSL 版本</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#初始化-WSL2"><span class="post-toc-number">3.</span> <span class="post-toc-text">初始化 WSL2</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一些使用技巧"><span class="post-toc-number">4.</span> <span class="post-toc-text">一些使用技巧</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#无意间发现的小特性"><span class="post-toc-number">5.</span> <span class="post-toc-text">无意间发现的小特性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">6.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
                         
                     
                     <article id="post-content">
@@ -516,6 +516,19 @@ docker<span class="token punctuation">.</span>credentials<span class="token punc
 <p>此时你只需要运行以下的命令即可：</p>
 <pre class="line-numbers highlight language-bash"><code class="language-bash"><span class="token function">rm</span> ~/.docker/config.json
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="无意间发现的小特性"><a href="#无意间发现的小特性" class="headerlink" title="无意间发现的小特性"></a>无意间发现的小特性</h2><p>如果你看过 WSL 导出的系统你会发现导出的是 rootfs，而碰巧 docker 导出的容器也是 rootfs，所以理论上是可以通用的，而且 WSL 本来就可以导入 docker 的基础系统（如 Ubuntu 镜像），那么从基础系统上构建的镜像也是可以运行在 WSL 上的。</p>
+<p>由于从 DockerHub 上拉取的是分层的镜像，所以我们需要创建成容器后再导出。</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash">docker run -d --name nginx nginx
+docker <span class="token function">export</span> -o /mnt/f/nginx.tar nginx
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>导出后我们就取得了 nginx 容器的 rootfs，然后通过 lxrunoffline 导入这个 rootfs 到 WSL</p>
+<pre class="line-numbers highlight language-bash"><code class="language-bash">lxrunoffline i -n nginx -d F:\wsl\nginx -f F:\nginx.tar
+wsl --set-version nginx 2 <span class="token comment" spellcheck="true"># 可选</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>导入后就可以启动了</p>
+<pre class="line-numbers highlight language-undefined"><code class="language-undefined">wsl -d nginx
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>博主我稍微测试了下，运行是没有问题的，不过有可能会有坑，如果你不想在 WSL 里跑 docker 的话也可以考虑试试这个方案。</p>
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>WSL2 其实我们可以把它看成是一个轻量的虚拟机平台，介于 Docker 和 VM 间的存在，WSL2 相比于传统的 VM，它的启动速度飞快，同时占用更小，而且自动设置了端口映射和目录挂载，同时导入发行版的速度也比从头安装系统快出许多，我试过导入一个 Ubuntu Core 的镜像，并转成 WSL2，算上打字的延迟，只需要 28s。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/06/20200629003358.png" alt=""></p>
 <p>相比 Docker 虽然差了很多，不过偶尔需要使用非 Docker 的 Linux，也不再需要等待漫长的安装了。</p>
@@ -529,7 +542,7 @@ docker<span class="token punctuation">.</span>credentials<span class="token punc
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
     (function() {
-        var dateUpdate = Date.parse("2020-09-05");
+        var dateUpdate = Date.parse("2020-09-06");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -545,7 +558,7 @@ docker<span class="token punctuation">.</span>credentials<span class="token punc
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-06-28T17:05:11.000Z" itemprop="datePublished">2020-06-29</time>
 
-    , 最后修改于&nbsp;<time datetime="2020-09-05T00:01:31.993Z" itemprop="dateModified">2020-09-05</time>
+    , 最后修改于&nbsp;<time datetime="2020-09-06T00:01:54.710Z" itemprop="dateModified">2020-09-06</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
