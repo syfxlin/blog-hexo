@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>聊聊现状-[2020-09] | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="聊聊现状-[2020-09] | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talk-about-the-status-quo-2020-09.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言写这篇杂谈的动机是 ⑨BIE 写的 近况。去年了差不多这个时候也写了一篇 一年来的经验总结 于是也打算今年也写一篇，算是对大二的一次小整理吧。 往事不知不觉又在大学混了一年，现在已经是一个大三狗了，随着不断的到处划水，视野开阔了，不过同时也深感自己的垃圾以及无力。 大二上因为开了数据结构与算法的课，以及对前端的兴趣，所以整个大二上主要都在研究数据结构与算法和前端，相关的往事基本上都在 2019 - Otstar Lin - 青空之蓝"><meta name="keywords" content="杂谈, 现状"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/09/20200920203300.jpg"><meta property="article:published_time" content="2020-09-20T13:00:19.000Z"><meta property="article:modified_time" content="2020-09-21T00:02:04.359Z"><meta property="og:updated_time" content="2020-09-21T00:02:04.359Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="杂谈, 现状"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/talk-about-the-status-quo-2020-09.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/talk-about-the-status-quo-2020-09.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/talk-about-the-status-quo-2020-09.html"
+    },
+    "headline": "聊聊现状-[2020-09] | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-09-20T13:00:19.000Z",
+    "dateModified": "2020-09-21T00:02:04.359Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "杂谈, 现状",
+    "description": "前言写这篇杂谈的动机是 ⑨BIE 写的 近况。去年了差不多这个时候也写了一篇 一年来的经验总结 于是也打算今年也写一篇，算是对大二的一次小整理吧。 往事不知不觉又在大学混了一年，现在已经是一个大三狗了，随着不断的到处划水，视野开阔了，不过同时也深感自己的垃圾以及无力。 大二上因为开了数据结构与算法的课，以及对前端的兴趣，所以整个大二上主要都在研究数据结构与算法和前端，相关的往事基本上都在 2019 - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=聊聊现状-[2020-09]" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=聊聊现状-[2020-09]&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=聊聊现状-[2020-09]" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB60lEQVR42u3aQXKEMAxEUe5/6WRLKKu7RVhg8dmkwgzDo0rYluTj54XHAQoUKFAL1CGOPxec/j9/rq5bXSO/D2oMahl0i/MVZPX96/nkPqBmoaqbrAL3es31Jiro1cOA+g4quXn1EO73QH0XtQrsClB9DupbKDX5ukWb+l5n4gc1B6UW9E/+fSybAfVqlC06iIlZBW/12SNVF1CvRiWFijvQJNBBzUSpRb4K5iSBqBaIdpEHagTKJQJVUKfnqpfEjuigtkMlwd0poNkBsjuig9oOpYr1VRC7Cdo9TPkSgBqBShuHSfLqGpW2AQBqNCopmqWJaDJpg5qLSoodroEdBbVbJYAagUo34HQaAWoQjSZkUNuhksJ8p8GdLO6iAgeobVHppofOBhtVjIsLHKC2RamCRqdR5CZkNziDmodKNym7QTZZAJYvBagRqDubTDsTeFJEATUTlRRlOwmBa3JGDSNQ26PUjztsZwNOa/MpqG1RnSKHK7QmjYDWiA5qK1Sn+OqS0ORFkE1OUCNQSTAmgLQ4drvqAmorlEskkyDuFPPbK09QW6JUgd4VvjoI+WCgPoNK0d0mAKjvotymLpe8qgT0X4MnqFejkoTBFUTcTVXBDNQslJs0XTGjm2REDSNQ26LedIACBQrU6fgFRZpQb5hG7ekAAAAASUVORK5CYII=" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">聊聊现状-[2020-09]</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-09-20</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E7%AB%99%E9%95%BF%E6%9D%82%E8%B0%88/">站长杂谈</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=聊聊现状-[2020-09]&url=https://hexo.ixk.me/talk-about-the-status-quo-2020-09.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=聊聊现状-[2020-09]&url=https://hexo.ixk.me/talk-about-the-status-quo-2020-09.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/talk-about-the-status-quo-2020-09.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/talk-about-the-status-quo-2020-09.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/talk-about-the-status-quo-2020-09.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/talk-about-the-status-quo-2020-09.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/talk-about-the-status-quo-2020-09.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB60lEQVR42u3aQXKEMAxEUe5/6WRLKKu7RVhg8dmkwgzDo0rYluTj54XHAQoUKFAL1CGOPxec/j9/rq5bXSO/D2oMahl0i/MVZPX96/nkPqBmoaqbrAL3es31Jiro1cOA+g4quXn1EO73QH0XtQrsClB9DupbKDX5ukWb+l5n4gc1B6UW9E/+fSybAfVqlC06iIlZBW/12SNVF1CvRiWFijvQJNBBzUSpRb4K5iSBqBaIdpEHagTKJQJVUKfnqpfEjuigtkMlwd0poNkBsjuig9oOpYr1VRC7Cdo9TPkSgBqBShuHSfLqGpW2AQBqNCopmqWJaDJpg5qLSoodroEdBbVbJYAagUo34HQaAWoQjSZkUNuhksJ8p8GdLO6iAgeobVHppofOBhtVjIsLHKC2RamCRqdR5CZkNziDmodKNym7QTZZAJYvBagRqDubTDsTeFJEATUTlRRlOwmBa3JGDSNQ26PUjztsZwNOa/MpqG1RnSKHK7QmjYDWiA5qK1Sn+OqS0ORFkE1OUCNQSTAmgLQ4drvqAmorlEskkyDuFPPbK09QW6JUgd4VvjoI+WCgPoNK0d0mAKjvotymLpe8qgT0X4MnqFejkoTBFUTcTVXBDNQslJs0XTGjm2REDSNQ26LedIACBQrU6fgFRZpQb5hG7ekAAAAASUVORK5CYII=" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#往事"><span class="post-toc-number">2.</span> <span class="post-toc-text">往事</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#吐槽"><span class="post-toc-number">3.</span> <span class="post-toc-text">吐槽</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#未来"><span class="post-toc-number">4.</span> <span class="post-toc-text">未来</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">5.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>写这篇杂谈的动机是 <strong>⑨BIE</strong> 写的 <a href="https://9bie.org/index.php/archives/671/" target="_blank" rel="noopener">近况</a>。去年了差不多这个时候也写了一篇 <a href="https://blog.ixk.me/summary-of-experience-over-the-past-year.html" target="_blank" rel="noopener">一年来的经验总结</a> 于是也打算今年也写一篇，算是对大二的一次小整理吧。</p>
+<h2 id="往事"><a href="#往事" class="headerlink" title="往事"></a>往事</h2><p>不知不觉又在大学混了一年，现在已经是一个大三狗了，随着不断的到处划水，视野开阔了，不过同时也深感自己的垃圾以及无力。</p>
+<p>大二上因为开了数据结构与算法的课，以及对前端的兴趣，所以整个大二上主要都在研究数据结构与算法和前端，相关的往事基本上都在 <a href="https://blog.ixk.me/my-blog-2019-year-end-summary.html" target="_blank" rel="noopener">2019 的年度总结</a> 里写了，这里就不再讲了。除了写项目，整个大二上基本也没学到太多的东西，从我写的文章估计也看出来了，大二上算是划着水混过去的。</p>
+<p>大二下因为疫情，整个学期都是在家里过的，除了大物实验课没法上延到了这学期上，其他课都是网络教学。也正是因为网络教学，给了我在学校中无法比拟的自学时间。上课了 =&gt; 进入会议 =&gt; 静音 => 切后台，然后我就有了自学的时间，所以大二下算是一个转折点，在大二下我折腾了很多的东西，虽然也并不是什么高级的东西。</p>
+<p>因为打算不用框架写博客，但又想方便的写代码，于是自学了框架的运行原理等等的知识。耗时 1 个月写了一个 <a href="https://github.com/syfxlin/xkphp" target="_blank" rel="noopener">XK-PHP</a>，原本打算写的是一个可扩展的博客系统，后来随着框架的不断完善就断了写博客系统的想法，转而不断优化和增加框架的功能。虽然框架写得并不好，而且有很多问题，不过在这之中学到的知识却是庞大的。像什么 IoC、Aop、Proxy、Annotation、Middleware、Route、生成器等等都是在那时候学会的，而这学会也不止局限于原理，而是实现。</p>
+<p>同时也学习了设计模式，原本打算是学设计模式，然后将设计模式应用到框架中的，实际在写代码的时候都是怎么方便怎么优雅就怎么写，完全不会去关心是否应该在这里使用某个设计模式。</p>
+<p>磨磨蹭蹭到了 5 月，因为 PHP 的一些局限性，比如没有多线程，原生注解，类代理等等，以及喜欢折腾的精神，于是就打算将 XK-PHP 框架移植到 Java 平台上。于是 <a href="https://github.com/syfxlin/xkjava" target="_blank" rel="noopener">XK-Java</a> 就这样写出来了，在 PHP 框架的逻辑上结合 Java 的特性与优势。在初期写的过程中，我并没有考虑到线程安全的问题被狠狠的坑了一把，也正是这些问题，我因此学习了在 PHP 里学不到的知识（线程，并发等）。同时也到 Spring 里学了一些知识，比如注解处理器，DispatchServlet 等等，虽然只是非常不完善的简化版实现，不过也算是学到了原理。其他的信息可以去看 XK-Java 的 <a href="https://github.com/syfxlin/xkjava#readme" target="_blank" rel="noopener">README</a>，这里就不再写了，不然就又是上万字的废文了（溜。</p>
+<h2 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h2><p>总之大二下对我来说算是一个非常重要的转折点，同时也把学习的方向切到了后端，虽然现在还在肝前端的代码，不过主要学习的东西已经是后端的了。另外也深刻的感受到了下图的回答是多么的精辟：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/09/20200920203300.jpg" alt=""></p>
+<p>很多知识课上不会讲，老师也不一定比学生会，班上的大佬的知识底蕴说不定比讲台上的老师还深厚（特指我们这种 2.5 本学校）。上课对我们这些自学的学生来说就是绊脚石。不止在上课的时候耽误，下课的时候也能烦死人（作业，活动什么的），还要应付考试。</p>
+<p>开学了，课时排满，眼睛还出了一些问题，感觉这学期是学不到什么东西了，哎，正如我在 <a href="https://twitter.com/syfxlin/status/1306440740218703873" target="_blank" rel="noopener">推特</a> 发的 “有点羡慕一些学校可以大三去实习。现在在学校里上课，课时还满上，然后课程质量普遍不好（2.5 本的课程质量也就那样了）学不到什么知识，又影响自学的效率。看来咸鱼还是翻不了身啊（指我）。”。另外这学期还要为了那 sb 的第二课堂学分奔波，参加比赛，考证，做义工等等。更没有时间了，所以对我学习帮助不大的项目会一直停更下去了，比如 Origami 主题、XK-Blog 等等，我先在这里给等更新的 Origami 的用户们说声 “抱歉” 吧，这些项目最近是不会更新了。</p>
+<h2 id="未来"><a href="#未来" class="headerlink" title="未来"></a>未来</h2><p>大三上打算深入的研究下 Java 技术栈和一些架构、系统、网络方面的知识。不过因为很多杂七杂八的事估计会影响效率，所以也不一定能学完，哭哭。</p>
+<p>同时也打算重写下 XK-Editor 和 XK-Note，另外把 XK-Java 改进下。项目的部分暂时就这些吧。。。</p>
+<p>另外也要准备以后的实习了，毕竟笨鸟还是要先飞，不然等到时候肯定是被高校的大佬们吊打的。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>越学越感觉自己和大佬们的差距，希望能加油吧，总之就这样了。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-09-21");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-09-20T13:00:19.000Z" itemprop="datePublished">2020-09-20</time>
+
+    , 最后修改于&nbsp;<time datetime="2020-09-21T00:02:04.359Z" itemprop="dateModified">2020-09-21</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E7%AB%99%E9%95%BF%E6%9D%82%E8%B0%88/'>站长杂谈</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">#&nbsp;杂谈</a>
+
+<a class="post-tags-list-item" href="/tags/%E7%8E%B0%E7%8A%B6/" rel="tag">#&nbsp;现状</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/talking-about-concurrent-locks.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">浅谈并发：锁</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
