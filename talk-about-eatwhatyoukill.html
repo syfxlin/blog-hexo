@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>浅谈 EatWhatYouKill | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="浅谈 EatWhatYouKill | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talk-about-eatwhatyoukill.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言既然说了 Tomcat 的线程池，那么这次就说说 Jetty 的任务执行策略吧。其实是 XK-Server（类似于 Tomcat 的 Java Web 容器和 HTTP 服务器）结合了二者的一些小特性，代码一两周前就写好了，这次就来水下文章。 什么是 EatWhatYouKill？对于常规的 IO 操作，我们通常使用以下有几种处理方式： ProduceConsume：将 IO 的生产和消费统一 - Otstar Lin - 青空之蓝"><meta name="keywords" content="Java, 并发"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/11/20201118220345.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/11/20201119210101.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/11/20201119210246.png"><meta property="article:published_time" content="2020-11-19T14:54:28.000Z"><meta property="article:modified_time" content="2020-11-19T15:01:32.036Z"><meta property="og:updated_time" content="2020-11-19T15:01:32.036Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Java, 并发"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/talk-about-eatwhatyoukill.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/talk-about-eatwhatyoukill.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/talk-about-eatwhatyoukill.html"
+    },
+    "headline": "浅谈 EatWhatYouKill | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2020-11-19T14:54:28.000Z",
+    "dateModified": "2020-11-19T15:01:32.036Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "Java, 并发",
+    "description": "前言既然说了 Tomcat 的线程池，那么这次就说说 Jetty 的任务执行策略吧。其实是 XK-Server（类似于 Tomcat 的 Java Web 容器和 HTTP 服务器）结合了二者的一些小特性，代码一两周前就写好了，这次就来水下文章。 什么是 EatWhatYouKill？对于常规的 IO 操作，我们通常使用以下有几种处理方式： ProduceConsume：将 IO 的生产和消费统一 - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=浅谈 EatWhatYouKill" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=浅谈 EatWhatYouKill&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=浅谈 EatWhatYouKill" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5ElEQVR42u3a0Y7CMAxE0f7/T8MrqpKZMapQbG5fdpct5CC5ie3keh14XaBAgQK1QF3iut+z+tu9rzQOqDGoZdDdXleI1b2f96fjgJqFug9wf301wAq2uj8ZB9R/oXaBvwtyF/CgQKlFVk3CP3n6QB2L2n2gS/zSL/FolgDqeJRK3J78+Vg1A+polG06bALYBe/uf490XUAdjao0KlzC5hZeVcCCmoNSxYAavIJwjTZQs1AqOUuKgUrxaidjUGNQSeHpJtKkSaKCHNQ8lJso1QSqHpT0AQI1B1UN6mTDMvk9yhJAtUalC7QL9nQjQE6eoNqjXOPCFQSVhq1MIEGNQLmgjAI0TObsZAtqFEoVn2lzrLLJXdoZBdUSlQR6ssHoFvJS1wVUW1RyEMsVGGly+HWDA1Qb1G4CdYcBbbMiaHCAmomqNluTRDAN/tKpIFDtUOkBnCSY7eGtNNBBtUapJM09EAqqio1y4QCqFUpNkJVDgA6oHghQM1D28J5IypJkMDk0AWoWKi0UKwdw0ockqpBBtUSlG4ouiJN74q4LqPaoyuZi2oB1i3J8+BTUWFSyyZ1sam+/CKi/QrnJNvk8u0kAahTqm+ZF0iBRhyhAzUWVFs3CZmXyBUDNQ510gQIFCtTH9QZfz9DgbNQEfgAAAABJRU5ErkJggg==" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">浅谈 EatWhatYouKill</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2020-11-19</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=浅谈 EatWhatYouKill&url=https://hexo.ixk.me/talk-about-eatwhatyoukill.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=浅谈 EatWhatYouKill&url=https://hexo.ixk.me/talk-about-eatwhatyoukill.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/talk-about-eatwhatyoukill.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/talk-about-eatwhatyoukill.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/talk-about-eatwhatyoukill.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/talk-about-eatwhatyoukill.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/talk-about-eatwhatyoukill.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5ElEQVR42u3a0Y7CMAxE0f7/T8MrqpKZMapQbG5fdpct5CC5ie3keh14XaBAgQK1QF3iut+z+tu9rzQOqDGoZdDdXleI1b2f96fjgJqFug9wf301wAq2uj8ZB9R/oXaBvwtyF/CgQKlFVk3CP3n6QB2L2n2gS/zSL/FolgDqeJRK3J78+Vg1A+polG06bALYBe/uf490XUAdjao0KlzC5hZeVcCCmoNSxYAavIJwjTZQs1AqOUuKgUrxaidjUGNQSeHpJtKkSaKCHNQ8lJso1QSqHpT0AQI1B1UN6mTDMvk9yhJAtUalC7QL9nQjQE6eoNqjXOPCFQSVhq1MIEGNQLmgjAI0TObsZAtqFEoVn2lzrLLJXdoZBdUSlQR6ssHoFvJS1wVUW1RyEMsVGGly+HWDA1Qb1G4CdYcBbbMiaHCAmomqNluTRDAN/tKpIFDtUOkBnCSY7eGtNNBBtUapJM09EAqqio1y4QCqFUpNkJVDgA6oHghQM1D28J5IypJkMDk0AWoWKi0UKwdw0ockqpBBtUSlG4ouiJN74q4LqPaoyuZi2oB1i3J8+BTUWFSyyZ1sam+/CKi/QrnJNvk8u0kAahTqm+ZF0iBRhyhAzUWVFs3CZmXyBUDNQ510gQIFCtTH9QZfz9DgbNQEfgAAAABJRU5ErkJggg==" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是-EatWhatYouKill？"><span class="post-toc-number">2.</span> <span class="post-toc-text">什么是 EatWhatYouKill？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现"><span class="post-toc-number">3.</span> <span class="post-toc-text">实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">4.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>既然说了 Tomcat 的线程池，那么这次就说说 Jetty 的任务执行策略吧。其实是 XK-Server（类似于 Tomcat 的 Java Web 容器和 HTTP 服务器）结合了二者的一些小特性，代码一两周前就写好了，这次就来水下文章。</p>
+<h2 id="什么是-EatWhatYouKill？"><a href="#什么是-EatWhatYouKill？" class="headerlink" title="什么是 EatWhatYouKill？"></a>什么是 EatWhatYouKill？</h2><p>对于常规的 IO 操作，我们通常使用以下有几种处理方式：</p>
+<p><strong>ProduceConsume：</strong>将 IO 的生产和消费统一由<strong>一个线程</strong>来完成，<strong>不断循环生产和消费的过程</strong>。很明显，这种模式有个很严重的问题，<strong>后面的 IO 事件要等待前面的 IO 事件完成</strong>，这样的<strong>效率明显很差</strong>，越后面的 IO 事件需要等待的事件就越长。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/11/20201118220345.png" alt=""></p>
+<p><strong>ProduceExecuteConsume：</strong>采用<strong>一个线程作为生产者</strong>，负责收集 IO 数据流，然后将数据推送至队列中，让线程池中的<strong>另一线程来处理数据</strong>。这样<strong>消费的过程就不会影响生产</strong>，但是由于使用到了不同的线程，需要<strong>额外消耗线程切换的性能</strong>，同时当使用另外一个线程的时候有很大概率是调度到 CPU 的另外一个核心，这样就<strong>无法再利用到寄存器中的热缓存</strong>，需要再次缓存这些数据。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/11/20201119210101.png" alt=""></p>
+<p><strong>ExecuteProduceConsume：</strong>这种模式比较特殊，该模式和 ProduceConsume 类似，<strong>都是生产消费都在一个线程里完成</strong>，这样就可以充分的利用热缓存。但与其不同的是，<strong>该模式可能会新建一个新线程以继续生产和执行任务</strong>，<strong>线程不应该生产自己不想消费的任务</strong>，而应该<strong>把生产和消费职责都转移到另一个进程中执行</strong>。虽然这个可以很好的利用热缓存，但是同时也带来一个问题：<strong>一旦 IO 的消费时间过长，就会导致大量的阻塞。</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/11/20201119210246.png" alt=""></p>
+<p>看完上面的执行模式，你应该对 IO 的生产和消费调度有了一些理解，那么 EatWhatYouKill 又是什么呢？</p>
+<p><strong>EatWhatYouKill</strong> 是 Jetty 对 ExecuteProduceConsume 模式的改进，在<strong>线程池空闲的时候则采用 ExecuteProduceConsume 模式</strong>。如果<strong>线程池处于繁忙的情况下就切换成 ProduceExecuteConsume 模式</strong>。这么做的原因是当线程池处于繁忙的情况下，如果还是用 EPC 模式，那么就<strong>没有空闲的线程来接受连接</strong>（生产），这样会导致连接器（Connector）拒绝新的请求。这时候 Jetty 做了一个优化，<strong>一旦发现线程池处于繁忙的状态，Jetty 就不会在轮询线程里消费任务，而是采用 PEC 模式</strong>，将消费任务放到线程池中，由线程池进行调度。这样轮询线程就有办法继续接受新连接，<strong>等到线程池不繁忙了，Jetty 就会再次切回 EPC 模式</strong>，充分利用热缓存。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>完整的代码可以到 <a href="https://github.com/syfxlin/code/tree/master/100-days-of-code/java/src/main/java/me/ixk/days/day1" target="_blank" rel="noopener">Github</a> 查看。</p>
+<p>了解了原理，那么就进入分析的阶段了，本文中的代码参考了 Jetty，对 Jetty 的 EWYK 进行简化，同时适配可扩展线程池。</p>
+<p>首先我们需要知道，每个任务其实就是一个 <code>Runnable</code>，但直接调用 <code>Runnable</code> 的 run 方法的时候就相当于直接在本线程中执行，对应 EPC 模式。将 <code>Runnable</code> 放到线程池中执行则相当于在另外一个线程执行，对应 PEC 模式。</p>
+<p>这样我们就可以定义以下两个方法，用于对应两种模式的执行方式：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">executeTask</span><span class="token punctuation">(</span><span class="token keyword">final</span> Runnable task<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Run task in pool"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>executor<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">runTask</span><span class="token punctuation">(</span><span class="token keyword">final</span> Runnable task<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Run task in loop"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    task<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>既然有了执行的方式（消费），那么就需要有提供任务的方式（生产），此时我们可以定义一个接口来描述任务提供者：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">interface</span> <span class="token class-name">Producer</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * 生产任务
+     *
+     * @return 任务
+     */</span>
+    Runnable <span class="token function">produce</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这样我们就有了生产和消费了，接下来就是执行策略了。</p>
+<p>首先先定义下状态和模式：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">enum</span> State <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * 空闲
+     */</span>
+    IDLE<span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">/**
+     * 生产中
+     */</span>
+    PRODUCING<span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">/**
+     * 再次生产中
+     */</span>
+    REPRODUCING<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">private</span> <span class="token keyword">enum</span> Mode <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * 生产-消费分离
+     */</span>
+    PRODUCE_EXECUTE_CONSUME<span class="token punctuation">,</span>
+    <span class="token comment" spellcheck="true">/**
+     * 生产-消费不分离
+     */</span>
+    EXECUTE_PRODUCE_CONSUME<span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后就是实际的执行方法：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token keyword">final</span> AutoLock l <span class="token operator">=</span> lock<span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 如果是空闲状态，则进入生产状态</span>
+            <span class="token keyword">case</span> IDLE<span class="token operator">:</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> State<span class="token punctuation">.</span>PRODUCING<span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 如果是生产状态，则进入再生产状态</span>
+            <span class="token keyword">case</span> PRODUCING<span class="token operator">:</span>
+                <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> State<span class="token punctuation">.</span>REPRODUCING<span class="token punctuation">;</span>
+                <span class="token keyword">return</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token operator">:</span>
+                <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 处于运行中则轮询的执行任务</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">isRunning</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 当任务被提交到其他线程执行的时候，或者当前的任务执行完毕了，则返回 true，继续执行下一个任务</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">doProduce</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">final</span> Throwable th<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">warn</span><span class="token punctuation">(</span><span class="token string">"Unable to produce"</span><span class="token punctuation">,</span> th<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">doProduce</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">final</span> Runnable task <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">produceTask</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>task <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 没任务了，则进入下一个状态</span>
+        <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token keyword">final</span> AutoLock l <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">switch</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">case</span> PRODUCING<span class="token operator">:</span>
+                    <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> State<span class="token punctuation">.</span>IDLE<span class="token punctuation">;</span>
+                    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+                <span class="token keyword">case</span> REPRODUCING<span class="token operator">:</span>
+                    <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> State<span class="token punctuation">.</span>PRODUCING<span class="token punctuation">;</span>
+                    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                <span class="token keyword">default</span><span class="token operator">:</span>
+                    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span><span class="token string">"State: "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">final</span> Mode mode<span class="token punctuation">;</span>
+
+    <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token keyword">final</span> AutoLock l <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// 尝试到线程池中执行，如果不繁忙则执行成功，进入 EPC 模式，否则进入 PEC 模式</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>executor<span class="token punctuation">.</span><span class="token function">tryExecute</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> State<span class="token punctuation">.</span>IDLE<span class="token punctuation">;</span>
+            mode <span class="token operator">=</span> Mode<span class="token punctuation">.</span>EXECUTE_PRODUCE_CONSUME<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Use PEC mode"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            mode <span class="token operator">=</span> Mode<span class="token punctuation">.</span>PRODUCE_EXECUTE_CONSUME<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// 按对应的模式使用不同的执行方式</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>mode<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> PRODUCE_EXECUTE_CONSUME<span class="token operator">:</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">executeTask</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> EXECUTE_PRODUCE_CONSUME<span class="token operator">:</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">runTask</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token keyword">final</span> AutoLock l <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>lock<span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">==</span> State<span class="token punctuation">.</span>IDLE<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> State<span class="token punctuation">.</span>PRODUCING<span class="token punctuation">;</span>
+                    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">default</span><span class="token operator">:</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span><span class="token string">"State: "</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>写的挺简单的，这些代码写了有一段时间了，流程忘得差不多了，所以代码就没说明的很详细。溜了溜了😂。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2020-11-19");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2020-11-19T14:54:28.000Z" itemprop="datePublished">2020-11-19</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Java/" rel="tag">#&nbsp;Java</a>
+
+<a class="post-tags-list-item" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">#&nbsp;并发</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/talk-about-scalable-thread-pool.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">浅谈可扩展线程池</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
