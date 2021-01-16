@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>浅谈组合注解 &amp; 注解别名 | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="浅谈组合注解 &amp; 注解别名 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talking-about-merged-annotation.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言这篇文章很早就躺在了草稿里了，一直没有写 2333，最近在考试，因为都是一些相对简单的考试，同时又暂停的项目的开发，所以最近相对较闲，便打算把这个坑填一下。 什么是组合注解和注解别名？如果你看过 Spring 的注解的源码，那么这两个概念一定不会陌生。 注解别名 指的注解的属性拥有别名的功能，让多个属性值表达同一个意思，如 Spring 的 @Bean 注解： public @interfac - Otstar Lin - 青空之蓝"><meta name="keywords" content="Java, 框架, Spring"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/01/20210109222156.png"><meta property="article:published_time" content="2021-01-15T08:26:56.000Z"><meta property="article:modified_time" content="2021-01-16T00:31:18.959Z"><meta property="og:updated_time" content="2021-01-16T00:31:18.959Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Java, 框架, Spring"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/talking-about-merged-annotation.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/talking-about-merged-annotation.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/talking-about-merged-annotation.html"
+    },
+    "headline": "浅谈组合注解 &amp; 注解别名 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2021-01-15T08:26:56.000Z",
+    "dateModified": "2021-01-16T00:31:18.959Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "Java, 框架, Spring",
+    "description": "前言这篇文章很早就躺在了草稿里了，一直没有写 2333，最近在考试，因为都是一些相对简单的考试，同时又暂停的项目的开发，所以最近相对较闲，便打算把这个坑填一下。 什么是组合注解和注解别名？如果你看过 Spring 的注解的源码，那么这两个概念一定不会陌生。 注解别名 指的注解的属性拥有别名的功能，让多个属性值表达同一个意思，如 Spring 的 @Bean 注解： public @interfac - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=浅谈组合注解 &amp; 注解别名" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=浅谈组合注解 &amp; 注解别名&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=浅谈组合注解 &amp; 注解别名" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5klEQVR42u3awa6DMAxEUf7/p9tVJUSTmXHLIjGXTV+FaM6TQuw4Pl4LXgcoUKBADVCHuM73P3+fP2fPn++l44DqhRpOugHgilTfFXA0Dqh+qNEET5EJOBkH1DNQbsJfIaP7oEC5YKruuyAO6jkoFSjVhFcLqfq9v7IEUMuj3Mbhrs9bdzOglkXZokMQoNVGQb0YP1ddQC2NmgXRUfI2G9QFY/csqN4oFTgVtFp8+ynzBLUFKi2sqsVxho2CMKj2qKRA5l6INEh//T6oFihVnE8W1fQgKSr2gmqDSgpjavBkA+EOAkD1QblEzRW8XMBWh0dyhwxqa5QroiYT3RXc3CQH1QtVPZCeLZLungvwoHqh3IKoEjZ3sJ0usqB6oNIkLBkgeWnks6BaoZLJmiSECmf/cVAtUJUD7qToWmkIizJPUNuhXOKf/HA58KYBGdSWqPSAp9Lk5QL2LYsnqKVRUfGh2PSVbkzKm1FQy6Nc8pUWYdNEUU58UC1QtnmvWGBVk7z09oHaFlVtxkqK+9WXAVQ/VKWRxiV7aVFNNsmDaoFSg6uCWXKoFBdxQT0C5ZpukmauuIEH1KNR6SKaLqqg+qFcwp80gbnGwfIOGdS2qPSgKNmoVgoef+9mQC2JWukCBQoUqNP1Btaw0OCLmzRoAAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">浅谈组合注解 & 注解别名</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2021-01-15</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=浅谈组合注解 &amp; 注解别名&url=https://hexo.ixk.me/talking-about-merged-annotation.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=浅谈组合注解 &amp; 注解别名&url=https://hexo.ixk.me/talking-about-merged-annotation.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/talking-about-merged-annotation.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/talking-about-merged-annotation.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/talking-about-merged-annotation.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/talking-about-merged-annotation.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/talking-about-merged-annotation.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB5klEQVR42u3awa6DMAxEUf7/p9tVJUSTmXHLIjGXTV+FaM6TQuw4Pl4LXgcoUKBADVCHuM73P3+fP2fPn++l44DqhRpOugHgilTfFXA0Dqh+qNEET5EJOBkH1DNQbsJfIaP7oEC5YKruuyAO6jkoFSjVhFcLqfq9v7IEUMuj3Mbhrs9bdzOglkXZokMQoNVGQb0YP1ddQC2NmgXRUfI2G9QFY/csqN4oFTgVtFp8+ynzBLUFKi2sqsVxho2CMKj2qKRA5l6INEh//T6oFihVnE8W1fQgKSr2gmqDSgpjavBkA+EOAkD1QblEzRW8XMBWh0dyhwxqa5QroiYT3RXc3CQH1QtVPZCeLZLungvwoHqh3IKoEjZ3sJ0usqB6oNIkLBkgeWnks6BaoZLJmiSECmf/cVAtUJUD7qToWmkIizJPUNuhXOKf/HA58KYBGdSWqPSAp9Lk5QL2LYsnqKVRUfGh2PSVbkzKm1FQy6Nc8pUWYdNEUU58UC1QtnmvWGBVk7z09oHaFlVtxkqK+9WXAVQ/VKWRxiV7aVFNNsmDaoFSg6uCWXKoFBdxQT0C5ZpukmauuIEH1KNR6SKaLqqg+qFcwp80gbnGwfIOGdS2qPSgKNmoVgoef+9mQC2JWukCBQoUqNP1Btaw0OCLmzRoAAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是组合注解和注解别名？"><span class="post-toc-number">2.</span> <span class="post-toc-text">什么是组合注解和注解别名？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Spring-是如何实现的？"><span class="post-toc-number">3.</span> <span class="post-toc-text">Spring 是如何实现的？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实现"><span class="post-toc-number">4.</span> <span class="post-toc-text">实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#方式"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#代码"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">5.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章很早就躺在了草稿里了，一直没有写 2333，最近在考试，因为都是一些相对简单的考试，同时又暂停的项目的开发，所以最近相对较闲，便打算把这个坑填一下。</p>
+<h2 id="什么是组合注解和注解别名？"><a href="#什么是组合注解和注解别名？" class="headerlink" title="什么是组合注解和注解别名？"></a>什么是组合注解和注解别名？</h2><p>如果你看过 Spring 的注解的源码，那么这两个概念一定不会陌生。</p>
+<p><strong>注解别名</strong> 指的注解的属性拥有别名的功能，让多个属性值表达同一个意思，如 Spring 的 <code>@Bean</code> 注解：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> @<span class="token keyword">interface</span> <span class="token class-name">Bean</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@AliasFor</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span>
+    String<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@AliasFor</span><span class="token punctuation">(</span><span class="token string">"value"</span><span class="token punctuation">)</span>
+    String<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>从代码中看到 <code>value</code> 属性和 <code>name</code> 属性是相同的，设置 <code>value</code> 和 <code>name</code> 任意一个值都代表了设置了 Bean 的名称。这就是注解别名。</p>
+<p><strong>组合注解</strong> 简单来说就是 Spring 自行实现的将多个注解组合到一个注解上的功能。如 Spring 里的 <code>@RestController</code> 注解：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span>ElementType<span class="token punctuation">.</span>TYPE<span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span>RetentionPolicy<span class="token punctuation">.</span>RUNTIME<span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Documented</span>
+<span class="token annotation punctuation">@Controller</span>
+<span class="token annotation punctuation">@ResponseBody</span>
+<span class="token keyword">public</span> @<span class="token keyword">interface</span> <span class="token class-name">RestController</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@AliasFor</span><span class="token punctuation">(</span>annotation <span class="token operator">=</span> Controller<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    String <span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token string">""</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>从代码中看到，<code>@RestController</code> 注解上标记了 <code>@Controller</code> 和 <code>@ResponseBody</code> 注解，这样 <code>@RestController</code> 就组合了 <code>@Controller</code> 和 <code>@ResponseBody</code> 的功能。</p>
+<p>除了 <strong>组合注解</strong> 和 <strong>注解别名</strong>，Spring 还提供了类似于类继承的 <strong>注解继承</strong> 功能，比如 <code>@RestController</code> 的 <code>value</code> 属性上标记了 <code>@AliasFor(annotation = Controller.class)</code>，此时若设置了 <code>@RestContoller</code> 的 <code>value</code> 属性，则代表设置了 <code>@Contoller</code> 的 <code>value</code> 属性。</p>
+<h2 id="Spring-是如何实现的？"><a href="#Spring-是如何实现的？" class="headerlink" title="Spring 是如何实现的？"></a>Spring 是如何实现的？</h2><p>首先我们先随便写一个 Demo：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token annotation punctuation">@Controller</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CityController</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/city"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">index</span><span class="token punctuation">(</span>Model model<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        model<span class="token punctuation">.</span><span class="token function">addAttribute</span><span class="token punctuation">(</span><span class="token string">"provinces"</span><span class="token punctuation">,</span> CityConst<span class="token punctuation">.</span><span class="token function">getProvinces</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token string">"city/index"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token annotation punctuation">@SpringBootTest</span>
+<span class="token annotation punctuation">@Slf4j</span>
+<span class="token keyword">class</span> <span class="token class-name">ApplicationTests</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">void</span> <span class="token function">contextLoads</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> NoSuchMethodException <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> RequestMapping annotation <span class="token operator">=</span> AnnotationUtils<span class="token punctuation">.</span><span class="token function">getAnnotation</span><span class="token punctuation">(</span>
+            CityController<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span><span class="token string">"index"</span><span class="token punctuation">,</span> Model<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            RequestMapping<span class="token punctuation">.</span><span class="token keyword">class</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        annotation<span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>启动调试会话，一路步入就可以看到以下的代码段：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">TypeMappedAnnotation</span><span class="token operator">&lt;</span>A <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> <span class="token keyword">extends</span> <span class="token class-name">AbstractMergedAnnotation</span><span class="token operator">&lt;</span>A<span class="token operator">></span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">// ...</span>
+
+    <span class="token keyword">static</span> <span class="token operator">&lt;</span>A <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> MergedAnnotation<span class="token operator">&lt;</span>A<span class="token operator">></span> <span class="token function">from</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Nullable</span> Object source<span class="token punctuation">,</span> A annotation<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Assert<span class="token punctuation">.</span><span class="token function">notNull</span><span class="token punctuation">(</span>annotation<span class="token punctuation">,</span> <span class="token string">"Annotation must not be null"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        AnnotationTypeMappings mappings <span class="token operator">=</span> AnnotationTypeMappings<span class="token punctuation">.</span><span class="token function">forAnnotationType</span><span class="token punctuation">(</span>annotation<span class="token punctuation">.</span><span class="token function">annotationType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">TypeMappedAnnotation</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>mappings<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> null<span class="token punctuation">,</span> source<span class="token punctuation">,</span> annotation<span class="token punctuation">,</span> ReflectionUtils<span class="token operator">:</span><span class="token operator">:</span>invokeMethod<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到，Spring 在创建 <code>MergedAnnotation</code> 前会先获取 <code>AnnotationTypeMappings</code>，该对象保存了 <code>MergedAnnotation.from</code> 传入的注解及其所有父注解（非 JDK 注解）的 <code>AnnotationTypeMapping</code> 信息，<code>AnnotationTypeMapping</code> 里保存了根注解（Spring 保存的方式是自下向上的，所以这个的根注解是 <code>from</code> 传入的注解），源注解（下一级注解，如 <code>RequestMapping</code> 的源注解是 <code>GetMapping</code>），别名索引数组，别名指向的方法等信息。然后获取当前传入注解的 <code>AnnotationTypeMapping</code> 组成 <code>MergedAnnotation</code>。</p>
+<p>不过有了 <code>MergedAnnotation</code> 那么如何把 <code>MergedAnnotation</code> 变成 Java 的注解呢？如果直接返回通过反射获取的注解，那么别名和子注解的值传上来的值就无法被更改，所以为了获得 Java 的注解，Spring 会重新创建该注解的注解代理类。</p>
+<p>如果你看过 Java 注解的源码，Java 注解其实是通过 JDK 代理实现的，通过 JDK 代理从 <code>AnnotationInvocationHandler</code> 里的 <code>memberValues</code> Map 获取注解值。Spring 就是使用类似的方式通过 <code>MergedAnnotation.synthesize</code> 方法调用了 <code>SynthesizedMergedAnnotationInvocationHandler.createProxy</code> 动态创建了 Java 注解，而 <code>SynthesizedMergedAnnotationInvocationHandler</code> 包装了 <code>MergedAnnotation</code> 和 <code>AttributeMethods</code>。</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">SynthesizedMergedAnnotationInvocationHandler</span><span class="token operator">&lt;</span>A <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> <span class="token keyword">implements</span> <span class="token class-name">InvocationHandler</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> MergedAnnotation<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span> annotation<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">final</span> AttributeMethods attributes<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// ...</span>
+
+    <span class="token keyword">static</span> <span class="token operator">&lt;</span>A <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> A <span class="token function">createProxy</span><span class="token punctuation">(</span>MergedAnnotation<span class="token operator">&lt;</span>A<span class="token operator">></span> annotation<span class="token punctuation">,</span> Class<span class="token operator">&lt;</span>A<span class="token operator">></span> type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        ClassLoader classLoader <span class="token operator">=</span> type<span class="token punctuation">.</span><span class="token function">getClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        InvocationHandler handler <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SynthesizedMergedAnnotationInvocationHandler</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>annotation<span class="token punctuation">,</span> type<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Class<span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> interfaces <span class="token operator">=</span> <span class="token function">isVisible</span><span class="token punctuation">(</span>classLoader<span class="token punctuation">,</span> SynthesizedAnnotation<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span> <span class="token operator">?</span>
+                <span class="token keyword">new</span> <span class="token class-name">Class</span><span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>type<span class="token punctuation">,</span> SynthesizedAnnotation<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">}</span> <span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">Class</span><span class="token operator">&lt;</span><span class="token operator">?</span><span class="token operator">></span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>type<span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>A<span class="token punctuation">)</span> Proxy<span class="token punctuation">.</span><span class="token function">newProxyInstance</span><span class="token punctuation">(</span>classLoader<span class="token punctuation">,</span> interfaces<span class="token punctuation">,</span> handler<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>到此 Spring 处理组合注解的原理的关键部分就差不多讲完了，至于获取值部分就不说明了，只是简单的取到属性对应的方法，然后利用反射获取值。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>既然知道了原理，那么就可以自行实现一个组合注解 &amp; 注解别名了。</p>
+<h3 id="方式"><a href="#方式" class="headerlink" title="方式"></a>方式</h3><p>在进行编码前我们要先确定我们组合注解的实现方式。Spring 的实现方式较为复杂，所以我们不采用 Spring 的实现方法，而是直接对 Java 注解里的 <code>memberValues</code> Map 动手，通过修改这个 Map 的值，我们就可以修改注解的属性值。不过需要注意，Java 注解是单例的，所以我们不能直接修改从反射获取的注解里的 <code>memberValues</code>，而是要克隆一份，另外使用 JDK 动态代理创建注解对象。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/01/20210109222156.png" alt=""></p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>首先我们先准备 <code>@AliasFor</code> 别名注解：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span><span class="token punctuation">{</span> ElementType<span class="token punctuation">.</span>METHOD <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span>RetentionPolicy<span class="token punctuation">.</span>RUNTIME<span class="token punctuation">)</span>
+<span class="token keyword">public</span> @<span class="token keyword">interface</span> <span class="token class-name">AliasFor</span> <span class="token punctuation">{</span>
+    String <span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token string">""</span><span class="token punctuation">;</span>
+
+    Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> <span class="token function">annotation</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> Annotation<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">;</span>
+
+    String <span class="token function">attribute</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token string">""</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>为了方便实现重复注解我添加了一个 <code>@RepeatItem</code> 注解：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span><span class="token punctuation">{</span> ElementType<span class="token punctuation">.</span>ANNOTATION_TYPE <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span>RetentionPolicy<span class="token punctuation">.</span>RUNTIME<span class="token punctuation">)</span>
+<span class="token keyword">public</span> @<span class="token keyword">interface</span> <span class="token class-name">RepeatItem</span> <span class="token punctuation">{</span>
+    Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> <span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后就是注解工具类的一些基础方法：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AnnotationUtils</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@SuppressWarnings</span><span class="token punctuation">(</span><span class="token string">"unchecked"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> <span class="token function">getMemberValues</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Annotation annotation
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">final</span> InvocationHandler invocationHandler <span class="token operator">=</span> Proxy<span class="token punctuation">.</span><span class="token function">getInvocationHandler</span><span class="token punctuation">(</span>
+                annotation
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">final</span> Field field <span class="token operator">=</span> invocationHandler
+                <span class="token punctuation">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">getDeclaredField</span><span class="token punctuation">(</span><span class="token string">"memberValues"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            field<span class="token punctuation">.</span><span class="token function">setAccessible</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token punctuation">(</span>Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span><span class="token punctuation">)</span> field<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>invocationHandler<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">final</span> Exception e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span><span class="token string">"Get annotation member values failed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">isDefaultValue</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Method method<span class="token punctuation">,</span>
+        <span class="token keyword">final</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> memberValues
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">isDefaultValue</span><span class="token punctuation">(</span>method<span class="token punctuation">,</span> memberValues<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>method<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">isDefaultValue</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Method method<span class="token punctuation">,</span>
+        <span class="token keyword">final</span> Object value
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> Object defaultValue <span class="token operator">=</span> method<span class="token punctuation">.</span><span class="token function">getDefaultValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>method<span class="token punctuation">.</span><span class="token function">getReturnType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> Arrays<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token punctuation">(</span>Object<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> defaultValue<span class="token punctuation">,</span> <span class="token punctuation">(</span>Object<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> defaultValue<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">isJdkAnnotation</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> type
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            type <span class="token operator">==</span> Documented<span class="token punctuation">.</span><span class="token keyword">class</span> <span class="token operator">||</span>
+            type <span class="token operator">==</span> Retention<span class="token punctuation">.</span><span class="token keyword">class</span> <span class="token operator">||</span>
+            type <span class="token operator">==</span> Inherited<span class="token punctuation">.</span><span class="token keyword">class</span> <span class="token operator">||</span>
+            type <span class="token operator">==</span> Native<span class="token punctuation">.</span><span class="token keyword">class</span> <span class="token operator">||</span>
+            type <span class="token operator">==</span> Repeatable<span class="token punctuation">.</span><span class="token keyword">class</span> <span class="token operator">||</span>
+            type <span class="token operator">==</span> Target<span class="token punctuation">.</span><span class="token keyword">class</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> <span class="token function">getRepeatItem</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> RepeatItem repeatItem <span class="token operator">=</span> annotationType<span class="token punctuation">.</span><span class="token function">getAnnotation</span><span class="token punctuation">(</span>
+            RepeatItem<span class="token punctuation">.</span><span class="token keyword">class</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>repeatItem <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> repeatItem<span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> <span class="token function">getRepeatable</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> Repeatable repeatable <span class="token operator">=</span> annotationType<span class="token punctuation">.</span><span class="token function">getAnnotation</span><span class="token punctuation">(</span>
+            Repeatable<span class="token punctuation">.</span><span class="token keyword">class</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>repeatable <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> repeatable<span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>为了创建注解代理类，我们还需要一个 <code>InvocationHandler</code> 用于代理属性方法，我懒得写了就直接把 JDK 里的 <code>AnnotationInvocationHandler</code> 拷贝了出来（JDK 里的是私有的不方便使用），由于代码太长了，这里就不贴了，可以到 <a href="https://github.com/syfxlin/xkjava/tree/master/xkjava-framework/src/main/java/me/ixk/framework/utils/AnnotationInvocationHandler.java" target="_blank" rel="noopener">Github</a> 上查看。</p>
+<p>然后就是相应的代理工具方法：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AnnotationUtils</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@SuppressWarnings</span><span class="token punctuation">(</span><span class="token string">"unchecked"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token operator">&lt;</span>A <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> A <span class="token function">annotationForMap</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Class<span class="token operator">&lt;</span>A<span class="token operator">></span> annotationType<span class="token punctuation">,</span>
+        <span class="token keyword">final</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> memberValues
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>A<span class="token punctuation">)</span> Proxy<span class="token punctuation">.</span><span class="token function">newProxyInstance</span><span class="token punctuation">(</span>
+            annotationType<span class="token punctuation">.</span><span class="token function">getClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">new</span> <span class="token class-name">Class</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> annotationType <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token keyword">new</span> <span class="token class-name">AnnotationInvocationHandler</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">,</span> memberValues<span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后就是最关键的合并注解值的方法了：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AnnotationUtils</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> <span class="token function">mergeAnnotationValue</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Annotation annotation<span class="token punctuation">,</span>
+        <span class="token keyword">final</span> Map<span class="token operator">&lt;</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span><span class="token punctuation">,</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">>></span> overwriteMap
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType <span class="token operator">=</span> annotation<span class="token punctuation">.</span><span class="token function">annotationType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">final</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> overwrite <span class="token operator">=</span> overwriteMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 原始 memberValues，不可修改，因为这是单例的</span>
+        <span class="token keyword">final</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> memberValues <span class="token operator">=</span> <span class="token function">getMemberValues</span><span class="token punctuation">(</span>annotation<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// 实际复制并操作后的 memberValues</span>
+        <span class="token keyword">final</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> values <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span>memberValues<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Entry<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> entry <span class="token operator">:</span> memberValues<span class="token punctuation">.</span><span class="token function">entrySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">final</span> String attributeName <span class="token operator">=</span> entry<span class="token punctuation">.</span><span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Object attributeValue <span class="token operator">=</span> entry<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">final</span> Method method <span class="token operator">=</span> ReflectUtil<span class="token punctuation">.</span><span class="token function">getMethod</span><span class="token punctuation">(</span>
+                annotationType<span class="token punctuation">,</span>
+                attributeName
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">final</span> AliasFor aliasFor <span class="token operator">=</span> method<span class="token punctuation">.</span><span class="token function">getAnnotation</span><span class="token punctuation">(</span>AliasFor<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>overwrite <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> overwrite<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>attributeName<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 如果从子元素设置了重写的值，那么就设置该值</span>
+                attributeValue <span class="token operator">=</span> overwrite<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>attributeName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>
+                aliasFor <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span>
+                <span class="token operator">!</span>aliasFor<span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+                <span class="token function">isDefaultValue</span><span class="token punctuation">(</span>method<span class="token punctuation">,</span> memberValues<span class="token punctuation">)</span>
+            <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 如果为默认值，同时设置了 AliasFor.value 那么就使用别名的值（即使是默认值也一样）</span>
+                <span class="token keyword">final</span> String alias <span class="token operator">=</span> aliasFor<span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>overwrite <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> overwrite<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>alias<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    attributeValue <span class="token operator">=</span> overwrite<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>alias<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    attributeValue <span class="token operator">=</span> memberValues<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>alias<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">// 否则把自身 memberValues 值设置到新 Map 中</span>
+            values<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>attributeName<span class="token punctuation">,</span> attributeValue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 如果设置了 AliasFor.annotation 那么就设置父注解的重写值</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>aliasFor <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> aliasFor<span class="token punctuation">.</span><span class="token function">annotation</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> Annotation<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">final</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> parentType <span class="token operator">=</span> aliasFor<span class="token punctuation">.</span><span class="token function">annotation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">final</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> parentOverwrite <span class="token operator">=</span> overwriteMap<span class="token punctuation">.</span><span class="token function">getOrDefault</span><span class="token punctuation">(</span>
+                    parentType<span class="token punctuation">,</span>
+                    <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">)</span><span class="token punctuation">;</span>
+                parentOverwrite<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>
+                    aliasFor<span class="token punctuation">.</span><span class="token function">attribute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                        <span class="token operator">?</span> attributeName
+                        <span class="token operator">:</span> aliasFor<span class="token punctuation">.</span><span class="token function">attribute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    attributeValue
+                <span class="token punctuation">)</span><span class="token punctuation">;</span>
+                overwriteMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>parentType<span class="token punctuation">,</span> parentOverwrite<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> values<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>梳理下流程会更方便阅读：</p>
+<p>首先我们要明确一点，注解的处理顺序是先子注解，然后父注解。</p>
+<ol>
+<li>获取原始 <code>memberValues</code> 的 Map</li>
+<li>创建克隆的空 <code>memberValues</code></li>
+<li>循环遍历原始 <code>memberValues</code>，取出每一项的值</li>
+<li>通过属性名称从注解 <code>Class</code> 查找 <code>Method</code>，然后取得 <code>@AliasFor</code> 的注解</li>
+<li>如果子注解有传上来覆盖的值，那么就使用这个值（<code>overwriteMap</code> 里存放）</li>
+<li>否则看下有没有设置 <code>@AliasFor</code> 注解及 <code>value</code> 值（别名）如果设置了，则判断是否是默认值（<code>Method</code> 可以获取方法默认值，也就是属性默认值），如果不是默认值，那么这个值就是被设置过的，此时就不应该覆盖它。</li>
+<li>如果设置了 <code>@AliasFor</code> 注解同时不是默认值，那么就获取别名的值（注意这个别名的值也有可能是子注解传上来的，所以需要判断下 <code>overwriteMap</code> 里有没有设置）</li>
+<li>最后将获得的最终的值存入克隆的 <code>memberValues</code> 中</li>
+<li>然后处理要传到父注解的值，如果设置了 <code>@AliasFor</code> 的 <code>annotation</code> 值，那么就将这个值设置到对应的 <code>overwriteMap</code> 里，这样父注解在处理的时候就可以获取到这个值了</li>
+</ol>
+<p>有了处理注解值的方法，那么就可以写遍历注解的方法了：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AnnotationUtils</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">walkAnnotation</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> AnnotatedElement element<span class="token punctuation">,</span>
+        Map<span class="token operator">&lt;</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span><span class="token punctuation">,</span> List<span class="token operator">&lt;</span>Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">>>></span> annotationMap<span class="token punctuation">,</span>
+        Map<span class="token operator">&lt;</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span><span class="token punctuation">,</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">>></span> overwriteMap
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>Annotation annotation <span class="token operator">:</span> element<span class="token punctuation">.</span><span class="token function">getAnnotations</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">final</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType <span class="token operator">=</span> annotation<span class="token punctuation">.</span><span class="token function">annotationType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isJdkAnnotation</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">// 处理当前注解</span>
+            <span class="token keyword">final</span> List<span class="token operator">&lt;</span>Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">>></span> annotations <span class="token operator">=</span> annotationMap<span class="token punctuation">.</span><span class="token function">getOrDefault</span><span class="token punctuation">(</span>
+                annotationType<span class="token punctuation">,</span>
+                <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span>Annotation item <span class="token operator">:</span> element<span class="token punctuation">.</span><span class="token function">getAnnotationsByType</span><span class="token punctuation">(</span>
+                annotationType
+            <span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                annotations<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token function">mergeAnnotationValue</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> overwriteMap<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            annotationMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">,</span> annotations<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 处理重复注解</span>
+            <span class="token keyword">final</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> repeatItem <span class="token operator">=</span> <span class="token function">getRepeatItem</span><span class="token punctuation">(</span>
+                annotationType
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>repeatItem <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">final</span> List<span class="token operator">&lt;</span>Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">>></span> itemList <span class="token operator">=</span> annotationMap<span class="token punctuation">.</span><span class="token function">getOrDefault</span><span class="token punctuation">(</span>
+                    repeatItem<span class="token punctuation">,</span>
+                    <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">final</span> Annotation item <span class="token operator">:</span> <span class="token punctuation">(</span>Annotation<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> ReflectUtil<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>
+                    annotation<span class="token punctuation">,</span>
+                    <span class="token string">"value"</span>
+                <span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    itemList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token function">mergeAnnotationValue</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span> overwriteMap<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                annotationMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>repeatItem<span class="token punctuation">,</span> itemList<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment" spellcheck="true">// 处理父注解</span>
+            <span class="token function">walkAnnotation</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">,</span> annotationMap<span class="token punctuation">,</span> overwriteMap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>照样写个流程吧：</p>
+<ol>
+<li>因为传入的是可被标注的元素，所以就取出这个元素所标注的所有注解，遍历</li>
+<li>如果是 JDK 注解就直接跳过，因为这些注解对我们的程序无用，而且会导致无限递归</li>
+<li>接着就是使用 <code>AnnotatedElement</code> 的 <code>getAnnotationsByType</code> 方法获取标注在元素上的所有指定注解类型的值。之所以要这么做是因为 Java 支持重复注解，通过 <code>getAnnotations</code> 的方法只能取得一个同类型的注解</li>
+<li>取得注解后就调用 <code>mergeAnnotationValue</code> 方法合并注解值，同时把要传到父注解的值存入 <code>overwriteMap</code> 中</li>
+<li>除了 Java 标准的重复注解，我们还常用带 s 的注解包裹来做到重复注解，如 <code>@MapperScans</code> 和 <code>@MapperScan</code> 此时就需要特殊处理，这里使用的方法是在带 s 的注解里添加一个 <code>@RepeatItem</code> 注解，然后该注解存储单个注解的类型，这样就能把带 s 注解里的单个注解存到它对应类型的注解里。</li>
+<li>处理完当前注解后就接着处理父注解（递归处理）</li>
+</ol>
+<p>遍历完所有的注解后，就取得了可标注元素的所有注解处理过的 <code>memberValues</code>，此时就可以将 <code>memberValues</code> 转成注解了。</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AnnotationUtils</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> Map<span class="token operator">&lt;</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span><span class="token punctuation">,</span> List<span class="token operator">&lt;</span>Annotation<span class="token operator">>></span> <span class="token function">annotationForMergeAnnotation</span><span class="token punctuation">(</span>
+        Map<span class="token operator">&lt;</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span><span class="token punctuation">,</span> List<span class="token operator">&lt;</span>Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">>>></span> annotationMap
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> annotationMap
+            <span class="token punctuation">.</span><span class="token function">entrySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>
+                Collectors<span class="token punctuation">.</span><span class="token function">toMap</span><span class="token punctuation">(</span>
+                    Entry<span class="token operator">:</span><span class="token operator">:</span>getKey<span class="token punctuation">,</span>
+                    e <span class="token operator">-</span><span class="token operator">></span>
+                        e
+                            <span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                            <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                            <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>
+                                i <span class="token operator">-</span><span class="token operator">></span>
+                                    AnnotationUtils<span class="token punctuation">.</span><span class="token function">annotationForMap</span><span class="token punctuation">(</span>
+                                        e<span class="token punctuation">.</span><span class="token function">getKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                                        i
+                                    <span class="token punctuation">)</span>
+                            <span class="token punctuation">)</span>
+                            <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span>Collectors<span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token punctuation">(</span>u<span class="token punctuation">,</span> v<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+                        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span>
+                            String<span class="token punctuation">.</span><span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"Duplicate key %s"</span><span class="token punctuation">,</span> u<span class="token punctuation">)</span>
+                        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                    LinkedHashMap<span class="token operator">:</span><span class="token operator">:</span><span class="token keyword">new</span>
+                <span class="token punctuation">)</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Map<span class="token operator">&lt;</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span><span class="token punctuation">,</span> List<span class="token operator">&lt;</span>Annotation<span class="token operator">>></span> <span class="token function">mergeAnnotation</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> AnnotatedElement element
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> MERGED_ANNOTATION_CACHE<span class="token punctuation">.</span><span class="token function">computeIfAbsent</span><span class="token punctuation">(</span>
+            element<span class="token punctuation">,</span>
+            k <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">{</span>
+                <span class="token keyword">final</span> Map<span class="token operator">&lt;</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span><span class="token punctuation">,</span> List<span class="token operator">&lt;</span>Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">>>></span> annotationMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedHashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token function">walkAnnotation</span><span class="token punctuation">(</span>k<span class="token punctuation">,</span> annotationMap<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> <span class="token function">annotationForMergeAnnotation</span><span class="token punctuation">(</span>annotationMap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此时就有了标注在可标注元素上所有的注解了，有了这些就可以封装成组合注解了：</p>
+<p>首先是 <code>MergedAnnotation</code> 的接口：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">MergedAnnotation</span> <span class="token punctuation">{</span>
+    String VALUE <span class="token operator">=</span> <span class="token string">"value"</span><span class="token punctuation">;</span>
+    Logger log <span class="token operator">=</span> LoggerFactory<span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span>MergedAnnotation<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 获取所有注解
+     *
+     * @return 注解 Map
+     */</span>
+    Map<span class="token operator">&lt;</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span><span class="token punctuation">,</span> List<span class="token operator">&lt;</span>Annotation<span class="token operator">>></span> <span class="token function">annotations</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 获取注解
+     *
+     * @param annotationType 注解类型
+     * @param &lt;A>            注解类型
+     * @return 注解
+     */</span>
+    <span class="token keyword">default</span> <span class="token operator">&lt;</span>A <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> A <span class="token function">getAnnotation</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Class<span class="token operator">&lt;</span>A<span class="token operator">></span> annotationType
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getAnnotation</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 获取注解
+     *
+     * @param annotationType 注解类型
+     * @param index          索引
+     * @param &lt;A>            注解类型
+     * @return 注解
+     */</span>
+    <span class="token annotation punctuation">@SuppressWarnings</span><span class="token punctuation">(</span><span class="token string">"unchecked"</span><span class="token punctuation">)</span>
+    <span class="token keyword">default</span> <span class="token operator">&lt;</span>A <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> A <span class="token function">getAnnotation</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Class<span class="token operator">&lt;</span>A<span class="token operator">></span> annotationType<span class="token punctuation">,</span>
+        <span class="token keyword">final</span> <span class="token keyword">int</span> index
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> List<span class="token operator">&lt;</span>Annotation<span class="token operator">></span> annotations <span class="token operator">=</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">annotations</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>
+            annotations <span class="token operator">==</span> null <span class="token operator">||</span>
+            annotations<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span>
+            index <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span>
+            index <span class="token operator">>=</span> annotations<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>annotations<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">warn</span><span class="token punctuation">(</span>
+                <span class="token string">"Annotation [{}] is multi, but only get one"</span><span class="token punctuation">,</span>
+                annotationType<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>A<span class="token punctuation">)</span> annotations<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 获取指定类型的注解列表
+     *
+     * @param annotationType 注解类型
+     * @param &lt;A>            注解类型
+     * @return 注解列表
+     */</span>
+    <span class="token annotation punctuation">@SuppressWarnings</span><span class="token punctuation">(</span><span class="token string">"unchecked"</span><span class="token punctuation">)</span>
+    <span class="token keyword">default</span> <span class="token operator">&lt;</span>A <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> List<span class="token operator">&lt;</span>A<span class="token operator">></span> <span class="token function">getAnnotations</span><span class="token punctuation">(</span>
+        Class<span class="token operator">&lt;</span>A<span class="token operator">></span> annotationType
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>List<span class="token operator">&lt;</span>A<span class="token operator">></span><span class="token punctuation">)</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">annotations</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">getOrDefault</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">,</span> Collections<span class="token punctuation">.</span><span class="token function">emptyList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 是否存在注解
+     *
+     * @param annotationType 注解类型
+     * @return 是否存在
+     */</span>
+    <span class="token keyword">default</span> <span class="token keyword">boolean</span> <span class="token function">hasAnnotation</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">annotations</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 是否不存在注解
+     *
+     * @param annotationType 注解类型
+     * @return 是否不存在
+     */</span>
+    <span class="token keyword">default</span> <span class="token keyword">boolean</span> <span class="token function">notAnnotation</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">hasAnnotation</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 是否包含多个相同类型的注解
+     *
+     * @param annotationType 注解类型
+     * @return 是否包含
+     */</span>
+    <span class="token keyword">default</span> <span class="token keyword">boolean</span> <span class="token function">hasMultiAnnotation</span><span class="token punctuation">(</span>
+        <span class="token keyword">final</span> Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">annotations</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">annotations</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">1</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 添加注解
+     *
+     * @param annotation 注解
+     */</span>
+    <span class="token keyword">default</span> <span class="token keyword">void</span> <span class="token function">addAnnotation</span><span class="token punctuation">(</span>Annotation annotation<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span>
+            <span class="token string">"Unsupported add annotation to merge annotation"</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 删除注解
+     *
+     * @param annotationType 注解类型
+     */</span>
+    <span class="token keyword">default</span> <span class="token keyword">void</span> <span class="token function">removeAnnotation</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span>
+            <span class="token string">"Unsupported remove annotation to merge annotation"</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 删除注解
+     *
+     * @param annotationType 注解类型
+     * @param index          索引
+     */</span>
+    <span class="token keyword">default</span> <span class="token keyword">void</span> <span class="token function">removeAnnotation</span><span class="token punctuation">(</span>
+        Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType<span class="token punctuation">,</span>
+        <span class="token keyword">int</span> index
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnsupportedOperationException</span><span class="token punctuation">(</span>
+            <span class="token string">"Unsupported add annotation to merge annotation"</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 获取注解值
+     *
+     * @param annotationType 注解类型
+     * @return 注解值
+     */</span>
+    <span class="token keyword">default</span> Object <span class="token function">get</span><span class="token punctuation">(</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">,</span> VALUE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 获取注解值
+     *
+     * @param annotationType 注解类型
+     * @param name           方法名称
+     * @return 注解值
+     */</span>
+    <span class="token keyword">default</span> Object <span class="token function">get</span><span class="token punctuation">(</span>
+        Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType<span class="token punctuation">,</span>
+        String name
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">,</span> name<span class="token punctuation">,</span> Object<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 获取注解值
+     *
+     * @param annotationType 注解类型
+     * @return 注解值
+     */</span>
+    <span class="token keyword">default</span> <span class="token operator">&lt;</span>T<span class="token operator">></span> T <span class="token function">get</span><span class="token punctuation">(</span>
+        Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType<span class="token punctuation">,</span>
+        Class<span class="token operator">&lt;</span>T<span class="token operator">></span> returnType
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">,</span> VALUE<span class="token punctuation">,</span> returnType<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 获取注解值
+     *
+     * @param annotationType 注解类型
+     * @param name           方法名称
+     * @param returnType     返回类型
+     * @param &lt;T>            注解值类型
+     * @return 注解值
+     */</span>
+    <span class="token keyword">default</span> <span class="token operator">&lt;</span>T<span class="token operator">></span> T <span class="token function">get</span><span class="token punctuation">(</span>
+        Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType<span class="token punctuation">,</span>
+        String name<span class="token punctuation">,</span>
+        Class<span class="token operator">&lt;</span>T<span class="token operator">></span> returnType
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">,</span> name<span class="token punctuation">,</span> returnType<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 获取注解值
+     *
+     * @param annotationType 注解类型
+     * @param name           方法名称
+     * @param returnType     返回类型
+     * @param index          索引
+     * @param &lt;T>            注解值类型
+     * @return 注解值
+     */</span>
+    <span class="token keyword">default</span> <span class="token operator">&lt;</span>T<span class="token operator">></span> T <span class="token function">get</span><span class="token punctuation">(</span>
+        Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType<span class="token punctuation">,</span>
+        String name<span class="token punctuation">,</span>
+        Class<span class="token operator">&lt;</span>T<span class="token operator">></span> returnType<span class="token punctuation">,</span>
+        <span class="token keyword">int</span> index
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> Annotation annotation <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getAnnotation</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">,</span> index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">final</span> Method method <span class="token operator">=</span> ReflectUtil<span class="token punctuation">.</span><span class="token function">getMethodByName</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>annotation <span class="token operator">==</span> null <span class="token operator">||</span> method <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> Convert<span class="token punctuation">.</span><span class="token function">convert</span><span class="token punctuation">(</span>
+            returnType<span class="token punctuation">,</span>
+            ReflectUtil<span class="token punctuation">.</span><span class="token function">invoke</span><span class="token punctuation">(</span>annotation<span class="token punctuation">,</span> method<span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">static</span> MergedAnnotation <span class="token function">from</span><span class="token punctuation">(</span>AnnotatedElement element<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">MergedAnnotationImpl</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">has</span><span class="token punctuation">(</span>
+        AnnotatedElement element<span class="token punctuation">,</span>
+        Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span> annotationType
+    <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">from</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getAnnotation</span><span class="token punctuation">(</span>annotationType<span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后就是实现类：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MergedAnnotationImpl</span> <span class="token keyword">implements</span> <span class="token class-name">MergedAnnotation</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> Map<span class="token operator">&lt;</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span><span class="token punctuation">,</span> List<span class="token operator">&lt;</span>Annotation<span class="token operator">>></span> annotations<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">MergedAnnotationImpl</span><span class="token punctuation">(</span><span class="token keyword">final</span> AnnotatedElement element<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>annotations <span class="token operator">=</span> AnnotationUtils<span class="token punctuation">.</span><span class="token function">mergeAnnotation</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> Map<span class="token operator">&lt;</span>Class<span class="token operator">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Annotation</span><span class="token operator">></span><span class="token punctuation">,</span> List<span class="token operator">&lt;</span>Annotation<span class="token operator">>></span> <span class="token function">annotations</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>annotations<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>到这里我们自己的组合注解就实现完成了，让我们来使用下吧：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span>ElementType<span class="token punctuation">.</span>TYPE<span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span>RetentionPolicy<span class="token punctuation">.</span>RUNTIME<span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Parent</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"123"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> @<span class="token keyword">interface</span> <span class="token class-name">Children1</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token annotation punctuation">@Children1</span>
+<span class="token keyword">class</span> <span class="token class-name">MergedAnnotationTest</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">void</span> <span class="token function">from</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> MergedAnnotation annotation <span class="token operator">=</span> MergedAnnotation<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>
+            MergedAnnotationTest<span class="token punctuation">.</span><span class="token keyword">class</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">final</span> Parent parent <span class="token operator">=</span> annotation<span class="token punctuation">.</span><span class="token function">getAnnotation</span><span class="token punctuation">(</span>Parent<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"123"</span><span class="token punctuation">,</span> parent<span class="token punctuation">.</span><span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">assertEquals</span><span class="token punctuation">(</span><span class="token string">"123"</span><span class="token punctuation">,</span> parent<span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>组合注解简单化注解配置，用很少的注解来标注特定含义的多个元注解，同时提供了很好的扩展性，可以根据实际需要灵活的自定义注解。经过组合注解的重构后，我们就不再需要写很多注解处理器，避免了重复，同时也不易出错。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2021-01-16");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2021-01-15T08:26:56.000Z" itemprop="datePublished">2021-01-15</time>
+
+    , 最后修改于&nbsp;<time datetime="2021-01-16T00:31:18.959Z" itemprop="dateModified">2021-01-16</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Java/" rel="tag">#&nbsp;Java</a>
+
+<a class="post-tags-list-item" href="/tags/%E6%A1%86%E6%9E%B6/" rel="tag">#&nbsp;框架</a>
+
+<a class="post-tags-list-item" href="/tags/Spring/" rel="tag">#&nbsp;Spring</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/my-2020-year-end-summary.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">[青空之蓝-2020]-迷茫</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
