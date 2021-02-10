@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>浅谈并发：三大特性 | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="浅谈并发：三大特性 | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talking-about-concurrency-three-characteristics.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言好久没写并发相关的文章了，之所以一直没写是因为我也是半桶水水平，一直写不出来，最近使用了 Obsidian 来记笔记（之前一直没笔记习惯，学了就忘了，所以打算用一款好的软件尝试下），积累了一些笔记，便打算通过写文章加深下，顺便看看这种 卡片式笔记法 对整理思路的是否有帮助。 可见性可见性 指的是一个主内存的线程如果进行了修改，可以及时被其他线程观察到。 可见性问题产生的原因缓存导致了可见性问题 - Otstar Lin - 青空之蓝"><meta name="keywords" content="Java, 并发, 浅谈"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210209222909.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210209223942.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210209225516.png"><meta property="article:published_time" content="2021-02-09T15:03:19.000Z"><meta property="article:modified_time" content="2021-02-10T00:01:38.381Z"><meta property="og:updated_time" content="2021-02-10T00:01:38.381Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Java, 并发, 浅谈"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/talking-about-concurrency-three-characteristics.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/talking-about-concurrency-three-characteristics.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/talking-about-concurrency-three-characteristics.html"
+    },
+    "headline": "浅谈并发：三大特性 | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2021-02-09T15:03:19.000Z",
+    "dateModified": "2021-02-10T00:01:38.381Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "Java, 并发, 浅谈",
+    "description": "前言好久没写并发相关的文章了，之所以一直没写是因为我也是半桶水水平，一直写不出来，最近使用了 Obsidian 来记笔记（之前一直没笔记习惯，学了就忘了，所以打算用一款好的软件尝试下），积累了一些笔记，便打算通过写文章加深下，顺便看看这种 卡片式笔记法 对整理思路的是否有帮助。 可见性可见性 指的是一个主内存的线程如果进行了修改，可以及时被其他线程观察到。 可见性问题产生的原因缓存导致了可见性问题 - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=浅谈并发：三大特性" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=浅谈并发：三大特性&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=浅谈并发：三大特性" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACN0lEQVR42u2aQVLEMAwE9/+fhgsHaok0rbAUYHUugcVrt6lIGY38ePsH10NIIYUU8g9APprry5c+PqvuV+Of5/t8T+sKuReyWmCy6POYanNkY0IK+QxQBUc18d3NdOsKKWSCvHrwaeKv5hJSyLuQCab6OxUpQgo5ERhJnKbAqYTHS1WQkMdBJoifur+sWhTyKEgqYInY6H7uguXbrpqQR0F2D3IyqohZ1RkGUbwIuRqye9CvPk8bmWyqFM1CroesCiNahFUwZMzlP0PIlZDJ4ExFGtlgCtJyjJBrIVPC7oImGabUXECFmJBrILtCKgVSl/STkZVMVyGFJA93WjAJ525eFDhCHg9Jm0WkkZSM/tTAagsxIddCjg4XBVOrgyEvDCF3Q04PIqWAS6IlmWVC7oWkzSNyUIkYB0mw4GpRyGMhaUJOJgAxDpKRj06zCLkG8m6RPzH0iQERu7RCHg9JjNSp2KBBFYs6IddCpmTdiQaSqNM47KoJuQaym/xO05023mMRKORKyCRs6e/J6J8IaSGFnJhWJPnfbYDiwBHyeEiakNNYemCEJnchd0OSwuuuyEgmwthVE3IFZAeYGlBdIidGQrmOkCsh00UNg8lLgBwsEXIv5ORBJk2lqcnVblLItZApYJKgSC+Gl4peIddA0qKKND6JIEYGmJBCwmZ5Egdko2ldIYUkRmkKDNpgwodOhFwNmQx40mgnB5bSIREhhaQvfnLAKQlkkvCFFPIvX0IKKaSQv3i9A61vtpW2ArV/AAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">浅谈并发：三大特性</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2021-02-09</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=浅谈并发：三大特性&url=https://hexo.ixk.me/talking-about-concurrency-three-characteristics.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=浅谈并发：三大特性&url=https://hexo.ixk.me/talking-about-concurrency-three-characteristics.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/talking-about-concurrency-three-characteristics.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/talking-about-concurrency-three-characteristics.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/talking-about-concurrency-three-characteristics.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/talking-about-concurrency-three-characteristics.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/talking-about-concurrency-three-characteristics.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKQAAACkCAAAAAA83tqdAAACN0lEQVR42u2aQVLEMAwE9/+fhgsHaok0rbAUYHUugcVrt6lIGY38ePsH10NIIYUU8g9APprry5c+PqvuV+Of5/t8T+sKuReyWmCy6POYanNkY0IK+QxQBUc18d3NdOsKKWSCvHrwaeKv5hJSyLuQCab6OxUpQgo5ERhJnKbAqYTHS1WQkMdBJoifur+sWhTyKEgqYInY6H7uguXbrpqQR0F2D3IyqohZ1RkGUbwIuRqye9CvPk8bmWyqFM1CroesCiNahFUwZMzlP0PIlZDJ4ExFGtlgCtJyjJBrIVPC7oImGabUXECFmJBrILtCKgVSl/STkZVMVyGFJA93WjAJ525eFDhCHg9Jm0WkkZSM/tTAagsxIddCjg4XBVOrgyEvDCF3Q04PIqWAS6IlmWVC7oWkzSNyUIkYB0mw4GpRyGMhaUJOJgAxDpKRj06zCLkG8m6RPzH0iQERu7RCHg9JjNSp2KBBFYs6IddCpmTdiQaSqNM47KoJuQaym/xO05023mMRKORKyCRs6e/J6J8IaSGFnJhWJPnfbYDiwBHyeEiakNNYemCEJnchd0OSwuuuyEgmwthVE3IFZAeYGlBdIidGQrmOkCsh00UNg8lLgBwsEXIv5ORBJk2lqcnVblLItZApYJKgSC+Gl4peIddA0qKKND6JIEYGmJBCwmZ5Egdko2ldIYUkRmkKDNpgwodOhFwNmQx40mgnB5bSIREhhaQvfnLAKQlkkvCFFPIvX0IKKaSQv3i9A61vtpW2ArV/AAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#可见性"><span class="post-toc-number">2.</span> <span class="post-toc-text">可见性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#可见性问题产生的原因"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">可见性问题产生的原因</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#样例"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">样例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题产生"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">问题产生</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解决方案"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">解决方案</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#有序性"><span class="post-toc-number">3.</span> <span class="post-toc-text">有序性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#有序性问题产生的原因"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">有序性问题产生的原因</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#样例-1"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">样例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题产生-1"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">问题产生</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解决方案-1"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">解决方案</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原子性"><span class="post-toc-number">4.</span> <span class="post-toc-text">原子性</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题原因"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">问题原因</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#样例-2"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">样例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题产生-2"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">问题产生</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解决方案-2"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">解决方案</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">5.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>好久没写并发相关的文章了，之所以一直没写是因为我也是半桶水水平，一直写不出来，最近使用了 <a href="https://obsidian.md/" target="_blank" rel="noopener">Obsidian</a> 来记笔记（之前一直没笔记习惯，学了就忘了，所以打算用一款好的软件尝试下），积累了一些笔记，便打算通过写文章加深下，顺便看看这种 <a href="https://en.wikipedia.org/wiki/Zettelkasten" target="_blank" rel="noopener">卡片式笔记法</a> 对整理思路的是否有帮助。</p>
+<h2 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h2><p><strong>可见性</strong> 指的是一个主内存的线程如果进行了修改，可以及时被其他线程观察到。</p>
+<h3 id="可见性问题产生的原因"><a href="#可见性问题产生的原因" class="headerlink" title="可见性问题产生的原因"></a>可见性问题产生的原因</h3><p><strong>缓存</strong>导致了可见性问题，在 Java 中所有变量都储存在<strong>主内存</strong>中，- 每个线程都有自己<strong>独立的工作内存</strong>（缓存、寄存器等），里面保存该线程使用到的变量的副本（主内存中该变量的一份拷贝），线程对共享变量所有的操作都必须在自己的工作内存中进行，不能直接从主内存中读写，不同线程之间也无法直接访问其他线程的工作内存中的变量，线程间变量值的传递需要通过主内存来进行。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210209222909.png" alt=""></p>
+<h3 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h3><pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">boolean</span> stop <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    stop <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stop<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// do something</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="问题产生"><a href="#问题产生" class="headerlink" title="问题产生"></a>问题产生</h3><p>以上代码在运行前，各线程会先将 <code>stop</code> 值复制到自己的工作内存中，当线程 1 进入 <code>loop</code> 的循环的时候该线程会一直从自己的工作内存读取值，并不会再从主内存读取值。这样就造成了一个问题，如果 <code>stop</code> 方法不是线程 1 调用的，那么线程 1 读取到的值则会一直为 <code>false</code> 造成死循环的发生。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ul>
+<li>volatile</li>
+<li>synchronized</li>
+</ul>
+<p>对于可见性问题，我们可以为 <code>stop</code> 变量<strong>加上 <code>volatile</code> 关键字</strong>，这样线程 1 每次都会到主内存读取 <code>stop</code> 值，其他线程更新时也会立即更新到主内存，这样就可以及时停止死循环。</p>
+<p><code>volatile</code> 通过加入内存屏障和禁止重排序优化来实现。对 <code>volatile</code> 变量写操作时，会在写操作后加入一条 <code>store</code> 屏障指令，将本地内存中的共享变量值刷新到主内存。对 <code>volatile</code> 变量读操作时，会在读操作前加入一条 <code>load</code> 屏障指令，从主内存中读取共享变量。</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">volatile</span> <span class="token keyword">boolean</span> stop <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    stop <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">!</span>stop<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// do something</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>除了 <code>volatile</code> 关键字，我们还可以使用 <code>synchronized</code> 加锁。这是因为线程解锁前，必须把共享变量的最新值刷新到主内存。线程加锁时，将清空工作内存中共享变量的值，从而使用共享变量时需要从主内存重新读取最新的值。</p>
+<blockquote>
+<p>完整样例：<a href="https://github.com/syfxlin/code/tree/master/100-days-of-code/java/src/main/java/me/ixk/days/day10" target="_blank" rel="noopener">可见性 &amp; 原子性问题及解决</a></p>
+</blockquote>
+<h2 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h2><p><strong>有序性</strong>指的是程序按照代码的先后顺序执行。</p>
+<h3 id="有序性问题产生的原因"><a href="#有序性问题产生的原因" class="headerlink" title="有序性问题产生的原因"></a>有序性问题产生的原因</h3><p><strong>指令重排</strong>导致了有序性问题，Java 内存模型中，允许编译器和处理器对指令进行重排序，但是重排序过程不会影响到单线程程序的执行，却会影响到多线程并发执行的正确性。</p>
+<h3 id="样例-1"><a href="#样例-1" class="headerlink" title="样例"></a>样例</h3><pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">static</span> Singleton instance<span class="token punctuation">;</span>
+
+  <span class="token keyword">static</span> Singleton <span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>instance <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>Singleton<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>instance <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> instance<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="问题产生-1"><a href="#问题产生-1" class="headerlink" title="问题产生"></a>问题产生</h3><p>未进行指令重排的情况下，<code>instance = new Singleton()</code> 的执行顺序如下：</p>
+<ol>
+<li>分配一块内存 M</li>
+<li>在内存 M 上初始化 <code>Singleton</code> 对象</li>
+<li>然后 M 的地址赋值给 <code>instance</code> 变量</li>
+</ol>
+<p>然而编译器<strong>有可能</strong>进行以下的指令重排，重排后的顺序如下：</p>
+<ol>
+<li>分配一块内存 M</li>
+<li>将 M 的地址赋值给 <code>instance</code> 变量</li>
+<li>然后在内存 M 上初始化 <code>Singleton</code> 对象</li>
+</ol>
+<p>当指令重排后，线程 1 <code>instance = new Singleton()</code> 执行完 2 步骤后，此时进行线程切换，线程 2 <code>getInstance()</code> 当走到 <code>if (instance == null)</code> 的时候，由于 <code>instance</code> 变量已经被赋值了，那么就获取成功，返回，但是此时 <code>Singleton</code> 对象并未初始化，如果这时候使用该对象，那么就会导致抛出 NPE 异常。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210209223942.png" alt=""></p>
+<h3 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h3><ul>
+<li>volatile</li>
+<li>synchronized</li>
+</ul>
+<p>将 <code>instance</code> 变量加上 <code>volatile</code> 关键字禁用指令重排即可。</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">static</span> <span class="token keyword">volatile</span> Singleton instance<span class="token punctuation">;</span>
+
+  <span class="token keyword">static</span> Singleton <span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>instance <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>Singleton<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>instance <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> instance<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h2><p><strong>原子性</strong>指提供互斥访问，同一时刻只能有一个线程对数据进行操作。简单来说就是序列化的执行。</p>
+<h3 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h3><p><strong>线程切换</strong>导致原子性问题，Java 并发程序都是基于多线程的，操作系统为了充分利用 CPU 的资源，将 CPU 分成若干个时间片，在多线程环境下，线程会被操作系统调度进行任务切换。</p>
+<h3 id="样例-2"><a href="#样例-2" class="headerlink" title="样例"></a>样例</h3><pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//1</span>
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    count<span class="token operator">++</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 2</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> count<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 3</span>
+<span class="token punctuation">}</span> 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="问题产生-2"><a href="#问题产生-2" class="headerlink" title="问题产生"></a>问题产生</h3><p>以上的代码除了 1 是原子操作，其他均不是原子操作。</p>
+<p>其实语句 2 在执行的时候，包含三个指令操作：</p>
+<ol>
+<li>将 <code>count</code> 的值加载到 CPU 的寄存器</li>
+<li>进行 +1 操作</li>
+<li>将计算结果写入到 <code>count</code> 内存中</li>
+</ol>
+<p>对于上面的三条指令来说，如果线程 1 在 1 执行完后做线程切换，线程 1 和线程 2 按照下图的序列执行，那么我们会发现两个线程都执行了 <code>count+=1</code> 的操作，但是得到的结果不是我们期望的 2，而是 1。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210209225516.png" alt=""></p>
+<h3 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案"></a>解决方案</h3><ul>
+<li>Atomic</li>
+<li>CAS</li>
+<li>synchronized</li>
+<li>Lock</li>
+</ul>
+<p>对原子性不安全的地方进行<strong>加锁操作</strong>、<strong>使用原子操作类</strong>、<strong>CAS</strong> 等方法即可解决原子性的问题。如样例的代码经过如下改动即可实现线程安全：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//1</span>
+
+<span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    count<span class="token operator">++</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 2</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token keyword">int</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> count<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 3</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当然对于这种累加的操作我们最好还是使用对应的原子类，如 <code>int</code> 对应 <code>AtomicInteger</code>。</p>
+<blockquote>
+<p>完整样例：<a href="https://github.com/syfxlin/code/tree/master/100-days-of-code/java/src/main/java/me/ixk/days/day10" target="_blank" rel="noopener">可见性 &amp; 原子性问题及解决</a></p>
+</blockquote>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>到此这篇文章就结束了，虽说我们了解了这些问题产生的原因和解决方案，但是在实际的编码过程中，并发问题往往都很隐蔽，不容易发现和修正。除了隐蔽外，并发编程也存在着心智负担，我们通常很难决定是要使用那种同步方式来防止线程不安全的情况发生，比如我在写框架的时候就经常遇到是要暴力加锁还是用 CAS 或者并发容器，是要弱一致性还是要强一致性。</p>
+<p>如果您发现了文章的错误欢迎留言纠正。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2021-02-10");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2021-02-09T15:03:19.000Z" itemprop="datePublished">2021-02-09</time>
+
+    , 最后修改于&nbsp;<time datetime="2021-02-10T00:01:38.381Z" itemprop="dateModified">2021-02-10</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Java/" rel="tag">#&nbsp;Java</a>
+
+<a class="post-tags-list-item" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">#&nbsp;并发</a>
+
+<a class="post-tags-list-item" href="/tags/%E6%B5%85%E8%B0%88/" rel="tag">#&nbsp;浅谈</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/talking-about-merged-annotation.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">浅谈组合注解 &amp; 注解别名</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
