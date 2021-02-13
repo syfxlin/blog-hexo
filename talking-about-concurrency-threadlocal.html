@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        hexo-theme-suka © SukkaW
+        GitHub: https://github.com/SukkaW/hexo-theme-suka
+    -->
+
+    <!-- ### Resource Hint ### -->
+
+    <!-- ## DNS Prefetch ## -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+<!-- busuanzi -->
+
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+
+
+<!-- comment -->
+
+
+
+
+
+
+
+<!-- analytics -->
+
+
+
+
+
+
+
+    <!-- ## Preload ## -->
+    
+    <!-- Busuanzi -->
+    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" as="script">
+
+
+
+
+
+
+
+    <!-- ### Meta & Title & Info ### -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+
+    <!-- Title -->
+    <title>浅谈并发：ThreadLocal | 青空之蓝</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image&#x2F;ico" href="/image/favicon.png">
+
+    <!-- ### Import File ### -->
+    <link rel="stylesheet" href="/lib/spectre/spectre.min.css"><style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    a, a:visited {
+        color: #0070ff;
+    }
+
+    a:active, a:focus, a:hover {
+        color: #0070ff;
+        opacity: .75;
+    }
+
+    #post-content a,
+    #post-content a:hover,
+    #post-content a:focus,
+    #post-content a:visited {
+        color: #005eb9;
+        opacity: 1;
+    }
+
+    
+
+    .post-entry .card-body a {
+        color: #0070ff;
+    }
+
+    .avatar {
+        background: #444;
+    }
+
+    .navbar-link,
+    .navbar-link:visited,
+    .timeline .timeline-item .timeline-icon.icon-lg {
+        color: #0070ff;
+    }
+
+    .navbar-link:hover {
+        color: #0070ff;
+        opacity: .8;
+    }
+
+    #search-input .btn,
+    #disqus_click_btn,
+    #disqus-switch-to-direct,
+    #disqus-loadmore-button {
+        background: #727e96;
+        border-color: #727e96;
+        color: #fff;
+    }
+
+    #post-toc a.post-toc-link,
+    #post-toc a.post-toc-link:visited,
+    .share-menu.menu .menu-item>a {
+        color: #727e96;
+    }
+
+    .share-menu.menu .menu-item>a:hover,
+    .share-menu.menu .menu-item>a:focus,
+    .share-menu.menu .menu-item>a:visited {
+        color: #50596c;
+        background: #f8f9fa;
+        opacity: .85;
+    }
+</style><link rel="stylesheet" href="/css/style.min.css">
+
+
+
+
+    <!-- prism.css -->
+    
+    <link rel="preload" href="/lib/prism/prism-line-numbers.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-line-numbers.min.css"></noscript><link rel="preload" href="/lib/prism/prism-okaidia.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/lib/prism/prism-okaidia.min.css"></noscript>
+
+
+
+
+
+
+
+
+
+<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);
+</script>
+
+    <!-- ### Site Verification ### -->
+    
+
+
+    <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- ### The Open Graph & Twitter Card Protocol ### -->
+    <meta property="og:title" content="浅谈并发：ThreadLocal | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talking-about-concurrency-threadlocal.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言日常水文章.jpg ThreadLocalThreadLocal 是关于创建线程局部变量的类，类似于沙箱，当前线程存储的变量只能被当前线程访问，不同线程间的变量是隔离开的。 ThreadLocal 其实只是一个委托类，实际存储的数据是存在线程中的 ThreadLocalMap 里，由于线程是互相隔离的，所以 Thread 里的数据也就原生隔离了。所以获取 ThreadLocal 的值其实经过了 - Otstar Lin - 青空之蓝"><meta name="keywords" content="Java, 并发, 浅谈"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210212173916.png"><meta property="article:published_time" content="2021-02-12T10:09:04.000Z"><meta property="article:modified_time" content="2021-02-13T00:01:28.185Z"><meta property="og:updated_time" content="2021-02-13T00:01:28.185Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Java, 并发, 浅谈"><meta name="twitter:card" content="summary">
+
+    
+
+    <!-- ### Canonical link ### -->
+    <link rel="canonical" href="https://hexo.ixk.me/talking-about-concurrency-threadlocal.html">
+
+    <meta name="generator" content="Hexo 4.0.0">
+
+    <!-- ### Analytics ### -->
+    
+
+
+
+
+
+
+
+    <!-- ### Structured Data ### -->
+    
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "url": "https://hexo.ixk.me/talking-about-concurrency-threadlocal.html",
+    "@type": "BlogPosting",
+    "logo": "https://hexo.ixk.me/image/favicon.png",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hexo.ixk.me/talking-about-concurrency-threadlocal.html"
+    },
+    "headline": "浅谈并发：ThreadLocal | 青空之蓝",
+    
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hexo.ixk.me/image/favicon.png"
+    },
+    
+    "datePublished": "2021-02-12T10:09:04.000Z",
+    "dateModified": "2021-02-13T00:01:28.185Z",
+    "author": {
+        "@type": "Person",
+        "name": "Otstar Lin",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/avatar-lite.png"
+        },
+        "description": "站在时光一端，回忆过往记忆。"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "青空之蓝",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hexo.ixk.me/image/favicon.png"
+        }
+    },
+    
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://hexo.ixk.me/search?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    
+    "keywords": "Java, 并发, 浅谈",
+    "description": "前言日常水文章.jpg ThreadLocalThreadLocal 是关于创建线程局部变量的类，类似于沙箱，当前线程存储的变量只能被当前线程访问，不同线程间的变量是隔离开的。 ThreadLocal 其实只是一个委托类，实际存储的数据是存在线程中的 ThreadLocalMap 里，由于线程是互相隔离的，所以 Thread 里的数据也就原生隔离了。所以获取 ThreadLocal 的值其实经过了 - Otstar Lin - 青空之蓝"
+}
+</script>
+
+
+
+    <!-- ### Custom Head ### -->
+    
+</head>
+
+    <body>
+            
+
+            <!-- ### Main content ### -->
+            <!-- ## Header ##-->
+<header>
+    <h1 class="header-title text-center"><a href="/">青空之蓝</a></h1>
+
+    <p class="text-center header-slogan">
+        
+            
+                站在时光一端，回忆过往记忆。
+            
+        
+    </p>
+
+    <nav class="navbar-section text-center">
+    
+        <a href="/" class="navbar-link">首页</a>
+    
+    
+        <a href="/archives/" class="navbar-link">归档</a>
+    
+    
+        <a href="/search" class="navbar-link">搜索</a>
+    
+    
+    
+        <div class="dropdown dropdown-right">
+    <a class="navbar-link dropdown-toggle" tabindex="0">分享</a>
+    <ul class="menu share-menu">
+
+        <!-- Share Weibo -->
+        
+        <li class="menu-item">
+            <a href="http://service.weibo.com/share/share.php?appkey=&title=青空之蓝&url=https://hexo.ixk.me&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+        </li>
+        
+
+        <!-- Share Twitter -->
+        
+        <li class="menu-item">
+            <a href="https://twitter.com/intent/tweet?text=青空之蓝&url=https://hexo.ixk.me&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+        </li>
+        
+
+        <!-- Share Facebook -->
+        
+        <li class="menu-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+        </li>
+        
+
+        <!-- Share Google+ -->
+        
+        <li class="menu-item">
+            <a href="https://plus.google.com/share?url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+        </li>
+        
+
+        <!-- Share LinkedIn -->
+        
+        <li class="menu-item">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me&title=浅谈并发：ThreadLocal" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+        </li>
+        
+
+        <!-- Share QQ -->
+        
+        <li class="menu-item">
+            <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=浅谈并发：ThreadLocal&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+        </li>
+        
+
+        <!-- Share Telegram -->
+        
+        <li class="menu-item">
+            <a href="https://t.me/share/url?url=https://hexo.ixk.me&text=浅谈并发：ThreadLocal" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+        </li>
+        
+
+        <!-- QRCode -->
+        
+        <li class="menu-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB4ElEQVR42u3awW7DIBREUf//T7erSKkFMxfXCzMeb9KoiTmWCPAGjp8HXkdRRRVV1AB1iOv7M3++fPof+R5qp6gY1LDTCci5EfXdz9+knaKyUOdGyM1mjatOP2unqHej1I1Jhy+qKDKokgm5qHehZp109Dq8oVgU3r5KKOrxKLWgv/P1tmqmqEejbOgAJubZZD0rLP6duhT1aJTqiAroBlHS0YvKRKkCkhaZs0F39F5O6kXFoGaBhZugHXI1RCsqA+UWeKo4XX0QG+AWFYFSQZhb6LviVP0QhmFJUREoF6aSgJX8SFSAVlQmigQeqiEyoNoFZVERKBLEk4WaK0jRAxUVgbqKIWE+wdjBs6itUe5QxOpiTy3uLh3qKmob1GpnJhM1hckKuagtUbSj0vCLHvYqKhulQoiVAxV0QkapS1HboshhGXdgnh44dQ9UVCbKFZBq88j9KC539KK2RMkPg41vsiFkF4FFRaFIGEtCCnKv6cRfVARqZXNIdVTSqP18URGolQ1sEoDQwxYodSlqWxQpNF3gj4MxNZgWFYUiRYEaJN3mEpnci3ofaqWwoIe6inovimwyusWgDUGKikK5gkFtRJKwnwQgReWg3KSpXklIQoORojJQT7qKKqqoor6uX+4GEK+XqyuoAAAAAElFTkSuQmCC" alr="QRCode">
+        </li>
+        
+
+    </ul>
+</div>
+    
+    
+</nav>
+</header>
+
+            
+    <!-- ## Post ## -->
+    <div class="post-container">
+    <div id="post-card" class="card">
+        
+        <div class="card-item-container">
+            <div class="card-inner-cell">
+                <!-- # Post Header Info # -->
+                <div class="card-header">
+                    
+    <h1 class="card-title h3 mb-2">浅谈并发：ThreadLocal</h1>
+
+
+
+
+<div class="post-header-info">
+    <p class="post-header-info-left text-gray">
+        <img class="author-thumb lazyload" data-src="/image/avatar-lite.png" src="/img/suka-lazyload.gif" alt="Otstar Lin's Avatar">
+        <span>2021-02-12</span>
+        
+            <span class="suka-devide-dot"></span>
+            <a class="category-link" href="/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/">折腾记录</a>
+        
+        
+            <!-- Busuanzi Post Views -->
+<span id="busuanzi_container_page_pv" hidden>
+    <span class="suka-devide-dot"></span>
+    <span></span>
+    <span id="busuanzi_value_page_pv"></span>
+    <span>Views</span>
+</span>
+        
+        
+    </p>
+    <div class="post-header-info-right">
+        
+            <div class="dropdown dropdown-right">
+<a class="dropdown-toggle" tabindex="0">分享本文</a>
+<ul class="menu share-menu">
+    <!-- Share Weibo -->
+    
+    <li class="menu-item">
+        <a href="http://service.weibo.com/share/share.php?appkey=&title=浅谈并发：ThreadLocal&url=https://hexo.ixk.me/talking-about-concurrency-threadlocal.html&pic=https://hexo.ixk.me/image/favicon.png&searchPic=false&style=simple" target="_blank" rel="external noopener noreferrer nofollow">分享到微博</a>
+    </li>
+    
+
+    <!-- Share Twitter -->
+    
+    <li class="menu-item">
+        <a href="https://twitter.com/intent/tweet?text=浅谈并发：ThreadLocal&url=https://hexo.ixk.me/talking-about-concurrency-threadlocal.html&via=Otstar Lin" target="_blank" rel="external noopener noreferrer nofollow">分享到 Twitter</a>
+    </li>
+    
+
+    <!-- Share Facebook -->
+    
+    <li class="menu-item">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://hexo.ixk.me/talking-about-concurrency-threadlocal.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Facebook</a>
+    </li>
+    
+
+    <!-- Share Google+ -->
+    
+    <li class="menu-item">
+        <a href="https://plus.google.com/share?url=https://hexo.ixk.me/talking-about-concurrency-threadlocal.html" target="_blank" rel="external noopener noreferrer nofollow">分享到 Google+</a>
+    </li>
+    
+
+    <!-- Share LinkedIn -->
+    
+    <li class="menu-item">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hexo.ixk.me/talking-about-concurrency-threadlocal.html&title=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 LinkedIn</a>
+    </li>
+    
+
+    <!-- Share QQ -->
+    
+    <li class="menu-item">
+        <a href="http://connect.qq.com/widget/shareqq/index.html?site=青空之蓝&title=青空之蓝&summary=Hi，欢迎来到Otstar Lin的个人博客，来自福建泉州的菜鸟，博客内容主要以Linux和Web为主，哎呀，实在写不下去了_(:з」∠)_&pics=https://hexo.ixk.me/image/favicon.png&url=https://hexo.ixk.me/talking-about-concurrency-threadlocal.html" target="_blank" rel="external noopener noreferrer nofollow"> 分享到 QQ</a>
+    </li>
+    
+
+    <!-- Share Telegram -->
+    
+    <li class="menu-item">
+        <a href="https://t.me/share/url?url=https://hexo.ixk.me/talking-about-concurrency-threadlocal.html&text=青空之蓝" target="_blank" rel="external noopener noreferrer nofollow">分享到 Telegram</a>
+    </li>
+    
+
+    <!-- QRCode -->
+    
+    <li class="menu-item">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAAAAABQV18IAAAB4ElEQVR42u3awW7DIBREUf//T7erSKkFMxfXCzMeb9KoiTmWCPAGjp8HXkdRRRVV1AB1iOv7M3++fPof+R5qp6gY1LDTCci5EfXdz9+knaKyUOdGyM1mjatOP2unqHej1I1Jhy+qKDKokgm5qHehZp109Dq8oVgU3r5KKOrxKLWgv/P1tmqmqEejbOgAJubZZD0rLP6duhT1aJTqiAroBlHS0YvKRKkCkhaZs0F39F5O6kXFoGaBhZugHXI1RCsqA+UWeKo4XX0QG+AWFYFSQZhb6LviVP0QhmFJUREoF6aSgJX8SFSAVlQmigQeqiEyoNoFZVERKBLEk4WaK0jRAxUVgbqKIWE+wdjBs6itUe5QxOpiTy3uLh3qKmob1GpnJhM1hckKuagtUbSj0vCLHvYqKhulQoiVAxV0QkapS1HboshhGXdgnh44dQ9UVCbKFZBq88j9KC539KK2RMkPg41vsiFkF4FFRaFIGEtCCnKv6cRfVARqZXNIdVTSqP18URGolQ1sEoDQwxYodSlqWxQpNF3gj4MxNZgWFYUiRYEaJN3mEpnci3ofaqWwoIe6inovimwyusWgDUGKikK5gkFtRJKwnwQgReWg3KSpXklIQoORojJQT7qKKqqoor6uX+4GEK+XqyuoAAAAAElFTkSuQmCC" alt="QRCode">
+    </li>
+    
+
+</ul>
+</div>
+        
+    </div>
+</div>
+                </div>
+                <div class="card-body">
+                    
+                        
+                        
+                            <div id="post-toc"><ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ThreadLocal"><span class="post-toc-number">2.</span> <span class="post-toc-text">ThreadLocal</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#InheritableThreadLocal"><span class="post-toc-number">3.</span> <span class="post-toc-text">InheritableThreadLocal</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ThreadLocalMap"><span class="post-toc-number">4.</span> <span class="post-toc-text">ThreadLocalMap</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#内存泄漏"><span class="post-toc-number">5.</span> <span class="post-toc-text">内存泄漏</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原因"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">原因</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解决方案"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">解决方案</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#结语"><span class="post-toc-number">6.</span> <span class="post-toc-text">结语</span></a></li></ol></div>
+                        
+                    
+                    <article id="post-content">
+                        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>日常水文章.jpg</p>
+<h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><p><strong>ThreadLocal</strong> 是关于创建线程局部变量的类，类似于沙箱，当前线程存储的变量只能被当前线程访问，不同线程间的变量是隔离开的。</p>
+<p>ThreadLocal 其实只是一个委托类，实际存储的数据是存在线程中的 <code>ThreadLocalMap</code> 里，由于线程是互相隔离的，所以 <code>Thread</code> 里的数据也就原生隔离了。所以获取 ThreadLocal 的值其实经过了以下几个步骤：</p>
+<ol>
+<li>首先获取当前线程。</li>
+<li>利用当前线程作为句柄获取一个来自该实例中的 <code>ThreadLocalMap</code> 的对象。</li>
+<li>如果上述 <code>ThreadLocalMap</code> 对象不为空，则从 <code>ThreadLocalMap</code> 中取得以当前 <code>ThreadLocal</code> 对象为 key 的值。</li>
+<li>如果<code>ThreadLocalMap</code> 对象为空，或者取得的值为 <code>null</code>，则通过 <code>initialValue</code> 方法取得初始值，将初始值设置到 <code>ThreadLocalMap</code> 或者创建这个 <code>ThreadLocalMap</code> 对象并设置值。</li>
+</ol>
+<p>源码如下：</p>
+<pre class="line-numbers highlight language-java"><code class="language-java"><span class="token keyword">public</span> T <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Thread t <span class="token operator">=</span> Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ThreadLocalMap map <span class="token operator">=</span> <span class="token function">getMap</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>map <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        ThreadLocalMap<span class="token punctuation">.</span>Entry e <span class="token operator">=</span> map<span class="token punctuation">.</span><span class="token function">getEntry</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>e <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token annotation punctuation">@SuppressWarnings</span><span class="token punctuation">(</span><span class="token string">"unchecked"</span><span class="token punctuation">)</span>
+            T result <span class="token operator">=</span> <span class="token punctuation">(</span>T<span class="token punctuation">)</span>e<span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+            <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token function">setInitialValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>getMap</code> 方法其实就是获取了 <code>t.threadLocals</code> 这个属性，所以 <code>ThreadLocal</code> 里的值被对应的线程持有，存放于堆中。（当然这并不是绝对的，因为还有栈上分配、标量替换等优化）。</p>
+<h2 id="InheritableThreadLocal"><a href="#InheritableThreadLocal" class="headerlink" title="InheritableThreadLocal"></a>InheritableThreadLocal</h2><p>除了 <strong>ThreadLocal</strong> 外，Java 中还提供了一个 <strong>InheritableThreadLocal</strong>。</p>
+<p><strong>InheritableThreadLocal</strong> 是 ThreadLocal 的扩展版本，当父线程创建子线程的时候，父线程的 <code>ThreadLocalMap</code> 就会被复制到子线程中。这样就能做到线程间传递变量。</p>
+<p>不过需要注意的是，发生传递的情况只有在子线程是父线程创建的，然而我们一般不会直接创建线程，而是通过线程池的方式来使用，这也导致了无法形成层级关系，此时父子线程间的上下文传递就没有用了。当然这也有解决方案，比较流行的如阿里的 <a href="https://github.com/alibaba/transmittable-thread-local" target="_blank" rel="noopener">TTL</a>。</p>
+<h2 id="ThreadLocalMap"><a href="#ThreadLocalMap" class="headerlink" title="ThreadLocalMap"></a>ThreadLocalMap</h2><p><strong>ThreadLocalMap</strong> 虽有 Map 的后缀但是它并不继承自 <code>Map</code> 接口，所以内部的方法并没有同 <code>Map</code> 一样有非常多的方法。同时实现也不同于 <code>HashMap</code>，内部并没有使用 <strong>数组+链表（红黑树）</strong>的方式进行存储，而是只简单的 <strong>数组</strong> 来存储的。对于 hash 冲突的解决方式是采用<strong>开放寻址法</strong>。</p>
+<p><strong>ThreadLocalMap</strong> 的 key 是弱引用，value 是强引用的存储结构。</p>
+<h2 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h2><h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>首先说明一点，<strong>ThreadLocal</strong> 本身设计并不存在内存泄漏的问题，之所以会发生内存泄漏，实际上是因为错误的使用导致的。</p>
+<p>由于 <strong>ThreadLocalMap</strong> 中的 key 是弱引用的，当 key 被 GC 清理后，<strong>ThreadLocalMap</strong> 中就只剩下了 <code>value</code>，而这个 <code>value</code> 是强引用的，会一直在线程中存在，此时即使 <strong>ThreadLocalMap</strong> 的使用者不再引用这些对象，这些对象也无法被垃圾回收，因为还有一条引用链引用这这个 <code>value</code>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210212173916.png" alt=""></p>
+<p>如果没有调用 <code>remove</code> 方法清除不再需要使用的值，那么这个值就会一直存在直到 Thread 对象被销毁。然而我们一般情况下都是使用线程池，所以线程的生命周期非常长，不 <code>remove</code> 最终可能会导致 OOM。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>对于过期的值清除有以下三种方式：</p>
+<ol>
+<li><strong>显示清除：</strong>这是推荐的方式，通过调用 <code>remove</code> 方法就可以将下面那条引用断开，这样 <code>value</code> 就不再拥有强引用了，GC 也就能回收这个对象了。</li>
+<li><strong>隐式清除：</strong>隐式清除分为两个步骤：<ul>
+<li><strong>清除 key：</strong>由于 Key 是弱引用的，其指向的 <code>ThreadLocal</code> 实例可被 GC 回收，回收后从 <code>k-v</code> 变成 <code>null-v</code>。</li>
+<li><strong>清除 value：</strong>当我们调用 <code>get</code>、<code>set</code> 等方法的时候，会自动寻找 key 为 <code>null</code> 的元素并删除（<code>expungeStaleEntry</code>）。</li>
+</ul>
+</li>
+<li><strong>自动清除：</strong>由于 <code>ThreadLocalMap</code> 是随着 <code>Thread</code> 存在的，当 <code>Thread</code> 被回收的时候，<code>ThreadLocalMap</code> 就会被一起回收。这在使用线程池的情况下基本无法使用。</li>
+</ol>
+<p>为了避免发生保持在 <code>null-v</code> 这种内存泄漏的情况，我们可以使用<strong>显示清除</strong>这种较为简单也是最推荐的方式。</p>
+<p>或者也可以将 <code>ThreadLocal</code> 设置为 <code>static</code> 这种情况，这样就保证了 key 不会被 GC 自动回收，当我们再次使用的时候就会覆盖之前的值，之前的值也就不存在强引用了。但是这种方式同样也要注意一点，由于我们一般会使用线程池来执行任务，那么 <code>ThreadLocalMap</code> 也会被保留下来，其中的值不会被清除，当我们再次使用 <code>ThreadLocal</code> 的时候，如果未先 <code>remove</code> 掉旧值那么就有可能造成值残留的问题。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>总算写完文章了，差不多写了快 2 小时吧，虽然不是什么复杂的知识，但是耗时确实挺多的。</p>
+<p>另外吐槽下这个坑爹的 WordPress，越更新越难用，现在这个 Gutenberg 编辑器越来越卡，打算换平台了，但是又不舍得这个主题（换平台移植主题太花时间了，今年估计是没法）。</p>
+
+                    </article>
+                    
+
+
+    <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
+    <script>
+    (function() {
+        var dateUpdate = Date.parse("2021-02-13");
+        var nowDate = new Date();
+        var a = nowDate.getTime();
+        var b = a - dateUpdate;
+        var daysUpdateExpire = Math.floor(b/(24*3600*1000));
+        if (daysUpdateExpire >= 120) {
+            document.getElementById('date-expire-num').innerHTML = daysUpdateExpire;
+        } else {
+            document.getElementById('date-expire-notification').style.display = 'none';
+        }
+    })();
+    </script>
+
+
+<p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2021-02-12T10:09:04.000Z" itemprop="datePublished">2021-02-12</time>
+
+    , 最后修改于&nbsp;<time datetime="2021-02-13T00:01:28.185Z" itemprop="dateModified">2021-02-13</time>
+
+</p>
+<p class="post-footer-info mb-0 pt-2">
+
+<span class="post-categories-list mt-2">
+
+<a class="post-categories-list-item" href='/categories/%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/'>折腾记录</a>
+
+</span>
+
+
+
+<span class="post-tags-list mt-2">
+
+<a class="post-tags-list-item" href="/tags/Java/" rel="tag">#&nbsp;Java</a>
+
+<a class="post-tags-list-item" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">#&nbsp;并发</a>
+
+<a class="post-tags-list-item" href="/tags/%E6%B5%85%E8%B0%88/" rel="tag">#&nbsp;浅谈</a>
+
+</span>
+
+
+</p>
+
+                </div>
+                <div class="post-nav px-2 bg-gray">
+<ul class="pagination">
+    <!-- Prev Nav -->
+    
+
+    <!-- Next Nav -->
+    
+        <li class="page-item page-next">
+            <a href="/talking-about-concurrency-three-characteristics.html" rel="next">
+                <div class="page-item-title"><i class="icon icon-forward" aria-hidden="true"></i></div>
+                <div class="page-item-subtitle">浅谈并发：三大特性</div>
+            </a>
+        </li>
+    
+</ul>
+</div>
+
+                
+                    <!-- # Comment # -->
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- ### Footer ### -->
+            <footer class="text-center">
+    <!-- footer copyright -->
+    
+        <p class="footer-copyright mb-0">Copyright&nbsp;©&nbsp;<span id="copyright-year"></span>
+            <a class="footer-copyright-a" href="https://hexo.ixk.me">青空之蓝</a>
+        </p>
+
+    <!-- footer custom text -->
+    <p class="footer-text mb-0">
+    源站：<a href="https://blog.ixk.me" target="_blank" rel="noopener" style="color:#0070ff">https://blog.ixk.me</a>
+    </p>
+    <!-- footer develop info -->
+    <p class="footer-develop mb-0">
+        
+    <!-- Busuanzi User Views -->
+    <span id="busuanzi_container_site_uv" hidden>
+        <span></span>
+        <span id="busuanzi_value_site_uv"></span>
+        <span>Viewers</span>
+        
+            <span>|</span>
+        
+    </span>
+
+
+
+
+        
+        Powered by&nbsp;<!--
+         --><a href="https://hexo.io" target="_blank" class="footer-develop-a" rel="external nofollow noopener noreferrer">Hexo</a><span class="footer-develop-divider"></span>Theme&nbsp;-&nbsp;<!--
+         --><a href="https://github.com/SukkaW/hexo-theme-suka" target="_blank" class="footer-develop-a" rel="external noopener">Suka</a>
+    </p>
+</footer>
+
+
+        <!-- ### Import File ### -->
+        <!-- ### Footer JS Import ### -->
+
+<script>
+
+    
+window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 50
+};
+
+(function() {
+    var copyrightNow = new Date().getFullYear();
+    var copyrightContent = document.getElementById('copyright-year');
+    var copyrightSince = 2017;
+    if (copyrightSince === copyrightNow) {
+        copyrightContent.textContent = copyrightNow;
+    } else {
+        copyrightContent.textContent = copyrightSince + ' - ' + copyrightNow;
+    }
+})();
+console.log('\n %c Suka Theme (hexo-theme-suka) | © SukkaW | Verision 1.3.2 %c https://github.com/SukkaW/hexo-theme-suka \n', 'color: #fff; background: #444; padding:5px 0;', 'background: #bbb; padding:5px 0;');
+
+</script>
+
+<script src="/lib/vanilla-lazyload/lazyload.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+<!-- Offset -->
+
+
+
+
+<!-- Comment -->
+
+
+<!-- ### Custom Footer ### -->
+
+    </body>
+
+</html>
