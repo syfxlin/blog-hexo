@@ -152,7 +152,7 @@
     <meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="青空之蓝"><meta name="msapplication-starturl" content="https://hexo.ixk.me"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="青空之蓝"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- ### The Open Graph & Twitter Card Protocol ### -->
-    <meta property="og:title" content="浅谈并发：synchronized &amp; ReentrantLock | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talking-about-concurrent-synchronized-and-reentrantlock.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言日常水文章.jpg synchronizedsynchronized 是 Java 中的一个关键字，是 Java 本地代码实现的同步、重量级锁。synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。 使用方式使用方式通常有以下几种：  标注在实例方法上：public synchronized void method - Otstar Lin - 青空之蓝"><meta name="keywords" content="Java, 并发, 浅谈"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/12/20201215092954.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210217134629.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210217135155.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210217140944.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210217142849.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210217142912.png"><meta property="article:published_time" content="2021-02-17T07:56:29.000Z"><meta property="article:modified_time" content="2021-03-07T00:01:41.066Z"><meta property="og:updated_time" content="2021-03-07T00:01:41.066Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Java, 并发, 浅谈"><meta name="twitter:card" content="summary">
+    <meta property="og:title" content="浅谈并发：synchronized &amp; ReentrantLock | 青空之蓝"><meta property="og:site_name" content="青空之蓝"><meta property="og:type" content="article"><meta property="og:url" content="https://hexo.ixk.me/talking-about-concurrent-synchronized-and-reentrantlock.html"><meta property="og:locale" content="zh-CN"><meta name="description" content="前言日常水文章.jpg synchronizedsynchronized 是 Java 中的一个关键字，是 Java 本地代码实现的同步、重量级锁。synchronized 可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。 使用方式使用方式通常有以下几种：  标注在实例方法上：public synchronized void method - Otstar Lin - 青空之蓝"><meta name="keywords" content="Java, 并发, 浅谈"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2020/12/20201215092954.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210217134629.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210217135155.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210217140944.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210217142849.png"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/syfxlin/pic/2021/02/20210217142912.png"><meta property="article:published_time" content="2021-02-17T07:56:29.000Z"><meta property="article:modified_time" content="2021-03-08T00:01:38.764Z"><meta property="og:updated_time" content="2021-03-08T00:01:38.764Z"><meta property="article:author" content="Otstar Lin"><meta property="article:tag" content="Java, 并发, 浅谈"><meta name="twitter:card" content="summary">
 
     
 
@@ -193,7 +193,7 @@
     },
     
     "datePublished": "2021-02-17T07:56:29.000Z",
-    "dateModified": "2021-03-07T00:01:41.066Z",
+    "dateModified": "2021-03-08T00:01:38.764Z",
     "author": {
         "@type": "Person",
         "name": "Otstar Lin",
@@ -582,7 +582,7 @@
     <blockquote id="date-expire-notification" class="post-expired-notify">本文最后更新于 <span id="date-expire-num"></span> 天前，文中所描述的信息可能已发生改变</blockquote>
     <script>
     (function() {
-        var dateUpdate = Date.parse("2021-03-07");
+        var dateUpdate = Date.parse("2021-03-08");
         var nowDate = new Date();
         var a = nowDate.getTime();
         var b = a - dateUpdate;
@@ -598,7 +598,7 @@
 
 <p class="post-footer-info mb-0 pt-0">本文发表于&nbsp;<time datetime="2021-02-17T07:56:29.000Z" itemprop="datePublished">2021-02-17</time>
 
-    , 最后修改于&nbsp;<time datetime="2021-03-07T00:01:41.066Z" itemprop="dateModified">2021-03-07</time>
+    , 最后修改于&nbsp;<time datetime="2021-03-08T00:01:38.764Z" itemprop="dateModified">2021-03-08</time>
 
 </p>
 <p class="post-footer-info mb-0 pt-2">
